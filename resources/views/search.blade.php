@@ -50,6 +50,41 @@
                 </form>
             </td>
             <td style="width:55%; vertical-align:top;">
+                @if ($data != null && count($data) == 0)
+                    <div class="bgSmTitle smTitle">Results</div>
+                        <table class="bgDkRow3">
+                            <tbody>
+                                <tr>
+                                    <td>&nbsp;No results found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                @elseif ($data != null && count($data) > 0)
+                    <div class="bgSmTitle smTitle">Results</div>
+                        <table class="bgDkRow3">
+                            <tbody>
+                                <tr>
+                                    <td>&nbsp;{{ count($data) }} result found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="bgLtTable">
+                            <tbody>
+                                <tr>
+
+                                    <td class="bgHeader1 padded nowrap" style="width:50%;">Name</td>
+                                    <td class="bgHeader2 padded nowrap" style="width:50%;">Type</td>
+                                </tr>
+                                @foreach ($data as $result)
+                                    <tr>
+                                        <td class="bgLtRow1 padded"><a href={{ SearchHelper::resultUrl(1, $result->id) }}>{{ $result->name }}</a></td>
+                                        <td class="bgLtRow2 padded">{{ $result->subcat }}: {{ $result->category }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                @else
+                @endif
             </td>
         </tr>
     </tbody>
