@@ -1,0 +1,486 @@
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%
+}
+
+body{
+	font-family:Tahoma, Sans-Serif;
+	font-size:10pt;
+	color:#fffffb;
+	width:auto;
+	background-color: #0d1a2a;
+	max-width:1000px;
+	margin:0px auto;
+}
+
+div.pageBody{
+	padding:4px;
+	background-color:#15263c;
+}
+div.pageFooter{
+	background-color:#36394B;
+	border-color:#657379;
+	border-style:solid;
+	border-width:2px;
+	padding:3px;
+	margin-top:4px;
+}
+div.pageFooter table{
+	border-collapse:collapse;
+}
+div.pageFooter td{
+	font-size:8pt;
+}
+div.pageFooter .right{
+	text-align:right;
+}
+
+a{
+	text-decoration:none;
+}
+
+a:link{
+	color:#fffffb;
+	background-color:transparent;
+}
+a:visited{
+	color:#fffffb;
+	background-color:transparent;
+}
+a:hover{
+	text-decoration:underline;
+}
+a.light:link, a.light:visited{
+	color:#B8DCEC;
+}
+a.medium:link, a.medium:visited{
+	color:#297A9F;
+}
+
+img{
+	border:0;
+	vertical-align:middle;
+}
+img.bottom{
+	vertical-align:text-bottom;
+}
+
+ul{
+	margin-top:0pt;
+	margin-bottom:0pt;
+	margin-left:-24px;
+}
+ol{
+	margin-top:0pt;
+	margin-bottom:0pt;
+	margin-left:-16px;
+}
+table{
+	width:100%;
+}
+td{
+	font-size:10pt;
+	text-align:left;
+}
+.subHeader{
+	font-size:10pt;
+}
+
+.secCaption{
+	font-size:10pt;
+	width:20%;
+	vertical-align:top;
+}
+.secArea{
+	width:80%;
+	vertical-align:middle;
+}
+
+.lgTitle, .title{
+	font-size:16pt;
+}
+.mdTitle, .small_title{
+	font-size:12pt;
+}
+.smTitle{
+	font-size:11pt;
+}
+.smTitle-centered{
+	font-size:11pt;
+	text-align:center;
+}
+div.lgTitle{
+	padding:3px;
+	text-indent:3px;
+	white-space:nowrap;
+}
+div.mdTitle{
+	padding:3px;
+	padding-left:6px;
+}
+div.smTitle{
+	padding:3px;
+	padding-left:6px;
+}
+div.smTitle-centered{
+	font-size:11pt;
+	padding:3px;
+	text-align:center;
+}
+
+.entryNorm, .bgTabNorm{
+	background-color:#68B5D8;
+	background-image:url('http://db.irowiki.org/style/tabnorm.png');
+	background-repeat:repeat-x;
+}
+.entrySel, .bgTabSel{
+	background-color:#88C4E0;
+	background-image:url('http://db.irowiki.org/style/tabsel.png');
+	background-repeat:repeat-x;
+}
+
+table.tabMenu td.title{
+	padding-left:1px;
+	padding-top:2px;
+	background:#58ADD4;
+}
+table.tabMenu td.entryNorm, table.tabMenu td.entrySel{
+	width:100px;
+	padding:2px;
+	padding-left:4px;
+	white-space:nowrap;
+}
+table.tabMenu td.title{
+	background-color:#389DCC;
+	background-image:url('http://db.irowiki.org/style/dksub.png');
+	background-repeat:repeat-x;
+}
+table.tabMenu td.entryNorm{
+	background-color:#68B5D8;
+	background-image:url('http://db.irowiki.org/style/tabnorm.png');
+	background-repeat:repeat-x;
+}
+table.tabMenu td.entrySel{
+	background-color:#88C4E0;
+	background-image:url('http://db.irowiki.org/style/tabsel.png');
+	background-repeat:repeat-x;
+}
+
+.padded{
+	padding:2px;
+	padding-left:4px;
+}
+div.padded{
+	padding:3px;
+	padding-left:6px;
+}
+.thickPadded{
+	padding:6px;
+	padding-left:8px;
+}
+.centered{
+	text-align:center;
+}
+.nowrap{
+	white-space:nowrap;
+}
+
+.seperator{
+	font-size:1pt;
+}
+.smSeperator{
+	height:2px;
+}
+.mdSeperator{
+	height:4px;
+}
+
+td.header{
+	font-size:10pt;
+}
+td.vertSiteMenu{
+	white-space:nowrap;
+}
+td.horzSiteMenu{
+	width:110px;
+	white-space:nowrap;
+}
+td.horzSiteMenuTitle{
+	width:40px;
+	white-space:nowrap;
+}
+
+td.settingSecCaption{
+	font-size:9pt;
+	width:35%;
+	vertical-align:top;
+}
+
+td.settingSecArea{
+	width:65%;
+	vertical-align:top;
+}
+
+td.searchOptCaption{
+	font-size:9pt;
+	width:30%;
+	vertical-align:top;
+}
+td.searchOptArea{
+	width:70%;
+	vertical-align:top;
+}
+
+form{
+	margin-bottom:0px;
+}
+input, textarea, select, optgroup{
+	font-family:Tahoma, Sans-Serif;
+	font-size:10pt;
+	background: #26293b;
+	color: #fffffb;
+	/* Drop down Menu's and Search boxes */
+}
+input.text, textarea{
+	width:520px;
+}
+input.textLabel{
+	color:#AAAAAA;
+	font-style:italic;
+}
+input::placeholder{
+	color:#AAAAAA;
+	font-style:italic;
+}
+input.poll{
+	width:100px;
+}
+input.noborder{
+	background-color:transparent;
+	border:none;
+}
+.file input {
+	font-family:Tahoma, Sans-Serif;
+	font-size:10pt;
+}
+select{
+	width:140px;
+}
+
+.tabBar{
+}
+.tabBar li div{
+}
+.tabBar li div.active{
+}
+
+.tabBar{
+	background-color:#15263c;
+	border-color:#15263c;
+	border-style:solid;
+	border-width:2px 2px 0px 2px;
+	height:26px;
+}
+.tabBar ul{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+}
+.tabBar li{
+	display:inline;
+	white-space:nowrap;
+}
+.tabBar li div{
+	background-color:#68B5D8;
+	background-image:url('http://db.irowiki.org/style/tabnorm.png');
+	background-repeat:repeat-x;
+	border-color:#0f1b28;
+	border-style:solid;
+	border-width:2px 2px 0px 2px;
+	float:left;
+	cursor:pointer;
+	height:17px;
+	width:80px;
+	padding:2px;
+	padding-left:4px;
+	margin:3px 0px 0px 3px;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(51, 68, 80, 1)), color-stop(30%, rgba(53, 72, 90, 1)), color-stop(45%, rgba(55, 77, 100, 1)), color-stop(60%, rgba(57, 82, 110, 1)), color-stop(75%, rgb(60, 87, 120)));
+}
+.tabBar li div.active{
+	background-color:#68B5D8;
+	background-image:url('http://db.irowiki.org/style/tabsel.png');
+	background-repeat:repeat-x;
+	position:relative;
+	height:19px;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+}
+.tabArea{
+	border-style:solid;
+	border-width:2px;
+	display:none;
+	padding:4px;
+}
+
+.siteMenuBody{
+}
+.tabArea, .siteMenuArea{
+}
+.siteMenuArea li a{
+}
+
+.siteMenuBody{
+	background-color:#15263c;
+	border-color:#15263c;
+	border-style:solid;
+	border-width:2px;
+	height:30px;
+}
+.siteMenuArea{
+	background-color:#88C4E0;
+	border-color:#58ADD4;
+	display:none;
+}
+.siteMenuArea ul{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+}
+.siteMenuArea li{
+	display:inline;
+	white-space:nowrap;
+}
+.siteMenuArea li a{
+	background-color:#68B5D8;
+	background-image:url('http://db.irowiki.org/style/menu.png');
+	background-repeat:repeat-x;
+	border-color:#0f1b28;
+	border-style:solid;
+	border-width:2px;
+	float:left;
+	text-decoration:none;
+	width:115px;
+	height:16px;
+	padding:2px;
+	padding-left:5px;
+	margin:3px 0px 3px 3px;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)));
+	border-bottom-width: 0px;
+}
+
+.bgLtRow1{
+	background-color:#26293b;
+	/* Main Description Background and First Cell Second Column  */
+}
+.bgLtRow2{
+	background-color:#36394b;
+	/* Second Cell Second Column  */
+}
+.bgLtRow3{
+	background-color:#46495b;
+	/* First Cell First Column  */
+}
+.bgLtRow4{
+	background-color:#56596b;
+	/* Second Cell First Column  */
+}
+.bgLtRow5{
+	background-color:#66697b;
+	/* Unknown  */
+}
+
+.bgDkRow1{
+        background-color: #26293B;
+        /* Description on some search pages  */
+}
+.bgDkRow2{
+	background-color:#15263c;
+	/* Unknown  */
+}
+.bgDkRow3{
+	background-color:#46495b;
+	/* Reuslts counter on search pages */
+}
+.bgDkRow4{
+	background-color:#1C536A;
+	/* Map popout subname  */
+}
+.bgDkRow5{
+	background-color:#66697b;
+	text-align: center;
+	/* Search button on some search pages  */
+}
+
+.bgLgTitle{
+	background-color:#78BCDC;
+	background-image:url('http://db.irowiki.org/style/lgtitle.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+		/* Big IROWiki Title  */
+}
+.bgMdTitle{
+	background-color:#78BCDC;
+	background-image:url('http://db.irowiki.org/style/mdtitle.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+	/* Page descripn title  */
+}
+.bgSmTitle{
+	background-color:#78BCDC
+	background-image:url('http://db.irowiki.org/style/smtitle.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+	/* Item or Monster Name  */
+}
+
+.bgDkSub{
+	background-color:#389DCC;
+	background-image:url('http://db.irowiki.org/style/dksub.png');
+	background-repeat:repeat-x;
+}
+
+.bgHeader1{
+	background-color:#A0A0A0;
+	background-image:url('http://db.irowiki.org/style/header1.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+}
+.bgHeader2{
+	background-color:#969696;
+	background-image:url('http://db.irowiki.org/style/header2.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+}
+.bgHeader3{
+	background-color:#8C8C8C;
+	background-image:url('http://db.irowiki.org/style/header3.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+}
+.bgHeader4{
+	background-color:#828282;
+	background-image:url('http://db.irowiki.org/style/header4.png');
+	background-repeat:repeat-x;
+	background: -webkit-gradient(linear, center bottom, center top, color-stop(15%, rgba(21, 38, 60, 1)), color-stop(30%, rgba(23, 52, 70, 1)), color-stop(45%, rgba(25, 57, 80, 1)), color-stop(60%, rgba(27, 62, 90, 1)), color-stop(75%, rgb(30, 67, 100)))
+}
+
+table.bgLtTable{
+  background-color:#A0A0A099;
+  /* Inner cell coloring */
+}
+table.bgDkTable{
+  background-color:#A0A0A099;
+/*	background-color: green */
+  /* Not used on Item-Info */
+}
+
+.bgDivider{
+	background-color:#A0A0A0;
+  /* Not used on Item-Info */
+}
+.bgSeperator{
+	background:#58ADD4;
+  /* Not used on Item-Info */
+}
+.highlight{
+	color:#297A9F;
+}
