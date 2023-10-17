@@ -7,20 +7,13 @@ use Illuminate\Database\Eloquent\Collection as Collection;
 
 use App\Model\Category;
 use App\Model\ItemMain;
+use App\Model\News;
 use App\Model\MapMain;
 use App\Model\MonsterMain;
 use App\Model\ShopMain;
 
-class SearchRepository
+class MainRepository
 {
-    protected $items;
-
-    public function getCategories()
-    {
-        $categories = Category::select('name', 'category', 'subcat', 'type')->get();
-        return $categories;
-    }
-
     private function searchItems(string $term)
     {
         $items = ItemMain::leftJoin('item_adjective', 'item_main.id', '=', 'item_adjective.id')->join('item_misc', 'item_main.id', '=', 'item_misc.id')->select(
@@ -79,6 +72,18 @@ class SearchRepository
         return $shops;
     }
 
+    public function getNews()
+    {
+        $news = News::select('topic', 'date', 'message')->where('version', 2)->orderBy('date', 'desc')->limit(5)->get();
+        return $news;
+    }
+
+    public function getCategories()
+    {
+        $categories = Category::select('name', 'category', 'subcat', 'type')->get();
+        return $categories;
+    }
+
     public function search(string $term, int|null $type)
     {
         $searchResults = new Collection();
@@ -101,4 +106,5 @@ class SearchRepository
 
         return $searchResults;
     }
+
 }

@@ -24,16 +24,16 @@
                             <tr>
                                 <td class="bgLtRow3 padded searchOptCaption">Search</td>
                                 <td class="bgLtRow1 padded searchOptArea">
-                                    <input accesskey="f" type="text" style="width:240px;" id="search" value="">
+                                    <input accesskey="f" type="text" style="width:240px;" id="search" value={{ $search }}>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="bgLtRow4 padded searchOptCaption">Type</td>
                                 <td class="bgLtRow2 padded searchOptArea">
-                                    <input type="checkbox" id="type1" checked="1">Item<br>
-                                    <input type="checkbox" id="type2" checked="1">Monster<br>
-                                    <input type="checkbox" id="type3" checked="1">Map<br>
-                                    <input type="checkbox" id="type4" checked="1">Shop
+                                    <input type="checkbox" id="type1" {{ SearchHelper::checkboxState($type, 1) ? 'checked' : '' }} >Item<br>
+                                    <input type="checkbox" id="type2" {{ SearchHelper::checkboxState($type, 2) ? 'checked' : '' }} >Monster<br>
+                                    <input type="checkbox" id="type3" {{ SearchHelper::checkboxState($type, 3) ? 'checked' : '' }} >Map<br>
+                                    <input type="checkbox" id="type4" {{ SearchHelper::checkboxState($type, 4) ? 'checked' : '' }} >Shop
                                 </td>
                             </tr>
                         </tbody>

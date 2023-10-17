@@ -107,4 +107,23 @@ class SearchHelpers
             return "Shop";
         }
     }
+
+    public static function checkboxState(int|null $type, int $id)
+    {
+        if ($id == 1) {
+            return ($type == null || ($type & 0x1) == 0x1) ?  true : false;
+        }
+
+        if ($id == 2) {
+            return ($type == null || ($type & 0x2) == 0x2) ?  true : false;
+        }
+
+        if ($id == 3) {
+            return ($type == null || ($type & 0x4) == 0x4) ?  true : false;
+        }
+
+        if ($id == 4) {
+            return ($type == null || ($type & 0x8) == 0x8) ?  true : false;
+        }
+    }
 }
