@@ -59,12 +59,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                @elseif ($data != null && count($data) > 0)
+                @elseif ($data != null && $categories !== null && count($data) > 0 && count($categories) > 0)
                     <div class="bgSmTitle smTitle">Results</div>
                         <table class="bgDkRow3">
                             <tbody>
                                 <tr>
-                                    <td>&nbsp;{{ count($data) }} result found</td>
+                                    <td>&nbsp;{{ count($data) }} results found</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,8 +77,8 @@
                                 </tr>
                                 @foreach ($data as $result)
                                     <tr>
-                                        <td class="bgLtRow1 padded"><a href={{ SearchHelper::resultUrl(1, $result->id) }}>{{ $result->name }}</a></td>
-                                        <td class="bgLtRow2 padded">{{ $result->subcat }}: {{ $result->category }}</td>
+                                        <td class="bgLtRow1 padded"><a href={{ SearchHelper::resultUrl($result->type, $result->id) }}>{{ $result->name }}</a></td>
+                                        <td class="bgLtRow2 padded">{{ SearchHelper::resultCatName($result->type, $result->category, $result->subcat, $categories) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

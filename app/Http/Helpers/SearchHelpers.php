@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Helpers;
+use Illuminate\Database\Eloquent\Collection as Collection;
 
 class SearchHelpers
 {
-    public static function resultUrl(int $type, int $id)
+    public static function resultUrl(int $type, string|int $id)
     {
         if($type == 1)
         {
@@ -24,19 +25,62 @@ class SearchHelpers
         }
     }
 
-    public static function resultCatName(int $type, int $category, int $subcat)
+    public static function resultCatName(int $type, int $category, int $subcat, Collection $arr)
     {
         if($type == 1)
         {
-            return itemTypeName($category, $subcat, true);
+            if($subcat == 0)
+            {
+                foreach($arr as $item)
+                {
+                    if($item->type == "item" && $item->category == $category && $item->subcat == $subcat)
+                    {
+                        return $item->name;
+                    }
+                }
+            }
+            else
+            {
+                $left = "Unknown";
+                $right = "Unknown";
+                foreach($arr as $item)
+                {
+                    if($item->type == "item" && $item->category == $category && $item->subcat == 0)
+                    {
+                        $left = $item->name;
+                        break;
+                    }
+                }
+                foreach($arr as $item)
+                {
+                    if($item->category == $category && $item->subcat == $subcat)
+                    {
+                        $right = $item->name;
+                        break;
+                    }
+                }
+                return $left . ': ' . $right;
+            }
         }
         elseif($type == 2)
         {
-            return monsterTypeName($category);
+            foreach($arr as $item)
+            {
+                if($item->type == "monster" && $item->category == $category)
+                {
+                    return $item->name;
+                }
+            }
         }
         elseif($type == 3)
         {
-            return mapTypeName($category);
+            foreach($arr as $item)
+            {
+                if($item->type == "map" && $item->category == $category)
+                {
+                    return $item->name;
+                }
+            }
         }
         elseif($type == 4)
         {

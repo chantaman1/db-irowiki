@@ -8,7 +8,7 @@
         <div class="bgSmTitle smTitle">{{ $news->topic }}</div>
         <table class="bgLtTable">
             <tr>
-                <td class="bgLtRow3 padded" style="font-size:8pt;">Posted at {{ date('m/d/Y', $news->date) }}</td>
+                <td class="bgLtRow3 padded" style="font-size:8pt;">Posted at {{ date_format($news->date, 'm/d/Y') }}</td>
             </tr>
             <tr>
                 <td class="bgLtRow1 padded news">

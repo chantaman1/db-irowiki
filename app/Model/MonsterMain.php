@@ -19,5 +19,16 @@ class MonsterMain extends Model
   protected $fillable=[
     'id', 'name', 'category', 'note', 'visible', 'visible2', 'visible4', 'date'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'name' => 'string',
+    'category' => 'integer',
+    'note' => 'integer',
+    'visible' => 'integer',
+    'visible2' => 'integer',
+    'visible4' => 'integer',
+    'date' => 'datetime'
+  ];
 }
 
