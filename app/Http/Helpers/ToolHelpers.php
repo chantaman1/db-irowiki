@@ -55,7 +55,6 @@ class ToolHelpers
 
     public static function getServerStatus(string $status)
     {
-        error_log($status);
         if($status === "Online")
         {
             return 2;

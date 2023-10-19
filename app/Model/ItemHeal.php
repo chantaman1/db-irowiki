@@ -18,5 +18,13 @@ class ItemHeal extends Model
   protected $fillable=[
     'id', 'hpMin', 'hpMax', 'spMin', 'spMax'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'hpMin' => 'integer',
+    'hpMax' => 'integer',
+    'spMin' => 'integer',
+    'spMax' => 'integer'
+  ];
 }
 

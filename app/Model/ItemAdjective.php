@@ -14,5 +14,10 @@ class ItemAdjective extends Model
   protected $fillable=[
     'id', 'ajective'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'ajective' => 'string'
+  ];
 }
 

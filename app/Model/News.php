@@ -26,4 +26,3 @@ class News extends Model
     'version' => 'integer'
   ];
 }
-

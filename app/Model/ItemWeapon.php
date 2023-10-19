@@ -18,5 +18,14 @@ class ItemWeapon extends Model
   protected $fillable=[
     'id', 'atk', 'matk', 'matk2', 'element', 'level'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'atk' => 'integer',
+    'matk' => 'integer',
+    'matk2' => 'integer',
+    'element' => 'integer',
+    'level' => 'integer'
+  ];
 }
 

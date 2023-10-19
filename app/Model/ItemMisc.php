@@ -18,5 +18,14 @@ class ItemMisc extends Model
   protected $fillable=[
     'id', 'server', 'price', 'binding', 'version', 'date'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'server' => 'integer',
+    'price' => 'integer',
+    'binding' => 'integer',
+    'version' => 'integer',
+    'date' => 'date'
+  ];
 }
 

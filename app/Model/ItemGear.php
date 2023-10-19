@@ -19,5 +19,14 @@ class ItemGear extends Model
   protected $fillable=[
     'id', 'def', 'def2', 'mdef', 'mdef2', 'position'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'def' => 'integer',
+    'def2' => 'integer',
+    'mdef' => 'integer',
+    'mdef2' => 'integer',
+    'position' => 'integer'
+  ];
 }
 

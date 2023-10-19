@@ -19,14 +19,14 @@
                             @elseif (ToolHelper::getGlobalStatus(2, $data) === 1)
                                 <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> Char Server</td>
                             @else
-                                <td class="padded"><img src="https://db.irowiki.org/image/purpledot.png"> Char Server</td>
+                                <td class="padded"><img src="https://db.irowiki.org/image/orangedot.png"> Char Server</td>
                             @endif
                             @if (ToolHelper::getGlobalStatus(3, $data) === 2)
                                 <td class="padded"><img src="https://db.irowiki.org/image/greendot.png"> Map Server</td>
                             @elseif (ToolHelper::getGlobalStatus(3, $data) === 1)
                                 <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> Map Server</td>
                             @else
-                                <td class="padded"><img src="https://db.irowiki.org/image/purpledot.png"> Map Server</td>
+                                <td class="padded"><img src="https://db.irowiki.org/image/orangedot.png"> Map Server</td>
                             @endif
                         </tr>
                     </tbody>

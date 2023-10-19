@@ -36,5 +36,33 @@ class MonsterStat extends Model
   protected $fillable=[
     'id', 'version', 'server', 'level', 'hp', 'size', 'race', 'eleType', 'eleLvl', 'expBase', 'expJob', 'def', 'mdef', 'atkMin', 'atkMax', 'atkRange', 'aspd', 'mspeed', 'statAgi', 'statVit', 'statInt', 'statDex', 'statLuk', 'mode', 'ai'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'version' => 'integer',
+    'server' => 'integer',
+    'level' => 'integer',
+    'hp' => 'integer',
+    'size' => 'integer',
+    'race' => 'integer',
+    'eleType' => 'integer',
+    'eleLvl' => 'integer',
+    'expBase' => 'integer',
+    'expJob' => 'integer',
+    'def' => 'integer',
+    'mdef' => 'integer',
+    'atkMin' => 'integer',
+    'atkMax' => 'integer',
+    'atkRange' => 'integer',
+    'aspd' => 'integer',
+    'mspeed' => 'integer',
+    'statAgi' => 'integer',
+    'statVit' => 'integer',
+    'statInt' => 'integer',
+    'statDex' => 'integer',
+    'statLuk' => 'integer',
+    'mode' => 'integer',
+    'ai' => 'integer'
+  ];
 }
 
