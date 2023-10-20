@@ -21,6 +21,28 @@ use App\Model\TreasureMain;
 
 class ItemRepository
 {
+    public function getItemTypeName(int $cat, int $subcat = 0, bool $full = false)
+    {
+        $itemName = Category::select('name')
+        ->where('type', '=', 'item')
+        ->where('category', '=', $cat)
+        ->where('subcat', '=', $subcat)
+        ->first();
+
+        if ($subcat > 0 && $full === true && $itemName !== null)
+        {
+            $itemNameMain = Category::select('name')
+            ->where('type', '=','item')
+            ->where('category', '=', $cat)
+            ->where('subcat', '=', 0)
+            ->first();
+
+            return $itemNameMain->name . ": $itemName->name";
+        }
+
+        return $itemName->name;
+    }
+
     public function getItemMenuCat(int|null $id = null)
     {
         if ($id !== null) {
@@ -98,6 +120,7 @@ class ItemRepository
 
         $itemMain = ItemMain::select(
             'name',
+            'item_main.id',
             'description',
             'unident',
             'notes',
@@ -159,9 +182,9 @@ class ItemRepository
                 'adjective'
             )
             ->where('id', '=', $id)
-            ->get();
+            ->first();
 
-            $output["adjective"] = count($adjectiveInfo) > 0 ? $adjectiveInfo : null;
+            $output["adjective"] = $adjectiveInfo;
         }
 
         if($itemMain->category === 4 && $itemMain->subcat === 2)

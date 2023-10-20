@@ -8,22 +8,22 @@ class ToolHelpers
     {
         if($type === 1)
         {
-            $loginServer = $data["Login"]["Status"];
-            return $loginServer === "Online" ? 2 : 0;
+            $loginServer = $data["login"]["status"];
+            return $loginServer === "online" ? 2 : 0;
         }
         if ($type === 2)
         {
             $up_count = 0;
             $down_count = 0;
 
-            $charServer = $data["Char"]["Chaos"];
+            $charServer = $data["char"]["chaos"];
             foreach ($charServer as $char)
             {
-                if($char["Status"] === "Online")
+                if($char["status"] === "online")
                 {
                     $up_count = $up_count + 1;
                 }
-                if($char["Status"] === "Offline")
+                if($char["status"] === "offline")
                 {
                     $down_count = $down_count + 1;
                 }
@@ -36,14 +36,14 @@ class ToolHelpers
             $up_count = 0;
             $down_count = 0;
 
-            $mapServer = $data["Map"]["Chaos"];
+            $mapServer = $data["map"]["chaos"];
             foreach ($mapServer as $mapSv)
             {
-                if($mapSv["Status"] === "Online")
+                if($mapSv["status"] === "online")
                 {
                     $up_count = $up_count + 1;
                 }
-                if($mapSv["Status"] === "Offline")
+                if($mapSv["status"] === "offline")
                 {
                     $down_count = $down_count + 1;
                 }
@@ -55,7 +55,7 @@ class ToolHelpers
 
     public static function getServerStatus(string $status)
     {
-        if($status === "Online")
+        if($status === "online")
         {
             return 2;
         }

@@ -213,6 +213,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'BBCode' => PheRum\BBCode\Facades\BBCode::class,
         'SearchHelper' =>   App\Http\Helpers\SearchHelpers::class,
+        'ItemHelper' =>   App\Http\Helpers\ItemHelpers::class,
         'ToolHelper' =>   App\Http\Helpers\ToolHelpers::class,
     ])->toArray(),
 

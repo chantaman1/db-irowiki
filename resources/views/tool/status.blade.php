@@ -55,7 +55,7 @@
         </tr>
     </tbody>
 </table>
-<div class="bgSmTitle smTitle">Char Server - Chaos</div>
+<div class="bgSmTitle smTitle">Char Server</div>
 <table class="bgLtTable">
     <tbody>
         <tr>
@@ -63,12 +63,14 @@
                 <table class="bgLtRow1">
                     <tbody>
                         <tr>
-                            @foreach($data["Char"]["Chaos"] as $char)
-                                @if (ToolHelper::getServerStatus($char["Status"]) === 2)
-                                    <td class="padded"><img src="https://db.irowiki.org/image/greendot.png"> {{ $char["Name"] }}</td>
-                                @else
-                                    <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> {{ $char["Name"] }}</td>
-                                @endif
+                            @foreach($data["char"] as $serv)
+                                @foreach($serv as $char)
+                                    @if (ToolHelper::getServerStatus($char["status"]) === 2)
+                                        <td class="padded"><img src="https://db.irowiki.org/image/greendot.png"> {{ $char["name"] }}</td>
+                                    @else
+                                        <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> {{ $char["name"] }}</td>
+                                    @endif
+                                @endforeach
                             @endforeach
                         </tr>
                     </tbody>
@@ -84,13 +86,13 @@
             <td class="bgLtRow1">
                 <table class="bgLtRow1">
                     <tbody>
-                        @foreach(array_chunk($data["Map"]["Chaos"], 3) as $mapChunk)
+                        @foreach(array_chunk($data["map"]["chaos"], 3) as $mapChunk)
                             <tr>
                                 @foreach($mapChunk as $mapSv)
-                                    @if (ToolHelper::getServerStatus($mapSv["Status"]) === 2)
-                                        <td class="padded"><img src="https://db.irowiki.org/image/greendot.png"> {{ $mapSv["Name"] }}</td>
+                                    @if (ToolHelper::getServerStatus($mapSv["status"]) === 2)
+                                        <td class="padded"><img src="https://db.irowiki.org/image/greendot.png"> {{ $mapSv["name"] }}</td>
                                     @else
-                                        <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> {{ $mapSv["Name"] }}</td>
+                                        <td class="padded"><img src="https://db.irowiki.org/image/reddot.png"> {{ $mapSv["name"] }}</td>
                                     @endif
                                 @endforeach
                             </tr>

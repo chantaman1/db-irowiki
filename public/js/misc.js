@@ -36,6 +36,11 @@ function searchEngine(){
 	return false;
 }
 
+function openCardIllust(curID){	
+	window.open("http://db.irowiki.org/image/card/" + curID + ".png", "cardIllust", "toolbar=no, history=no, " + 
+		"location=no, menubar=no, scrollbars=no, width=310, height=410, resizeable=no, status=no");
+}
+
 function chkGroupValue(name, count){
 	var value = 0;
 	
