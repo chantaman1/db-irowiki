@@ -21,9 +21,11 @@ class ItemController extends Controller
         ]);
     }
 
-    public function InfoSearch(Request $request, int $id)
+    public function InfoSearch(Request $request, string|int $id)
     {
-        $itemData = (new ItemRepository)->itemInfo($id);
+        $this->menuCat = (new ItemRepository)->getItemMenuCat();
+        $this->menuSubCat = (new ItemRepository)->getSubMenuCat();
+        $itemData = (new ItemRepository)->itemInfo(preg_replace('/[^0-9]/', '', $id));
         #dd($itemData);
         return view('item/info', [
             'menuCats' => $this->menuCat,

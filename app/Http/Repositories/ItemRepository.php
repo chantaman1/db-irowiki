@@ -158,9 +158,9 @@ class ItemRepository
                 'level'
             )
             ->where('id', '=', $id)
-            ->get();
+            ->first();
 
-            $output["weapon"] = count($weaponInfo) > 0 ? $weaponInfo : null;
+            $output["weapon"] = $weaponInfo;
         }
 
         if($itemMain->category === 2 || $itemMain->category === 8)
@@ -171,9 +171,9 @@ class ItemRepository
                 'position'
             )
             ->where('id', '=', $id)
-            ->get();
+            ->first();
 
-            $output["gear"] = count($gearInfo) > 0 ? $gearInfo : null;
+            $output["gear"] = $gearInfo;
         }
 
         if($itemMain->category === 3)
@@ -196,9 +196,9 @@ class ItemRepository
                 'spMax'
             )
             ->where('id', '=', $id)
-            ->get();
+            ->first();
 
-            $output["itemHeal"] = count($itemHealInfo) > 0 ? $itemHealInfo : null;
+            $output["itemHeal"] = $itemHealInfo;
         }
 
         if($itemMain->category === 1 || $itemMain->category === 2 || $itemMain->category === 5 || $itemMain->category === 8)
