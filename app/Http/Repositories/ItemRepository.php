@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 use App\Model\Category;
@@ -10,6 +11,7 @@ use App\Model\ItemEnch;
 use App\Model\ItemGear;
 use App\Model\ItemHeal;
 use App\Model\ItemMain;
+use App\Model\ItemSet;
 use App\Model\ItemSpecial;
 use App\Model\ItemWeapon;
 use App\Model\MapMain;
@@ -17,6 +19,7 @@ use App\Model\MonsterMain;
 use App\Model\QuestItem;
 use App\Model\QuestMain;
 use App\Model\ShopMain;
+use App\Model\SkillMain;
 use App\Model\TreasureMain;
 
 class ItemRepository
@@ -41,6 +44,62 @@ class ItemRepository
         }
 
         return $itemName->name;
+    }
+
+    public function getItemsName(Collection $items)
+    {
+        $output = array();
+        if(count($items) > 0)
+        {
+            foreach($items as $item)
+            {
+                $itemName = ItemMain::select(
+                    'id',
+                    'name'
+                )
+                ->where('id', '=', $item->item)
+                ->first();
+
+                array_push($output, $itemName);
+            }
+        }
+        return $output;
+    }
+
+    public function getItemNameById(int $id)
+    {
+        return ItemMain::select(
+            'name'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
+
+    public function getMonsterNameById(int $id)
+    {
+        return MonsterMain::select(
+            'name'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
+
+    public function getMapNameById(string $id)
+    {
+        return MapMain::select(
+            'name'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
+
+    public function getSkillNameById(int $id)
+    {
+        return SkillMain::select(
+            'name'
+        )
+        ->where('id', '=', $id)
+        ->first();
     }
 
     public function getItemMenuCat(int|null $id = null)
@@ -109,6 +168,7 @@ class ItemRepository
             "quest" => null,
             "treasureDrop" => null,
             "adjective" => null,
+            "itemSet" => null,
             "itemHeal" => null,
             "itemEnchant" => null,
             "itemSpecialMain" => null,
@@ -216,6 +276,114 @@ class ItemRepository
             $output["itemEnchant"] = count($itemEnchantInfo) > 0 ? $itemEnchantInfo : null;
         }
 
+        $itemSetCheckInfo = ItemSet::select(
+            'id',
+            'type'
+        )
+        ->where('item', '=', $id)
+        ->get();
+
+        $itemSetInfo = array();
+        if(count($itemSetCheckInfo) > 0)
+        {
+            foreach($itemSetCheckInfo as $itemSet)
+            {
+                $itemSetList = null;
+
+                if($itemSet->type === 1)
+                {
+                    $itemSetList = ItemSet::select(
+                        'item'
+                    )
+                    ->where('id', '=', $itemSet->id)
+                    ->where('item', '!=', $id)
+                    ->get();
+                }
+                elseif($itemSet->type === 2)
+                {
+                    $itemSetList = ItemSet::select(
+                        'item'
+                    )
+                    ->where('id', '=', $itemSet->id)
+                    ->where('item', '!=', $id)
+                    ->where('type', '=', 3)
+                    ->get();
+                }
+                elseif($itemSet->type === 3)
+                {
+                    $itemSetList = ItemSet::select(
+                        'item'
+                    )
+                    ->where('id', '=', $itemSet->id)
+                    ->where('item', '!=', $id)
+                    ->where('type', '=', 2)
+                    ->get();
+                }
+
+                $itemSetSpecial = ItemSpecial::select(
+                    'special'
+                )
+                ->where('type', '=', 2)
+                ->where('id', '=', $itemSet->id)
+                ->where('grp', '=', 0)
+                ->where(function($version)
+                {
+                    $version->where('version', '=', 0)
+                    ->orWhere('version', '=', 2);
+                })
+                ->whereRaw(DB::raw($serverCon))
+                ->orderBy('index', 'asc')
+                ->get();
+
+                $itemSetGroupMain = ItemSpecial::select(
+                    'grp',
+                    'special'
+                )
+                ->where('type', '=', 2)
+                ->where('id', '=', $itemSet->id)
+                ->where('grp', '>', 0)
+                ->where('num', '=', 0)
+                ->where(function($version)
+                {
+                    $version->where('version', '=', 0)
+                    ->orWhere('version', '=', 2);
+                })
+                ->whereRaw(DB::raw($serverCon))
+                ->orderBy('index', 'asc')
+                ->get();
+
+                $itemSetGroupMainList = array();
+
+                if(count($itemSetGroupMain) > 0)
+                {   
+                    foreach($itemSetGroupMain as $itemGroup)
+                    {
+                        $itemSetGroupList = ItemSpecial::select(
+                            'special'
+                        )
+                        ->where('type', '=', 2)
+                        ->where('id', '=', $itemSet->id)
+                        ->where('grp', '=', $itemGroup->grp)
+                        ->where('num', '>', 0)
+                        ->where(function($version)
+                        {
+                            $version->where('version', '=', 0)
+                            ->orWhere('version', '=', 2);
+                        })
+                        ->whereRaw(DB::raw($serverCon))
+                        ->orderBy('index', 'asc')
+                        ->get();
+
+                        $itemSetGroupMainList[$itemGroup->grp] = $itemSetGroupList;
+                    }
+                }
+
+                array_push($itemSetInfo, ["setType" => $itemSet->type, "itemSetInfo" => $itemSetList, "itemSetSpecial" => $itemSetSpecial, "itemSetGroupMain" => $itemSetGroupMain, "itemSetGroupList" => $itemSetGroupMainList]);
+            }
+        }
+
+        $output["itemSet"] = count($itemSetInfo) > 0 ? $itemSetInfo : null;
+
         $itemSpecialCheckInfo = ItemSpecial::select(
             'special'
         )
@@ -251,6 +419,7 @@ class ItemRepository
             $output["itemSpecialMain"] = count($itemSpecialMainInfo) > 0 ? $itemSpecialMainInfo : null;
     
             $itemSpecialGroupMainInfo = ItemSpecial::select(
+                'grp',
                 'special'
             )
             ->where('type', '=', 1)
@@ -287,7 +456,7 @@ class ItemRepository
                 ->orderBy('index', 'asc')
                 ->get();
 
-                array_push($itemSpecialGroupListArray, $itemSpecialGroupListInfo);
+                $itemSpecialGroupListArray[$groupMain->grp] = $itemSpecialGroupListInfo;
             }
 
             $output["itemSpecialGroupList"] = count($itemSpecialGroupListArray) > 0 ? $itemSpecialGroupListArray : null;

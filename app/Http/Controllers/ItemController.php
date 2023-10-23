@@ -26,7 +26,6 @@ class ItemController extends Controller
         $this->menuCat = (new ItemRepository)->getItemMenuCat();
         $this->menuSubCat = (new ItemRepository)->getSubMenuCat();
         $itemData = (new ItemRepository)->itemInfo(preg_replace('/[^0-9]/', '', $id));
-        #dd($itemData);
         return view('item/info', [
             'menuCats' => $this->menuCat,
             'subMenuCats' => $this->menuSubCat,

@@ -143,3 +143,7 @@ function listMainMenu(){
 		}
 	}
 }
+
+function setIndex(menuName, index){
+	if (index) document.getElementById(menuName).selectedIndex = index;
+}
