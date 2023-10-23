@@ -29,5 +29,26 @@ class ItemMain extends Model
   protected $fillable=[
     'id', 'name', 'category', 'subcat', 'description', 'unident', 'notes', 'weight', 'slots', 'reqlv', 'upgrade', 'damage', 'job', 'buyable', 'visible', 'visible2', 'visible4', 'in_calc'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'name' => 'string',
+    'category' => 'integer',
+    'subcat' => 'integer',
+    'description' => 'string',
+    'unident' => 'string',
+    'notes' => 'string',
+    'weight' => 'integer',
+    'slots' => 'integer',
+    'reqlv' => 'integer',
+    'upgrade' => 'integer',
+    'damage' => 'integer',
+    'job' => 'integer',
+    'buyable' => 'integer',
+    'visible' => 'integer',
+    'visible2' => 'integer',
+    'visible4' => 'integer',
+    'in_calc' => 'integer'
+  ];
 }
 

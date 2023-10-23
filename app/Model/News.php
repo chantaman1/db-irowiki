@@ -17,5 +17,12 @@ class News extends Model
   protected $fillable=[
     'id', 'topic', 'message', 'date', 'version'
   ];
-}
 
+  protected $casts = [
+    'id' => 'integer',
+    'topic' => 'string',
+    'message' => 'string',
+    'date' => 'datetime',
+    'version' => 'integer'
+  ];
+}

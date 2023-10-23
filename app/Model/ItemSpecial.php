@@ -20,5 +20,17 @@ class ItemSpecial extends Model
   protected $fillable=[
     'index', 'type', 'id', 'version', 'server', 'stat', 'grp', 'num', 'special'
   ];
+
+  protected $casts = [
+    'index' => 'integer',
+    'type' => 'integer',
+    'id' => 'integer',
+    'version' => 'integer',
+    'server' => 'integer',
+    'stat' => 'integer',
+    'grp' => 'integer',
+    'num' => 'integer',
+    'special' => 'string'
+  ];
 }
 

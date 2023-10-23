@@ -15,5 +15,11 @@ class ItemEnch extends Model
   protected $fillable=[
     'id', 'server', 'type'
   ];
+
+  protected $casts = [
+    'id' => 'integer',
+    'server' => 'integer',
+    'type' => 'integer'
+  ];
 }
 

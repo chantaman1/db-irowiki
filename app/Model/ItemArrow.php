@@ -16,5 +16,12 @@ class ItemArrow extends Model
   protected $fillable=[
     'item', 'arrow', 'amount', 'flag'
   ];
+
+  protected $casts = [
+    'item' => 'integer',
+    'arrow' => 'integer',
+    'amount' => 'integer',
+    'flag' => 'integer'
+  ];
 }
 

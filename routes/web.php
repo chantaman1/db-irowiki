@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,31 @@ Route::get('/', function () {
     return redirect('/db');
 });
 
-Route::get('/db', [NewsController::class, 'index']);
-Route::get('/db/search', [SearchController::class, 'index']);
-Route::get('/db/settings', [SettingsController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| Main Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db', [MainController::class, 'Index']);
+Route::get('/db/search', [MainController::class, 'Search']);
+Route::get('/db/settings', [MainController::class, 'Settings']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Item Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/item-info', [ItemController::class, 'InfoIndex']);
+Route::get('/db/item-info/{id}', [ItemController::class, 'InfoSearch']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Tool Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/server-status', [ToolController::class, 'ServerStatus']);

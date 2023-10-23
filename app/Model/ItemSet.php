@@ -7,13 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class ItemSet extends Model
 {
   protected $table = 'item_set';
+    protected $index;
     protected $id;
     protected $item;
     protected $type;
 
 
   protected $fillable=[
-    'id', 'item', 'type'
+    'index', 'id', 'item', 'type'
+  ];
+
+  protected $casts = [
+    'index' => 'integer',
+    'id' => 'integer',
+    'item' => 'integer',
+    'type' => 'integer'
   ];
 }
 

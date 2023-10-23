@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        PheRum\BBCode\BBCodeServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -210,6 +211,10 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'BBCode' => PheRum\BBCode\Facades\BBCode::class,
+        'SearchHelper' =>   App\Http\Helpers\SearchHelpers::class,
+        'ItemHelper' =>   App\Http\Helpers\ItemHelpers::class,
+        'ToolHelper' =>   App\Http\Helpers\ToolHelpers::class,
     ])->toArray(),
 
 ];

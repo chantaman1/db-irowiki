@@ -230,6 +230,15 @@ td.searchOptArea{
 	width:70%;
 	vertical-align:top;
 }
+td.itemInfoTitle{
+	width:35%;
+}
+td.itemInfoText{
+	width:65%;
+}
+td.news a {
+	color:#297A9F;
+}
 
 form{
 	margin-bottom:0px;
