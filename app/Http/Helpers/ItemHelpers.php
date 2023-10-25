@@ -149,6 +149,72 @@ class ItemHelpers
         return $sizes[$class][$size - 1];
     }
 
+    public static function getJobName(int $job)
+    {
+        if ($job == 1) return "Novice";
+        elseif ($job == 2) return "Swordman";
+        elseif ($job == 3) return "Merchant";
+        elseif ($job == 4) return "Thief";
+        elseif ($job == 5) return "Acolyte";
+        elseif ($job == 6) return "Mage";
+        elseif ($job == 7) return "Archer";
+        elseif ($job == 8) return "Knight";
+        elseif ($job == 9) return "Crusader";
+        elseif ($job == 10) return "Blacksmith";
+        elseif ($job == 11) return "Alchemist";
+        elseif ($job == 12) return "Assassin";
+        elseif ($job == 13) return "Rogue";
+        elseif ($job == 14) return "Priest";
+        elseif ($job == 15) return "Monk";
+        elseif ($job == 16) return "Wizard";
+        elseif ($job == 17) return "Sage";
+        elseif ($job == 18) return "Hunter";
+        elseif ($job == 19) return "Bard";
+        elseif ($job == 20) return "Dancer";
+        elseif ($job == 21) return "Super Novice";
+        
+        elseif ($job == 101) return "High Novice";
+        elseif ($job == 102) return "High Swordman";
+        elseif ($job == 103) return "High Merchant";
+        elseif ($job == 104) return "High Thief";
+        elseif ($job == 105) return "High Acolyte";
+        elseif ($job == 106) return "High Mage";
+        elseif ($job == 107) return "High Archer";
+        elseif ($job == 108) return "Lord Knight";
+        elseif ($job == 109) return "Paladin";
+        elseif ($job == 110) return "Mastersmith";
+        elseif ($job == 111) return "Biochemist";
+        elseif ($job == 112) return "Assassin Cross";
+        elseif ($job == 113) return "Stalker";
+        elseif ($job == 114) return "High Priest";
+        elseif ($job == 115) return "Champion";
+        elseif ($job == 116) return "High Wizard";
+        elseif ($job == 117) return "Scholar";
+        elseif ($job == 118) return "Sniper";
+        elseif ($job == 119) return "Minstrel";
+        elseif ($job == 120) return "Gypsy";
+        
+        elseif ($job == 208) return "Rune Knight";
+        elseif ($job == 209) return "Royal Guard";
+        elseif ($job == 210) return "Mechanic";
+        elseif ($job == 211) return "Genetic";
+        elseif ($job == 212) return "Guillotine Cross";
+        elseif ($job == 213) return "Shadow Chaser";
+        elseif ($job == 214) return "Arch Bishop";
+        elseif ($job == 215) return "Sura";
+        elseif ($job == 216) return "Warlock";
+        elseif ($job == 217) return "Sorcerer";
+        elseif ($job == 218) return "Ranger";
+        elseif ($job == 219) return "Minstrel";
+        elseif ($job == 220) return "Wanderer";
+        
+        elseif ($job == 301) return "Taekwon";
+        elseif ($job == 302) return "Taekwon Master";
+        elseif ($job == 303) return "Soul Linker";
+        elseif ($job == 304) return "Ninja";
+        elseif ($job == 305) return "Gunslinger";
+    }
+
     public static function getDiscountPrice(int $price)
     {
         $dcLevel = 10;
@@ -281,5 +347,26 @@ class ItemHelpers
             elseif (($job & pow(2, $jobId + 1)) === pow(2, $jobId + 1) && $jobGroup === 5) return true;
             else return false;
         }
+    }
+
+    public static function getSQLOperationSymbol(int $opType)
+    {
+        if ($opType === 1) return "=";
+        elseif ($opType === 2) return ">";
+        elseif ($opType === 3) return "<";
+        elseif ($opType === 4) return ">=";
+        elseif ($opType === 5) return "<=";
+    }
+
+    public static function getSQLWeaponSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "slots";
+        elseif ($sortType === "3") return "atk";
+        elseif ($sortType === "4") return "matk2";
+        elseif ($sortType === "5") return "weight";
+        elseif ($sortType === "6") return "level";
+        elseif ($sortType === "7") return "reqlv";
+        elseif ($sortType === "8") return "element";
     }
 }

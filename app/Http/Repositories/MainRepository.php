@@ -16,13 +16,22 @@ class MainRepository
 {
     private function searchItems(string $term)
     {
-        $items = ItemMain::leftJoin('item_adjective', 'item_main.id', '=', 'item_adjective.id')->join('item_misc', 'item_main.id', '=', 'item_misc.id')->select(
+        $items = ItemMain::leftJoin('item_adjective', 'item_main.id', '=', 'item_adjective.id')
+        ->join('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->select(
             DB::raw('1 AS type'),
             'item_main.id',
             'item_main.name',
             'item_main.category',
             'item_main.subcat'
-        )->orWhere('item_main.id', 'like', substr_replace('%%', $term, 1, 0))->orWhere('item_main.name', 'like', substr_replace('%%', $term, 1, 0))->orWhere('item_adjective.adjective', 'like', substr_replace('%%', $term, 1, 0))->where('item_main.visible2', '=', 1)->where('item_misc.version', '!=', 3)->orderBy('item_main.name', 'asc')->get();
+        )
+        ->orWhere('item_main.id', 'like', substr_replace('%%', $term, 1, 0))
+        ->orWhere('item_main.name', 'like', substr_replace('%%', $term, 1, 0))
+        ->orWhere('item_adjective.adjective', 'like', substr_replace('%%', $term, 1, 0))
+        ->where('item_main.visible2', '=', 1)
+        ->where('item_misc.version', '!=', 3)
+        ->orderBy('item_main.name', 'asc')
+        ->get();
 
         return $items;
     }
@@ -36,7 +45,8 @@ class MainRepository
             'category',
             DB::raw('0 AS subcat')
         )->where('visible2', '=', 1)->where(function ($query) use ($term) {
-            $query->where('id', 'like', substr_replace('%%', $term, 1, 0))->orWhere('name', 'like', substr_replace('%%', $term, 1, 0));
+            $query->where('id', 'like', substr_replace('%%', $term, 1, 0))
+            ->orWhere('name', 'like', substr_replace('%%', $term, 1, 0));
         })->orderBy('name', 'asc')->get();
 
         return $monsters;
@@ -51,7 +61,9 @@ class MainRepository
             'category',
             DB::raw('0 AS subcat')
         )->where('visible2', '=', 1)->where(function ($query) use ($term) {
-            $query->where('id', 'like', substr_replace('%%', $term, 1, 0))->orWhere('name', 'like', substr_replace('%%', $term, 1, 0))->orWhere('subname', 'like', substr_replace('%%', $term, 1, 0));
+            $query->where('id', 'like', substr_replace('%%', $term, 1, 0))
+            ->orWhere('name', 'like', substr_replace('%%', $term, 1, 0))
+            ->orWhere('subname', 'like', substr_replace('%%', $term, 1, 0));
         })->orderBy('map_main.name', 'asc')->get();
 
         return $maps;
@@ -66,7 +78,8 @@ class MainRepository
             DB::raw('0 AS category'),
             DB::raw('0 AS subcat')
         )->where('map_main.visible2', '=', 1)->where(function ($query) use ($term) {
-            $query->where('shop_main.name', 'like', substr_replace('"%%"', $term, 2, 0))->orWhereRaw('CONCAT(map_main.name,' . '" "' . ', shop_main.name) LIKE ' . substr_replace('"%%"', $term, 2, 0));
+            $query->where('shop_main.name', 'like', substr_replace('"%%"', $term, 2, 0))
+            ->orWhereRaw('CONCAT(map_main.name,' . '" "' . ', shop_main.name) LIKE ' . substr_replace('"%%"', $term, 2, 0));
         })->orderBy('name', 'asc')->get();
 
         return $shops;
@@ -74,13 +87,18 @@ class MainRepository
 
     public function getNews()
     {
-        $news = News::select('topic', 'date', 'message')->where('version', 2)->orderBy('date', 'desc')->limit(5)->get();
+        $news = News::select('topic', 'date', 'message')
+        ->where('version', 2)
+        ->orderBy('date', 'desc')
+        ->limit(5)
+        ->get();
         return $news;
     }
 
     public function getCategories()
     {
-        $categories = Category::select('name', 'category', 'subcat', 'type')->get();
+        $categories = Category::select('name', 'category', 'subcat', 'type')
+        ->get();
         return $categories;
     }
 

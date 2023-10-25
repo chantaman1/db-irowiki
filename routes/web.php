@@ -37,8 +37,10 @@ Route::get('/db/settings', [MainController::class, 'Settings']);
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/db/item-info', [ItemController::class, 'InfoIndex']);
+Route::get('/db/item-info/', [ItemController::class, 'InfoIndex']);
 Route::get('/db/item-info/{id}', [ItemController::class, 'InfoSearch']);
+
+Route::get('/db/weapon-search/', [ItemController::class, 'WeaponSearch']);
 
 
 /*

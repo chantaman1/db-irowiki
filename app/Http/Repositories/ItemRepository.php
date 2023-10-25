@@ -5,6 +5,8 @@ namespace App\Http\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Helpers\ItemHelpers;
+
 use App\Model\Category;
 use App\Model\ItemAdjective;
 use App\Model\ItemEnch;
@@ -32,18 +34,25 @@ class ItemRepository
         ->where('subcat', '=', $subcat)
         ->first();
 
-        if ($subcat > 0 && $full === true && $itemName !== null)
+        if($itemName !== null)
         {
-            $itemNameMain = Category::select('name')
-            ->where('type', '=','item')
-            ->where('category', '=', $cat)
-            ->where('subcat', '=', 0)
-            ->first();
+            if ($subcat > 0 && $full === true)
+            {
+                $itemNameMain = Category::select('name')
+                ->where('type', '=','item')
+                ->where('category', '=', $cat)
+                ->where('subcat', '=', 0)
+                ->first();
 
-            return $itemNameMain->name . ": $itemName->name";
+                return $itemNameMain->name . ": $itemName->name";
+            }
+            else
+            {
+                return $itemName->name;
+            }
         }
 
-        return $itemName->name;
+        return "(Unknown)";
     }
 
     public function getItemsName(Collection $items)
@@ -612,5 +621,189 @@ class ItemRepository
         $output["treasureDrop"] = count($treasureInfo) > 0 ? $treasureInfo : null;
 
         return $output;
+    }
+
+    public function WeaponSearch(array $searchTerms)
+    {
+
+        $serverType = 1;
+        $serverCon = "item_misc.server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
+
+        $sqlSelect = "item_main.id, name, weight, level, reqlv, element, upgrade, damage, binding, atk, matk2";
+
+        if($searchTerms["detailed"] !== null && $searchTerms["detailed"] === "true")
+        {
+            $sqlSelect = "item_main.id, name, weight, level, reqlv, element, upgrade, damage, binding, atk, matk2, special, description, item_special.version as sversion, grp";
+        }
+
+        $weapons = ItemMain::selectRaw($sqlSelect)
+        ->leftJoin('item_weapon', 'item_main.id', '=', 'item_weapon.id')
+        ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->when((!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true") || !is_null($searchTerms["effect"]), function($query){
+            return $query->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
+            ->where(function($sub){
+                return $sub->where('item_special.type', '=', 1)
+                ->orWhereNull('item_special.type');
+            });
+        })
+        ->when(!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true", function($query){
+            return $query->where(function($sub){
+                return $sub->where('item_special.version', '=', 0)
+                ->orWhere('item_special.version', '=', 2)
+                ->orWhereNull('item_special.version');
+            });
+        })
+        ->when(!is_null($searchTerms["type"]), function($query) use($searchTerms){
+            return $query->where('subcat', '=', intval($searchTerms["type"]));
+        })
+        ->when(!is_null($searchTerms["name"]), function ($query) use($searchTerms){
+            $names = explode(';', $searchTerms["name"]);
+            return $query->where(function($sub) use($names){
+                foreach($names as $name){
+                    $sub->orWhere('name', 'LIKE', '%' . $name . '%');
+                }
+            });
+        })
+        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
+            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        })
+        ->when(!is_null($searchTerms["upgradable"]), function($query) use($searchTerms){
+            return $query->where('upgrade', '=', $searchTerms["upgradable"]);
+        })
+        ->when(!is_null($searchTerms["breakable"]), function($query) use($searchTerms){
+            return $query->where('damage', '=', $searchTerms["breakable"]);
+        })
+        ->when(!is_null($searchTerms["binding"]), function($query) use($searchTerms){
+            return $query->where('binding', '=', $searchTerms["binding"]);
+        })
+        ->when(!is_null($searchTerms["element"]), function($query) use($searchTerms){
+            return $query->where('element', '=', $searchTerms["element"]);
+        })
+        ->when(!is_null($searchTerms["atk"]), function($query) use($searchTerms){
+            list($opTp, $atk, $atk2) = explode(',', $searchTerms["atk"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('atk', [intval($atk), intval($atk2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('atk', ItemHelpers::getSQLOperationSymbol($opType), intval($atk));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["matk"]), function($query) use($searchTerms){
+            list($opTp, $matk, $matk2) = explode(',', $searchTerms["matk"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('matk2', [intval($matk), intval($matk2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('matk2', ItemHelpers::getSQLOperationSymbol($opType), intval($matk));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["slots"]), function($query) use($searchTerms){
+            list($opTp, $slot, $slot2) = explode(',', $searchTerms["slots"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('slots', [intval($slot), intval($slot2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('slots', ItemHelpers::getSQLOperationSymbol($opType), intval($slot));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["wepLv"]), function($query) use($searchTerms){
+            list($opTp, $lv1, $lv2) = explode(',', $searchTerms["wepLv"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('level', [intval($lv1), intval($lv2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('level', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["reqLv"]), function($query) use($searchTerms){
+            list($opTp, $lv1, $lv2) = explode(',', $searchTerms["reqLv"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('reqlv', [intval($lv1), intval($lv2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["job"]) && is_numeric($searchTerms["job"]), function($query) use($searchTerms){
+            $job = intval($searchTerms["job"]);
+            if($job >= 1 && $job <= 99)
+            {
+                $jobMask = pow(2, $job + 1);
+                return $query->whereRaw("job&$jobMask=$jobMask AND NOT (job&0x1=0x1 OR job&0x2=0x2)");
+            }
+            elseif($job >= 101 && $job <= 199)
+            {
+                $jobMask = pow(2, $job - 99);
+                return $query->whereRaw("job&$jobMask=$jobMask AND NOT job&0x2=0x2");
+            }
+            elseif($job >= 201 && $job <= 299)
+            {
+                $jobMask = pow(2, $job - 199);
+                return $query->whereRaw("job&$jobMask=$jobMask");
+            }
+            elseif($job >= 301 && $job <= 399)
+            {
+                $jobMask = pow(2, $job - 279);
+                return $query->whereRaw("job&$jobMask=$jobMask");
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->where('category', '=', 1)
+        ->where('item_misc.version', '!=', 3)
+        ->where('visible2', '=', 1)
+        ->whereRaw(DB::raw($serverCon))
+        ->when(true, function($query) use($searchTerms){
+            if(!is_null($searchTerms["sort"]))
+            {
+                list($sortT, $sortD) = explode(',', $searchTerms["sort"]);
+
+                return $query->orderBy(ItemHelpers::getSQLWeaponSort($sortT), $sortD === "1" ? 'asc' : 'desc');
+            }
+            else
+            {
+                return $query->orderBy('name', 'asc');
+            }
+        })
+        ->distinct()
+        ->get();
+        return $weapons;
     }
 }
