@@ -629,15 +629,12 @@ class ItemRepository
         $serverType = 1;
         $serverCon = "item_misc.server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
 
-        $sqlSelect = "item_main.id, name, weight, level, reqlv, element, upgrade, damage, binding, atk, matk2";
+        $output = array(
+            "weaponInfo" => null,
+            "weaponSpecial" => null
+        );
 
-        if($searchTerms["detailed"] !== null && $searchTerms["detailed"] === "true")
-        {
-            $sqlSelect = "item_main.id, name, weight, level, reqlv, element, upgrade, damage, binding, atk, matk2, special, description, item_special.version as sversion, grp";
-        }
-
-        $weapons = ItemMain::selectRaw($sqlSelect)
-        ->leftJoin('item_weapon', 'item_main.id', '=', 'item_weapon.id')
+        $mainQuery = ItemMain::leftJoin('item_weapon', 'item_main.id', '=', 'item_weapon.id')
         ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
         ->when((!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true") || !is_null($searchTerms["effect"]), function($query){
             return $query->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
@@ -795,15 +792,92 @@ class ItemRepository
             {
                 list($sortT, $sortD) = explode(',', $searchTerms["sort"]);
 
-                return $query->orderBy(ItemHelpers::getSQLWeaponSort($sortT), $sortD === "1" ? 'asc' : 'desc');
+                if($sortT !== "1")
+                {
+                    return $query->orderBy(ItemHelpers::getSQLWeaponSort($sortT), $sortD === "1" ? 'asc' : 'desc')
+                    ->orderBy('name');
+                }
+                else
+                {
+                    return $query->orderBy(ItemHelpers::getSQLWeaponSort($sortT), $sortD === "1" ? 'asc' : 'desc');
+                }
             }
             else
             {
                 return $query->orderBy('name', 'asc');
             }
         })
-        ->distinct()
+        ->distinct();
+
+        $weaponInfo = $mainQuery->select(
+            'item_main.id',
+            'name',
+            'weight',
+            'level',
+            'reqlv',
+            'element',
+            'upgrade',
+            'damage',
+            'binding',
+            'atk',
+            'matk2'
+        )
         ->get();
-        return $weapons;
+
+        $output["weaponInfo"] = $weaponInfo;
+        
+        if(!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true")
+        {
+            $weaponSpecialList = array();
+
+            $weaponSpecial = $mainQuery->select(
+                'item_main.id',
+                'special',
+                'description'
+            )
+            ->get()->all();
+
+            $weaponTemporal = array(
+                "description" => null,
+                "special" => array()
+            );
+            while($item = current($weaponSpecial))
+            {
+                $nextItem = next($weaponSpecial);
+
+                if(is_null($weaponTemporal["description"]))
+                {
+                    $weaponTemporal["description"] = $item->description;
+                }
+                
+                if(!is_null($item->special))
+                {
+                    array_push($weaponTemporal["special"], $item->special);
+                }
+                
+                if($nextItem)
+                {
+                    if($item->id !== $nextItem->id)
+                    {
+                        $weaponSpecialList[$item->id] = $weaponTemporal;
+                        $weaponTemporal = array(
+                            "description" => null,
+                            "special" => array()
+                        );
+                    }
+                }
+                else
+                {
+                    $weaponSpecialList[$item->id] = $weaponTemporal;
+                    $weaponTemporal = array(
+                        "description" => null,
+                        "special" => array()
+                    );
+                }
+            }
+            $output["weaponSpecial"] = $weaponSpecialList;
+        }
+
+        return $output;
     }
 }

@@ -109,14 +109,14 @@ class ItemHelpers
         elseif ($element == 8) return "Shadow";
         elseif ($element == 9) return "Ghost";
         elseif ($element == 10) return "Undead";
-        else return "??";
+        else return "(Unknown)";
     }
 
     public static function getBindingName(int $binding)
     {
         if ($binding == 1) return "Account";
         elseif ($binding == 2) return "Character";
-        else return "??";
+        else return "--";
     }
 
     public static function getWeaponSizeMod(int $class, $size)

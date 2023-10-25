@@ -7,13 +7,13 @@
                     <tr>
                         <td class="bgLtRow3 padded optCaption">Name</td>
                         <td class="bgLtRow1 padded optArea">
-                            <input type="text" style="width:240px;" id="name" name="name" value="" />
+                            <input type="text" style="width:240px;" id="name" name="name" value="{{ !is_null($inputs["name"]) ? $inputs["name"] : "" }}" />
                         </td>
                     </tr>
                     <tr>
                         <td class="bgLtRow4 padded optCaption">Effect</td>
                         <td class="bgLtRow2 padded optArea">
-                            <input type="text" style="width:240px;" id="effect" name="effect" value="" />
+                            <input type="text" style="width:240px;" id="effect" name="effect" value="{{ !is_null($inputs["effect"]) ? $inputs["effect"] : "" }}" />
                         </td>
                     </tr>
                     <tr>
@@ -22,7 +22,7 @@
                             <select style="width:190px;" id="type" name="type">
                                 <option value="">(Any)</option>
                                 @for ($ctr = 1; $ctr <= 22; $ctr++)
-                                    <option value="{{ $ctr }}">{{ ItemHelper::getItemTypeName(1, $ctr) }}</option>
+                                    <option @selected(!is_null($inputs["type"]) && $ctr == $inputs["type"]) value="{{ $ctr }}">{{ ItemHelper::getItemTypeName(1, $ctr) }}</option>
                                 @endfor
                             </select>
                         </td>
@@ -34,27 +34,27 @@
                                 <option value="">(Any)</option>
                                 <optgroup label="1st Job">
                                     @for ($ctr = 1; $ctr <= 7; $ctr++)
-                                        <option value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
+                                        <option @selected(!is_null($inputs["job"]) && $ctr == $inputs["job"]) value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
                                     @endfor
                                 </optgroup>
                                 <optgroup label="2nd Job">
                                     @for ($ctr = 8; $ctr <= 20; $ctr++)
-                                        <option value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
+                                        <option @selected(!is_null($inputs["job"]) && $ctr == $inputs["job"]) value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
                                     @endfor
                                 </optgroup>
                                 <optgroup label="Trans">
                                     @for ($ctr = 108; $ctr <= 120; $ctr++)
-                                        <option value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
+                                        <option @selected(!is_null($inputs["job"]) && $ctr == $inputs["job"]) value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
                                     @endfor
                                 </optgroup>
                                 <optgroup label="3rd Job">
                                     @for ($ctr = 208; $ctr <= 220; $ctr++)
-                                        <option value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
+                                        <option @selected(!is_null($inputs["job"]) && $ctr == $inputs["job"]) value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
                                     @endfor
                                 </optgroup>
                                 <optgroup label="Expanded">
                                     @for ($ctr = 301; $ctr <= 305; $ctr++)
-                                        <option value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
+                                        <option @selected(!is_null($inputs["job"]) && $ctr == $inputs["job"]) value="{{ $ctr }}">{{ ItemHelper::getJobName($ctr) }}</option>
                                     @endfor
                                 </optgroup>
                             </select>
@@ -64,9 +64,9 @@
                         <td class="bgLtRow3 padded optCaption">Upgradable</td>
                         <td class="bgLtRow1 padded optArea">
                             <select style="width:190px;" id="upgradable" name="upgradable">
-                                <option value="">(Any)</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option @selected(is_null($inputs["upgradable"])) value="">(Any)</option>
+                                <option @selected(!is_null($inputs["upgradable"]) && $inputs["upgradable"] === "1") value="1">Yes</option>
+                                <option @selected(!is_null($inputs["upgradable"]) && $inputs["upgradable"] === "0") value="0">No</option>
                             </select>
                         </td>
                     </tr>
@@ -74,9 +74,9 @@
                         <td class="bgLtRow4 padded optCaption">Breakable</td>
                         <td class="bgLtRow2 padded optArea">
                             <select style="width:190px;" id="breakable" name="breakable">
-                                <option value="">(Any)</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
+                                <option @selected(is_null($inputs["breakable"])) value="">(Any)</option>
+                                <option @selected(!is_null($inputs["breakable"]) && $inputs["breakable"] === "1") value="1">Yes</option>
+                                <option @selected(!is_null($inputs["breakable"]) && $inputs["breakable"] === "0") value="0">No</option>
                             </select>
                         </td>
                     </tr>
@@ -84,9 +84,9 @@
                         <td class="bgLtRow3 padded optCaption">Binding</td>
                         <td class="bgLtRow1 padded optArea">
                             <select style="width:190px;" id="binding" name="binding">
-                                <option value="">(Any)</option>
-                                <option value="1">Account</option>
-                                <option value="2">Character</option>
+                                <option @selected(is_null($inputs["binding"])) value="">(Any)</option>
+                                <option @selected(!is_null($inputs["binding"]) && $inputs["binding"] === "1") value="1">Account</option>
+                                <option @selected(!is_null($inputs["binding"]) && $inputs["binding"] === "2") value="2">Character</option>
                             </select>
                         </td>
                     </tr>
@@ -115,7 +115,7 @@
                     <tr>
                         <td class="bgLtRow4 padded optCaption">Detailed Results</td>
                         <td class="bgLtRow2 padded optArea">
-                            <input type="checkbox" id="detailed" value="detailed" name="detailed" />
+                            <input type="checkbox" id="detailed" value="detailed" name="detailed" {{ is_null($inputs["detailed"]) ? '' : 'checked' }} />
                         </td>
                     </tr>
                 </table>
@@ -227,17 +227,17 @@
                         <td class="bgLtRow3 padded optCaption">Element</td>
                         <td class="bgLtRow1 padded optArea">
                             <select style="width:190px;" id="element" name="element">
-                                <option value="">(Any)</option>
-                                <option value="1">Neutral</option>
-                                <option value="2">Fire</option>
-                                <option value="3">Earth</option>
-                                <option value="4">Wind</option>
-                                <option value="5">Water</option>
-                                <option value="6">Poison</option>
-                                <option value="7">Holy</option>
-                                <option value="8">Shadow</option>
-                                <option value="9">Ghost</option>
-                                <option value="10">Undead</option>
+                                <option @selected(is_null($inputs["element"])) value="">(Any)</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "1") value="1">Neutral</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "2") value="2">Fire</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "3") value="3">Earth</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "4") value="4">Wind</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "5") value="5">Water</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "6") value="6">Poison</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "7") value="7">Holy</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "8") value="8">Shadow</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "9") value="9">Ghost</option>
+                                <option @selected(!is_null($inputs["element"]) && $inputs["element"] === "10") value="10">Undead</option>
                             </select>
                         </td>
                     </tr>

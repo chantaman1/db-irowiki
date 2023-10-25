@@ -35,6 +35,8 @@ class ItemController extends Controller
 
     public function WeaponSearch(Request $request)
     {
+        $results = null;
+
         # inputs from URL parameter
         $inputs = array(
             "name" => $request->get('name', null),
@@ -54,8 +56,12 @@ class ItemController extends Controller
             "element" => $request->get('element', null)
         );
 
-        $results = (new ItemRepository)->WeaponSearch($inputs);
-        #dd($results);
-        return view('item/weapon-search', ['data' => $results]);
+        # avoid getting all the items if not needed at startup
+        if(array_filter($inputs))
+        {
+            $results = (new ItemRepository)->WeaponSearch($inputs);
+        }
+
+        return view('item/weapon-search', ['inputs' => $inputs, 'data' => $results]);
     }
 }
