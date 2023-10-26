@@ -96,4 +96,31 @@ class ItemController extends Controller
 
         return view('item/gear-search', ['inputs' => $inputs, 'data' => $results]);
     }
+
+    public function CostumeSearch(Request $request)
+    {
+        $results = null;
+
+        # inputs from URL parameter
+        $inputs = array(
+            "name" => $request->get('name', null),
+            "effect" => $request->get('effect', null),
+            "type" => $request->get('type', null),
+            "job" => $request->get('job', null),
+            "enchantable" => $request->get('enchantable', null),
+            "binding" => $request->get('binding', null),
+            "sort" => $request->get('sort', null),
+            "detailed" => $request->get('detailed', null),
+            "reqLv" => $request->get('reqlv', null),
+            "position" => $request->get('position', null)
+        );
+
+        # avoid getting all the items if not needed at startup
+        if(array_filter($inputs))
+        {
+            $results = (new ItemService)->CostumeSearch($inputs);
+        }
+
+        return view('item/costume-search', ['inputs' => $inputs, 'data' => $results]);
+    }
 }

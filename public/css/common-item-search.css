@@ -1,0 +1,16 @@
+td.optCaption{
+	font-size:9pt;
+	width:25%;
+	vertical-align:top;
+}
+td.optArea{
+	width:75%;
+	vertical-align:top;
+}
+td.headPos{
+	width:33%;
+	white-space:nowrap;
+}
+span.extraText{
+	visibility:hidden;
+}

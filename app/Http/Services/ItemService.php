@@ -324,4 +324,65 @@ class ItemService
 
         return $output;
     }
+
+    public function CostumeSearch(array $inputs)
+    {
+        $itemRepository = new ItemRepository();
+
+        $output = array(
+            "costumeInfo" => null,
+            "costumeSpecial" => null
+        );
+
+        $output["costumeInfo"] = $itemRepository->getCostumeInfoByInputs($inputs);
+        
+        if(!is_null($inputs["detailed"]) && $inputs["detailed"] === "true")
+        {
+            $gearSpecialList = array();
+
+            $gearSpecial = $itemRepository->getCostumeSpecialByInputs($inputs)->all();
+
+            $gearTemporal = array(
+                "description" => null,
+                "special" => array()
+            );
+            while($gear = current($gearSpecial))
+            {
+                $nextGear = next($gearSpecial);
+
+                if(is_null($gearTemporal["description"]))
+                {
+                    $gearTemporal["description"] = $gear->description;
+                }
+                
+                if(!is_null($gear->special))
+                {
+                    array_push($gearTemporal["special"], $gear->special);
+                }
+                
+                if($nextGear)
+                {
+                    if($gear->id !== $nextGear->id)
+                    {
+                        $gearSpecialList[$gear->id] = $gearTemporal;
+                        $gearTemporal = array(
+                            "description" => null,
+                            "special" => array()
+                        );
+                    }
+                }
+                else
+                {
+                    $gearSpecialList[$gear->id] = $gearTemporal;
+                    $gearTemporal = array(
+                        "description" => null,
+                        "special" => array()
+                    );
+                }
+            }
+            $output["costumeSpecial"] = $gearSpecialList;
+        }
+
+        return $output;
+    }
 }

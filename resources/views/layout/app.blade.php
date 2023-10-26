@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('/css/styles.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/common.css') }}" rel="stylesheet">
+    @yield('styles')
 
     <!-- Scripts -->
     <script src="{{ asset('js/misc.js')}}"></script>

@@ -42,6 +42,7 @@ Route::get('/db/item-info/{id}', [ItemController::class, 'InfoSearch']);
 
 Route::get('/db/weapon-search/', [ItemController::class, 'WeaponSearch']);
 Route::get('/db/gear-search/', [ItemController::class, 'GearSearch']);
+Route::get('/db/costume-search/', [ItemController::class, 'CostumeSearch']);
 
 
 /*

@@ -1004,4 +1004,173 @@ class ItemRepository
         )
         ->get();
     }
+
+    private function getCostumeSearchMainQuery(array $searchTerms)
+    {
+        $serverCon = "item_misc.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemMain::leftJoin('item_gear', 'item_main.id', '=', 'item_gear.id')
+        ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->when((!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true") || !is_null($searchTerms["effect"]), function($query){
+            return $query->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
+            ->where(function($sub){
+                return $sub->where('item_special.type', '=', 1)
+                ->orWhereNull('item_special.type');
+            });
+        })
+        ->when(!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true", function($query){
+            return $query->where(function($sub){
+                return $sub->where('item_special.version', '=', 0)
+                ->orWhere('item_special.version', '=', 2)
+                ->orWhereNull('item_special.version');
+            });
+        })
+        ->when(!is_null($searchTerms["type"]) && $searchTerms["type"] !== "0", function($query) use($searchTerms){
+            return $query->where('subcat', '=', intval($searchTerms["type"]));
+        })
+        ->when(!is_null($searchTerms["name"]), function ($query) use($searchTerms){
+            $names = explode(';', $searchTerms["name"]);
+            return $query->where(function($sub) use($names){
+                foreach($names as $name){
+                    $sub->orWhere('name', 'LIKE', '%' . $name . '%');
+                }
+            });
+        })
+        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
+            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        })
+        ->when(!is_null($searchTerms["binding"]), function($query) use($searchTerms){
+            return $query->where('binding', '=', $searchTerms["binding"]);
+        })
+        ->when(!is_null($searchTerms["enchantable"]), function($query) use($searchTerms){
+            if($searchTerms["enchantable"] === "1")
+            {
+                return $query->whereIn('item_main.id', function($sub){
+                    return $sub->select(
+                        'id'
+                    )
+                    ->from('item_ench')
+                    ->get();
+                });
+            }
+            else
+            {
+                return $query->whereNotIn('item_main.id', function($sub){
+                    return $sub->select(
+                        'id'
+                    )
+                    ->from('item_ench')
+                    ->get();
+                });
+            }
+        })
+        ->when(!is_null($searchTerms["reqLv"]), function($query) use($searchTerms){
+            list($opTp, $lv1, $lv2) = explode(',', $searchTerms["reqLv"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('reqlv', [intval($lv1), intval($lv2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["job"]) && is_numeric($searchTerms["job"]), function($query) use($searchTerms){
+            $job = intval($searchTerms["job"]);
+            if($job >= 1 && $job <= 99)
+            {
+                $jobMask = pow(2, $job + 1);
+                return $query->whereRaw("job&$jobMask=$jobMask AND NOT (job&0x1=0x1 OR job&0x2=0x2)");
+            }
+            elseif($job >= 101 && $job <= 199)
+            {
+                $jobMask = pow(2, $job - 99);
+                return $query->whereRaw("job&$jobMask=$jobMask AND NOT job&0x2=0x2");
+            }
+            elseif($job >= 201 && $job <= 299)
+            {
+                $jobMask = pow(2, $job - 199);
+                return $query->whereRaw("job&$jobMask=$jobMask");
+            }
+            elseif($job >= 301 && $job <= 399)
+            {
+                $jobMask = pow(2, $job - 279);
+                return $query->whereRaw("job&$jobMask=$jobMask");
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["position"]) && !is_null($searchTerms["type"]) && $searchTerms["type"] === "1" && is_numeric($searchTerms["position"]), function($query) use($searchTerms){
+            $position = intval($searchTerms["position"]);
+            return $query->where(function($sub) use($position){
+                for($i = 1; $i <= 3; $i++)
+                {
+                    if(($position & pow(2, $i - 1)) === pow(2, $i - 1))
+                    {
+                        $sub->orWhereRaw("position&" . pow(2, $i - 1) . "=" . pow(2, $i - 1));
+                    }
+                }
+            });
+        })
+        ->where(function($query){
+            return $query->where('category', '=', 10)
+            ->orWhere('category', '=', 8);
+        })
+        ->where('visible2', '=', 1)
+        ->whereRaw(DB::raw($serverCon))
+        ->when(true, function($query) use($searchTerms){
+            if(!is_null($searchTerms["sort"]))
+            {
+                list($sortT, $sortD) = explode(',', $searchTerms["sort"]);
+
+                if($sortT !== "1")
+                {
+                    return $query->orderBy(ItemHelpers::getSQLGearSort($sortT), $sortD === "1" ? 'asc' : 'desc')
+                    ->orderBy('name');
+                }
+                else
+                {
+                    return $query->orderBy(ItemHelpers::getSQLGearSort($sortT), $sortD === "1" ? 'asc' : 'desc');
+                }
+            }
+            else
+            {
+                return $query->orderBy('name', 'asc');
+            }
+        })
+        ->distinct();
+    }
+
+    public function getCostumeInfoByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getCostumeSearchMainQuery($searchTerms);
+
+        return $mainQuery->select(
+            'item_main.id',
+            'name',
+            'weight',
+            'reqlv',
+            'binding',
+            'position'
+        )
+        ->get();
+    }
+
+    public function getCostumeSpecialByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getCostumeSearchMainQuery($searchTerms);
+
+        return $mainQuery->select(
+            'item_main.id',
+            'special',
+            'description'
+        )
+        ->get();
+    }
 }
