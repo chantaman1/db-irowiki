@@ -1,4 +1,4 @@
-<div class="bgMdTitle mdTitle">Gear Search</div>
+<div class="bgMdTitle mdTitle">Costume/Shadow Search</div>
 <table class="bgDkTable">
 	<tbody>
 		<tr>

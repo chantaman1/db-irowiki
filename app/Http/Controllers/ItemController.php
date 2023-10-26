@@ -123,4 +123,33 @@ class ItemController extends Controller
 
         return view('item/costume-search', ['inputs' => $inputs, 'data' => $results]);
     }
+
+    public function ConsumeSearch(Request $request)
+    {
+        $results = null;
+
+        # inputs from URL parameter
+        $inputs = array(
+            "name" => $request->get('name', null),
+            "effect" => $request->get('effect', null),
+            "type" => $request->get('type', null),
+            "binding" => $request->get('binding', null),
+            "sort" => $request->get('sort', null),
+            "detailed" => $request->get('detailed', null),
+            "hp" => $request->get('hp', null),
+            "sp" => $request->get('sp', null),
+            "reqLv" => $request->get('reqlv', null),
+            "price" => $request->get('price', null),
+            "npcbuyable" => $request->get('npcbuyable', null),
+            "buyshop" => $request->get('buyshop', null),
+        );
+
+        # avoid getting all the items if not needed at startup
+        if(array_filter($inputs))
+        {
+            #$results = (new ItemService)->CostumeSearch($inputs);
+        }
+
+        return view('item/consume-search', ['inputs' => $inputs, 'data' => $results]);
+    }
 }
