@@ -263,4 +263,65 @@ class ItemService
         }
         return $output;
     }
+
+    public function GearSearch(array $inputs)
+    {
+        $itemRepository = new ItemRepository();
+
+        $output = array(
+            "gearInfo" => null,
+            "gearSpecial" => null
+        );
+
+        $output["gearInfo"] = $itemRepository->getGearInfoByInputs($inputs);
+        
+        if(!is_null($inputs["detailed"]) && $inputs["detailed"] === "true")
+        {
+            $gearSpecialList = array();
+
+            $gearSpecial = $itemRepository->getGearSpecialByInputs($inputs)->all();
+
+            $gearTemporal = array(
+                "description" => null,
+                "special" => array()
+            );
+            while($gear = current($gearSpecial))
+            {
+                $nextGear = next($gearSpecial);
+
+                if(is_null($gearTemporal["description"]))
+                {
+                    $gearTemporal["description"] = $gear->description;
+                }
+                
+                if(!is_null($gear->special))
+                {
+                    array_push($gearTemporal["special"], $gear->special);
+                }
+                
+                if($nextGear)
+                {
+                    if($gear->id !== $nextGear->id)
+                    {
+                        $gearSpecialList[$gear->id] = $gearTemporal;
+                        $gearTemporal = array(
+                            "description" => null,
+                            "special" => array()
+                        );
+                    }
+                }
+                else
+                {
+                    $gearSpecialList[$gear->id] = $gearTemporal;
+                    $gearTemporal = array(
+                        "description" => null,
+                        "special" => array()
+                    );
+                }
+            }
+            $output["gearSpecial"] = $gearSpecialList;
+        }
+
+        return $output;
+    }
 }

@@ -7,8 +7,13 @@ use App\Http\Repositories\ItemRepository;
 
 class ItemHelpers
 {
-    public static function formatSpecial(string $special)
+    public static function formatSpecial(string|null $special)
     {
+        if (is_null($special))
+        {
+            return "";
+        }
+
         $special = preg_replace("/\[race=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[element=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[size=(.*?)]/s", "[\\1]", $special);
@@ -114,7 +119,8 @@ class ItemHelpers
 
     public static function getBindingName(int $binding)
     {
-        if ($binding == 1) return "Account";
+        if ($binding == 0) return "Unbound";
+        elseif ($binding == 1) return "Account";
         elseif ($binding == 2) return "Character";
         else return "--";
     }
@@ -370,6 +376,17 @@ class ItemHelpers
         elseif ($sortType === "8") return "element";
     }
 
+    public static function getSQLGearSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "slots";
+        elseif ($sortType === "3") return "def2";
+        elseif ($sortType === "4") return "mdef2";
+        elseif ($sortType === "5") return "weight";
+        elseif ($sortType === "6") return "reqlv";
+        elseif ($sortType === "7") return "position";
+    }
+
     public static function getSortType(string|null $sort)
     {
         $defaultValue = "1";
@@ -421,6 +438,36 @@ class ItemHelpers
             {
                 return $defaultValue;
             }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getHeadgearPosition(string|null $headgearPosition, int $pos)
+    {
+        if(!is_null($headgearPosition) && is_numeric($headgearPosition))
+        {
+            return (intval($headgearPosition) & pow(2, $pos - 1)) === pow(2, $pos - 1);
+        }
+        return false;
+    }
+
+    public static function getHeadgearType(string|null $position)
+    {
+        $defaultValue = "--";
+
+        if(!is_null($position))
+        {
+            if ($position === "1") return "Upper";
+            elseif ($position === "2") return "Middle";
+            elseif ($position === "3") return "Upper / Middle";
+            elseif ($position === "4") return "Lower";
+            elseif ($position === "5") return "Upper / Lower";
+            elseif ($position === "6") return "Middle / Lower";
+            elseif ($position === "7") return "All";
+            else return $defaultValue;
         }
         else
         {

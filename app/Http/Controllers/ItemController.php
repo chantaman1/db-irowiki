@@ -64,4 +64,36 @@ class ItemController extends Controller
 
         return view('item/weapon-search', ['inputs' => $inputs, 'data' => $results]);
     }
+
+    public function GearSearch(Request $request)
+    {
+        $results = null;
+
+        # inputs from URL parameter
+        $inputs = array(
+            "name" => $request->get('name', null),
+            "effect" => $request->get('effect', null),
+            "type" => $request->get('type', null),
+            "job" => $request->get('job', null),
+            "upgradable" => $request->get('upgradable', null),
+            "breakable" => $request->get('breakable', null),
+            "enchantable" => $request->get('enchantable', null),
+            "binding" => $request->get('binding', null),
+            "sort" => $request->get('sort', null),
+            "detailed" => $request->get('detailed', null),
+            "def" => $request->get('def', null),
+            "mdef" => $request->get('mdef', null),
+            "slots" => $request->get('slots', null),
+            "reqLv" => $request->get('reqlv', null),
+            "position" => $request->get('position', null)
+        );
+
+        # avoid getting all the items if not needed at startup
+        if(array_filter($inputs))
+        {
+            $results = (new ItemService)->GearSearch($inputs);
+        }
+
+        return view('item/gear-search', ['inputs' => $inputs, 'data' => $results]);
+    }
 }

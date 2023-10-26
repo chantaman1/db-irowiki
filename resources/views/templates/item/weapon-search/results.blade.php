@@ -44,7 +44,7 @@
                         <td class="bgLtRow1 padded centered"><img src="https://db.irowiki.org/image/{{ $item->damage ? "yes" : "no" }}.png"></td>
                         <td class="bgLtRow2 padded">{{ ItemHelper::getBindingName($item->binding) }}</td>
                     </tr>
-                    @if (!is_null($weaponSpecial))
+                    @if (!is_null($weaponSpecial) && count($weaponSpecial) > 0)
                         <tr>
                             <td class="bgLtRow4 padded centered"></td>
                             <td class="bgLtRow1 padded" colspan="10">{!! html_entity_decode(ItemHelper::formatSpecial($weaponSpecial[$item->id]["description"])) !!}</td>
