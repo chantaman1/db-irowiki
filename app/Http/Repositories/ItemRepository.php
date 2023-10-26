@@ -26,6 +26,8 @@ use App\Model\TreasureMain;
 
 class ItemRepository
 {
+    protected $serverType = 1;
+
     public function getItemTypeName(int $cat, int $subcat = 0, bool $full = false)
     {
         $itemName = Category::select('name')
@@ -155,39 +157,10 @@ class ItemRepository
         }
     }
 
-    public function itemInfo(int|null $id = null)
+    public function getItemMainById(int $id)
     {
-        $serverType = 1;
-        $serverCon = "server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
-
-        $questType = array(
-            1 => "Requirement",
-            2 => "Quest Item",
-            3 =>"Reward",
-            4 =>"Exchange Requirement",
-            5 =>"Exchange Reward"
-        );
-
-        $output = array(
-            "item" => null,
-            "weapon" => null,
-            "gear" => null,
-            "monster" => null,
-            "monsterSpawn" => null,
-            "quest" => null,
-            "treasureDrop" => null,
-            "adjective" => null,
-            "itemSet" => null,
-            "itemHeal" => null,
-            "itemEnchant" => null,
-            "itemSpecialMain" => null,
-            "itemSpecialGroupMain" => null,
-            "itemSpecialGroupList" => null,
-            "itemSpecialStats" => null,
-            "itemShop" => null
-        );
-
-        $itemMain = ItemMain::select(
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemMain::select(
             'name',
             'item_main.id',
             'description',
@@ -205,195 +178,182 @@ class ItemRepository
             'price',
             'binding'
         )
-            ->leftJoin('item_misc', 'item_misc.id', '=', 'item_main.id')
-            ->where('item_main.id', '=', $id)
-            ->where('item_misc.version', '!=', 3)
-            ->whereRaw(DB::raw($serverCon))
-            ->first();
-        
-        $output["item"] = $itemMain;
+        ->leftJoin('item_misc', 'item_misc.id', '=', 'item_main.id')
+        ->where('item_main.id', '=', $id)
+        ->where('item_misc.version', '!=', 3)
+        ->whereRaw(DB::raw($serverCon))
+        ->first();
+    }
 
-        if($itemMain === null)
-        {
-            return $output;
-        }
+    public function getItemWeaponById(int $id)
+    {
+        return ItemWeapon::select(
+            'atk',
+            'matk2',
+            'element',
+            'level'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
 
-        if($itemMain->category === 1 || $itemMain->category === 9)
-        {
-            $weaponInfo = ItemWeapon::select(
-                'atk',
-                'matk2',
-                'element',
-                'level'
-            )
-            ->where('id', '=', $id)
-            ->first();
+    public function getItemGearById(int $id)
+    {
+        return ItemGear::select(
+            'def2',
+            'mdef2',
+            'position'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
 
-            $output["weapon"] = $weaponInfo;
-        }
+    public function getItemAdjectiveById(int $id)
+    {
+        return ItemAdjective::select(
+            'adjective'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
 
-        if($itemMain->category === 2 || $itemMain->category === 8)
-        {
-            $gearInfo = ItemGear::select(
-                'def2',
-                'mdef2',
-                'position'
-            )
-            ->where('id', '=', $id)
-            ->first();
+    public function getItemHealById(int $id)
+    {
+        return ItemHeal::select(
+            'hpMin',
+            'hpMax',
+            'spMin',
+            'spMax'
+        )
+        ->where('id', '=', $id)
+        ->first();
+    }
 
-            $output["gear"] = $gearInfo;
-        }
+    public function getItemEnchantById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemEnch::select(
+            'enchantment.name',
+            'enchantment.location',
+            'enchantment.wiki'
+        )
+        ->leftJoin('enchantment', 'item_ench.type', '=', 'enchantment.npc_id')
+        ->where('item_ench.id', '=', $id)
+        ->whereRaw(DB::raw($serverCon))
+        ->get();
+    }
 
-        if($itemMain->category === 3)
-        {
-            $adjectiveInfo = ItemAdjective::select(
-                'adjective'
-            )
-            ->where('id', '=', $id)
-            ->first();
-
-            $output["adjective"] = $adjectiveInfo;
-        }
-
-        if($itemMain->category === 4 && $itemMain->subcat === 2)
-        {
-            $itemHealInfo = ItemHeal::select(
-                'hpMin',
-                'hpMax',
-                'spMin',
-                'spMax'
-            )
-            ->where('id', '=', $id)
-            ->first();
-
-            $output["itemHeal"] = $itemHealInfo;
-        }
-
-        if($itemMain->category === 1 || $itemMain->category === 2 || $itemMain->category === 5 || $itemMain->category === 8)
-        {
-            $itemEnchantInfo = ItemEnch::select(
-                'enchantment.name',
-                'enchantment.location',
-                'enchantment.wiki'
-            )
-            ->leftJoin('enchantment', 'item_ench.type', '=', 'enchantment.npc_id')
-            ->where('item_ench.id', '=', $id)
-            ->whereRaw(DB::raw($serverCon))
-            ->get();
-
-            $output["itemEnchant"] = count($itemEnchantInfo) > 0 ? $itemEnchantInfo : null;
-        }
-
-        $itemSetCheckInfo = ItemSet::select(
+    public function getItemSetTypeById(int $id)
+    {
+        return ItemSet::select(
             'id',
             'type'
         )
         ->where('item', '=', $id)
         ->get();
+    }
 
-        $itemSetInfo = array();
-        if(count($itemSetCheckInfo) > 0)
+    public function getItemSetByTypeAndId(int $id, ItemSet $itemSet)
+    {
+        if($itemSet->type === 1)
         {
-            foreach($itemSetCheckInfo as $itemSet)
-            {
-                $itemSetList = null;
-
-                if($itemSet->type === 1)
-                {
-                    $itemSetList = ItemSet::select(
-                        'item'
-                    )
-                    ->where('id', '=', $itemSet->id)
-                    ->where('item', '!=', $id)
-                    ->get();
-                }
-                elseif($itemSet->type === 2)
-                {
-                    $itemSetList = ItemSet::select(
-                        'item'
-                    )
-                    ->where('id', '=', $itemSet->id)
-                    ->where('item', '!=', $id)
-                    ->where('type', '=', 3)
-                    ->get();
-                }
-                elseif($itemSet->type === 3)
-                {
-                    $itemSetList = ItemSet::select(
-                        'item'
-                    )
-                    ->where('id', '=', $itemSet->id)
-                    ->where('item', '!=', $id)
-                    ->where('type', '=', 2)
-                    ->get();
-                }
-
-                $itemSetSpecial = ItemSpecial::select(
-                    'special'
-                )
-                ->where('type', '=', 2)
-                ->where('id', '=', $itemSet->id)
-                ->where('grp', '=', 0)
-                ->where(function($version)
-                {
-                    $version->where('version', '=', 0)
-                    ->orWhere('version', '=', 2);
-                })
-                ->whereRaw(DB::raw($serverCon))
-                ->orderBy('index', 'asc')
-                ->get();
-
-                $itemSetGroupMain = ItemSpecial::select(
-                    'grp',
-                    'special'
-                )
-                ->where('type', '=', 2)
-                ->where('id', '=', $itemSet->id)
-                ->where('grp', '>', 0)
-                ->where('num', '=', 0)
-                ->where(function($version)
-                {
-                    $version->where('version', '=', 0)
-                    ->orWhere('version', '=', 2);
-                })
-                ->whereRaw(DB::raw($serverCon))
-                ->orderBy('index', 'asc')
-                ->get();
-
-                $itemSetGroupMainList = array();
-
-                if(count($itemSetGroupMain) > 0)
-                {   
-                    foreach($itemSetGroupMain as $itemGroup)
-                    {
-                        $itemSetGroupList = ItemSpecial::select(
-                            'special'
-                        )
-                        ->where('type', '=', 2)
-                        ->where('id', '=', $itemSet->id)
-                        ->where('grp', '=', $itemGroup->grp)
-                        ->where('num', '>', 0)
-                        ->where(function($version)
-                        {
-                            $version->where('version', '=', 0)
-                            ->orWhere('version', '=', 2);
-                        })
-                        ->whereRaw(DB::raw($serverCon))
-                        ->orderBy('index', 'asc')
-                        ->get();
-
-                        $itemSetGroupMainList[$itemGroup->grp] = $itemSetGroupList;
-                    }
-                }
-
-                array_push($itemSetInfo, ["setType" => $itemSet->type, "itemSetInfo" => $itemSetList, "itemSetSpecial" => $itemSetSpecial, "itemSetGroupMain" => $itemSetGroupMain, "itemSetGroupList" => $itemSetGroupMainList]);
-            }
+            return ItemSet::select(
+                'item'
+            )
+            ->where('id', '=', $itemSet->id)
+            ->where('item', '!=', $id)
+            ->get();
         }
+        elseif($itemSet->type === 2)
+        {
+            return ItemSet::select(
+                'item'
+            )
+            ->where('id', '=', $itemSet->id)
+            ->where('item', '!=', $id)
+            ->where('type', '=', 3)
+            ->get();
+        }
+        elseif($itemSet->type === 3)
+        {
+            return ItemSet::select(
+                'item'
+            )
+            ->where('id', '=', $itemSet->id)
+            ->where('item', '!=', $id)
+            ->where('type', '=', 2)
+            ->get();
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-        $output["itemSet"] = count($itemSetInfo) > 0 ? $itemSetInfo : null;
+    public function getItemSetSpecialByType(ItemSet $itemSet)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'special'
+        )
+        ->where('type', '=', 2)
+        ->where('id', '=', $itemSet->id)
+        ->where('grp', '=', 0)
+        ->where(function($version)
+        {
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
 
-        $itemSpecialCheckInfo = ItemSpecial::select(
+    public function getItemSetSpecialGroupMainByType(ItemSet $itemSet)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'grp',
+            'special'
+        )
+        ->where('type', '=', 2)
+        ->where('id', '=', $itemSet->id)
+        ->where('grp', '>', 0)
+        ->where('num', '=', 0)
+        ->where(function($version)
+        {
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
+
+    public function getItemSpecialGroupListByGroupMainAndType(ItemSet $itemSet, ItemSpecial $itemGroup)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'special'
+        )
+        ->where('type', '=', 2)
+        ->where('id', '=', $itemSet->id)
+        ->where('grp', '=', $itemGroup->grp)
+        ->where('num', '>', 0)
+        ->where(function($version)
+        {
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
+
+    public function getItemSpecialById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
             'special'
         )
         ->where('type', '=', 1)
@@ -406,72 +366,73 @@ class ItemRepository
         })
         ->whereRaw(DB::raw($serverCon))
         ->first();
+    }
 
-        if($itemSpecialCheckInfo !== null)
+    public function getItemSpecialMainById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'special'
+        )
+        ->where('type', '=', 1)
+        ->where('id', '=', $id)
+        ->where('stat', '=', 0)
+        ->where('grp', '=', 0)
+        ->where(function($version)
         {
-            $itemSpecialMainInfo = ItemSpecial::select(
-                'special'
-            )
-            ->where('type', '=', 1)
-            ->where('id', '=', $id)
-            ->where('stat', '=', 0)
-            ->where('grp', '=', 0)
-            ->where(function($version)
-            {
-                $version->where('version', '=', 0)
-                ->orWhere('version', '=', 2);
-            })
-            ->whereRaw(DB::raw($serverCon))
-            ->orderBy('index', 'asc')
-            ->get();
-    
-            $output["itemSpecialMain"] = count($itemSpecialMainInfo) > 0 ? $itemSpecialMainInfo : null;
-    
-            $itemSpecialGroupMainInfo = ItemSpecial::select(
-                'grp',
-                'special'
-            )
-            ->where('type', '=', 1)
-            ->where('id', '=', $id)
-            ->where('num', '=', 0)
-            ->where('grp', '>', 0)
-            ->where(function($version)
-            {
-                $version->where('version', '=', 0)
-                ->orWhere('version', '=', 2);
-            })
-            ->whereRaw(DB::raw($serverCon))
-            ->orderBy('index', 'asc')
-            ->get();
-    
-            $output["itemSpecialGroupMain"] = count($itemSpecialGroupMainInfo) > 0 ? $itemSpecialGroupMainInfo : null;
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
 
-            $itemSpecialGroupListArray = array();
-            foreach($itemSpecialGroupMainInfo as $groupMain)
-            {
-                $itemSpecialGroupListInfo = ItemSpecial::select(
-                    'special'
-                )
-                ->where('type', '=', 1)
-                ->where('id', '=', $id)
-                ->where('num', '>', 0)
-                ->where('grp', '=', $groupMain->grp)
-                ->where(function($version)
-                {
-                    $version->where('version', '=', 0)
-                    ->orWhere('version', '=', 2);
-                })
-                ->whereRaw(DB::raw($serverCon))
-                ->orderBy('index', 'asc')
-                ->get();
+    public function getItemSpecialGroupMainById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'grp',
+            'special'
+        )
+        ->where('type', '=', 1)
+        ->where('id', '=', $id)
+        ->where('num', '=', 0)
+        ->where('grp', '>', 0)
+        ->where(function($version)
+        {
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
 
-                $itemSpecialGroupListArray[$groupMain->grp] = $itemSpecialGroupListInfo;
-            }
+    public function getItemSpecialGroupListByIdAndGroupMain(int $id, ItemSpecial $groupMain)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
+            'special'
+        )
+        ->where('type', '=', 1)
+        ->where('id', '=', $id)
+        ->where('num', '>', 0)
+        ->where('grp', '=', $groupMain->grp)
+        ->where(function($version)
+        {
+            $version->where('version', '=', 0)
+            ->orWhere('version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('index', 'asc')
+        ->get();
+    }
 
-            $output["itemSpecialGroupList"] = count($itemSpecialGroupListArray) > 0 ? $itemSpecialGroupListArray : null;
-        }
-
-        $itemSpecialStatsInfo = ItemSpecial::select(
+    public function getItemSpecialStatsById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemSpecial::select(
             'special'
         )
         ->where('type', '=', 1)
@@ -481,10 +442,12 @@ class ItemRepository
         ->whereRaw(DB::raw($serverCon))
         ->orderBy('index', 'asc')
         ->get();
+    }
 
-        $output["itemSpecialStats"] = count($itemSpecialStatsInfo) > 0 ? $itemSpecialStatsInfo : null;
-
-        $itemShopInfo = ShopMain::select(
+    public function getItemShopById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ShopMain::select(
             'shop_main.id',
             'shop_main.name AS shopName',
             'map_main.name AS mapName'
@@ -498,16 +461,18 @@ class ItemRepository
         ->orderBy('map_main.name', 'asc')
         ->orderBy('shop_main.name', 'asc')
         ->get();
+    }
 
-        $output["itemShop"] = count($itemShopInfo) > 0 ? $itemShopInfo : null;
-    
+    public function getItemMonstersById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
         $monsterItemVisibleInfo = ItemMain::select(
             'visible2'
         )
         ->where('id', '=', $id)
         ->first();
 
-        $monsterInfo = MonsterMain::groupBy('monster_main.id')
+        return MonsterMain::groupBy('monster_main.id')
         ->select(
             'monster_main.id',
             'name',
@@ -538,75 +503,60 @@ class ItemRepository
         ->orderBy('level', 'asc')
         ->orderBy('name', 'asc')
         ->get();
+    }
 
-        $output["monster"] = count($monsterInfo) > 0 ? $monsterInfo : null;
+    public function getMonsterSpawnByMonster(MonsterMain $monster)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return MapMain::select(
+            'map_main.id',
+            'map_main.name',
+            DB::raw('SUM(amount) as amount'),
+            'map_spawn.flag',
+            'map_spawn.monster'
+        )
+        ->leftJoin('map_spawn', 'map_main.id', '=', 'map_spawn.id')
+        ->where('map_spawn.monster', '=', $monster->id)
+        ->where(function($version) {
+            $version->where('map_spawn.version', '=', 2)
+            ->orWhere('map_spawn.version', '=', 0);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->groupBy('map_main.id')
+        ->orderBy('amount', 'desc')
+        ->first();
+    }
 
-        $monsterSpawnInfoArray = array();
-        foreach($monsterInfo as $monster)
-        {
-            $monsterSpawnInfo = MapMain::select(
-                'map_main.id',
-                'map_main.name',
-                DB::raw('SUM(amount) as amount'),
-                'map_spawn.flag',
-                'map_spawn.monster'
-            )
-            ->leftJoin('map_spawn', 'map_main.id', '=', 'map_spawn.id')
-            ->where('map_spawn.monster', '=', $monster->id)
-            ->where(function($version) {
-                $version->where('map_spawn.version', '=', 2)
-                ->orWhere('map_spawn.version', '=', 0);
-            })
-            ->whereRaw(DB::raw($serverCon))
-            ->groupBy('map_main.id')
-            ->orderBy('amount', 'desc')
-            ->first();
-
-            if($monsterSpawnInfo !== null)
-            {
-                array_push($monsterSpawnInfoArray, $monsterSpawnInfo);
-            }
-        }
-
-        $output["monsterSpawn"] = count($monsterSpawnInfoArray) > 0 ? $monsterSpawnInfoArray : null;
-
-        $checkQuestInfo = QuestItem::select(DB::raw('1'))
+    public function getItemQuestsById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return QuestItem::select(DB::raw('1'))
         ->where('item', '=', $id)
         ->whereRaw(DB::raw($serverCon))
         ->first();
+    }
 
-        if($checkQuestInfo !== null)
-        {
-            $questList = array(
-                "Requirement" => null,
-                "Quest Item" => null,
-                "Reward" => null,
-                "Exchange Requirement" => null,
-                "Exchange Reward" => null
-            );
+    public function getQuestByIdAndType(int $id, int $type)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return QuestMain::select(
+            'name',
+            'wiki',
+            'amount'
+        )
+        ->leftJoin('quest_item', 'quest_main.id', '=', 'quest_item.id')
+        ->where('quest_item.item', '=', $id)
+        ->where('quest_item.type', '=', $type)
+        ->whereRaw(DB::raw('quest_item.'.$serverCon))
+        ->whereRaw(DB::raw('quest_main.'.$serverCon))
+        ->orderBy('quest_main.name', 'asc')
+        ->get();
+    }
 
-            foreach($questType as $typeId => $value)
-            {
-                $questInfo = QuestMain::select(
-                    'name',
-                    'wiki',
-                    'amount'
-                )
-                ->leftJoin('quest_item', 'quest_main.id', '=', 'quest_item.id')
-                ->where('quest_item.item', '=', $id)
-                ->where('quest_item.type', '=', $typeId)
-                ->whereRaw(DB::raw('quest_item.'.$serverCon))
-                ->whereRaw(DB::raw('quest_main.'.$serverCon))
-                ->orderBy('quest_main.name', 'asc')
-                ->get();
-
-                $questList[$value] = count($questInfo) > 0 ? $questInfo : null;
-            }
-
-            $output["quest"] = $questList;
-        }
-
-        $treasureInfo = TreasureMain::select(
+    public function getItemTreasureById(int $id)
+    {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return TreasureMain::select(
             'treasure_main.name',
             'treasure_main.realm',
             'treasure_drop.castle',
@@ -617,24 +567,12 @@ class ItemRepository
         ->where('treasure_drop.item', '=', $id)
         ->whereRaw(DB::raw($serverCon))
         ->get();
-
-        $output["treasureDrop"] = count($treasureInfo) > 0 ? $treasureInfo : null;
-
-        return $output;
     }
 
-    public function WeaponSearch(array $searchTerms)
+    private function getWeaponSearchMainQuery(array $searchTerms)
     {
-
-        $serverType = 1;
-        $serverCon = "item_misc.server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
-
-        $output = array(
-            "weaponInfo" => null,
-            "weaponSpecial" => null
-        );
-
-        $mainQuery = ItemMain::leftJoin('item_weapon', 'item_main.id', '=', 'item_weapon.id')
+        $serverCon = "item_misc.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemMain::leftJoin('item_weapon', 'item_main.id', '=', 'item_weapon.id')
         ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
         ->when((!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true") || !is_null($searchTerms["effect"]), function($query){
             return $query->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
@@ -808,8 +746,13 @@ class ItemRepository
             }
         })
         ->distinct();
+    }
 
-        $weaponInfo = $mainQuery->select(
+    public function getWeaponInfoByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getWeaponSearchMainQuery($searchTerms);
+
+        return $mainQuery->select(
             'item_main.id',
             'name',
             'weight',
@@ -823,61 +766,17 @@ class ItemRepository
             'matk2'
         )
         ->get();
+    }
 
-        $output["weaponInfo"] = $weaponInfo;
-        
-        if(!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true")
-        {
-            $weaponSpecialList = array();
+    public function getWeaponSpecialByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getWeaponSearchMainQuery($searchTerms);
 
-            $weaponSpecial = $mainQuery->select(
-                'item_main.id',
-                'special',
-                'description'
-            )
-            ->get()->all();
-
-            $weaponTemporal = array(
-                "description" => null,
-                "special" => array()
-            );
-            while($item = current($weaponSpecial))
-            {
-                $nextItem = next($weaponSpecial);
-
-                if(is_null($weaponTemporal["description"]))
-                {
-                    $weaponTemporal["description"] = $item->description;
-                }
-                
-                if(!is_null($item->special))
-                {
-                    array_push($weaponTemporal["special"], $item->special);
-                }
-                
-                if($nextItem)
-                {
-                    if($item->id !== $nextItem->id)
-                    {
-                        $weaponSpecialList[$item->id] = $weaponTemporal;
-                        $weaponTemporal = array(
-                            "description" => null,
-                            "special" => array()
-                        );
-                    }
-                }
-                else
-                {
-                    $weaponSpecialList[$item->id] = $weaponTemporal;
-                    $weaponTemporal = array(
-                        "description" => null,
-                        "special" => array()
-                    );
-                }
-            }
-            $output["weaponSpecial"] = $weaponSpecialList;
-        }
-
-        return $output;
+        return $mainQuery->select(
+            'item_main.id',
+            'special',
+            'description'
+        )
+        ->get();
     }
 }
