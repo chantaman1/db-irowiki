@@ -1347,4 +1347,114 @@ class ItemRepository
         )
         ->get();
     }
+
+    public function getCardSearchByInputs(array $searchTerms)
+    {
+        $serverCon = "item_misc.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+
+        $filteredIds = ItemMain::select(
+            'item_main.id'
+        )
+        ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
+        ->leftJoin('item_adjective', 'item_main.id', '=', 'item_adjective.id')
+        ->when(!is_null($searchTerms["type"]) && $searchTerms["type"] !== "0", function($query) use($searchTerms){
+            return $query->where('subcat', '=', intval($searchTerms["type"]));
+        })
+        ->when(!is_null($searchTerms["name"]), function ($query) use($searchTerms){
+            $names = explode(';', $searchTerms["name"]);
+            return $query->where(function($sub) use($names){
+                foreach($names as $name){
+                    $sub->orWhere('name', 'LIKE', '%' . $name . '%');
+                }
+            });
+        })
+        ->when(!is_null($searchTerms["adjective"]), function ($query) use($searchTerms){
+            $adjectives = explode(';', $searchTerms["adjective"]);
+            return $query->where(function($sub) use($adjectives){
+                foreach($adjectives as $adjective){
+                    $sub->orWhere('adjective', 'LIKE', '%' . $adjective . '%');
+                }
+            });
+        })
+        ->when(!is_null($searchTerms["effect"]), function ($query) use($searchTerms){
+            $effects = explode(';', $searchTerms["effect"]);
+            return $query->where(function($sub) use($effects){
+                foreach($effects as $effect){
+                    $sub->orWhere('item_special.special', 'LIKE', '%' . $effect . '%');
+                }
+            });
+        })
+        ->where(function($version) {
+            $version->where('item_special.version', '=', 0)
+            ->orWhere('item_special.version', '=', 2);
+        })
+        ->where('item_special.type', '=', 1)
+        ->where('category', '=', 3)
+        ->where('visible2', '=', 1)
+        ->whereRaw(DB::raw($serverCon))
+        ->distinct()
+        ->get()
+        ->pluck('id')
+        ->all();
+
+        return ItemMain::select(
+            'item_main.id',
+            'name',
+            'subcat',
+            'special',
+            'adjective',
+            'item_special.grp',
+            'item_special.num'
+        )
+        ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
+        ->leftJoin('item_adjective', 'item_main.id', '=', 'item_adjective.id')
+        ->where(function($version) {
+            $version->where('item_special.version', '=', 0)
+            ->orWhere('item_special.version', '=', 2);
+        })
+        ->where('item_special.type', '=', 1)
+        ->where('category', '=', 3)
+        ->where('visible2', '=', 1)
+        ->whereRaw(DB::raw($serverCon))
+        ->whereIn('item_main.id', $filteredIds)
+        ->when(true, function($query) use($searchTerms){
+            if(!is_null($searchTerms["sort"]))
+            {
+                try
+                {
+                    list($sortT, $sortD) = explode(',', $searchTerms["sort"]);
+
+                    if($sortT !== "1")
+                    {
+                        return $query->orderBy(ItemHelpers::getSQLCardSort($sortT), $sortD === "1" ? 'asc' : 'desc')
+                        ->orderBy('name')
+                        ->orderBy('item_special.grp')
+                        ->orderBy('item_special.num');
+                    }
+                    else
+                    {
+                        return $query->orderBy(ItemHelpers::getSQLCardSort($sortT), $sortD === "1" ? 'asc' : 'desc')
+                        ->orderBy('item_special.grp')
+                        ->orderBy('item_special.num');
+                    }
+                }
+                catch(\Exception)
+                {
+                    return $query->orderBy('name', 'asc')
+                    ->orderBy('item_special.grp')
+                    ->orderBy('item_special.num');
+                }
+            }
+            else
+            {
+                return $query->orderBy('name', 'asc')
+                ->orderBy('item_special.grp')
+                ->orderBy('item_special.num');
+            }
+        })
+        ->distinct()
+        ->get();
+    }
 }

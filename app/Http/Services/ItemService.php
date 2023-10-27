@@ -446,4 +446,105 @@ class ItemService
 
         return $output;
     }
+
+    public function CardSearch(array $inputs)
+    {
+        $itemRepository = new ItemRepository();
+
+        $output = array();
+        $cards = $itemRepository->getCardSearchByInputs($inputs)->all();
+
+        $cardOutput = array(
+            "id" => null,
+            "name" => null,
+            "adjective" => null,
+            "subcat" => null,
+            "groupMain" => array(),
+            "groupList" => array()
+        );
+
+        while($card = current($cards))
+        {
+            $nextCard = next($cards);
+
+            if(is_null($cardOutput["id"]))
+            {
+                $cardOutput["id"] = $card->id;
+            }
+
+            if(is_null($cardOutput["name"]))
+            {
+                $cardOutput["name"] = $card->name;
+            }
+
+            if(is_null($cardOutput["adjective"]))
+            {
+                $cardOutput["adjective"] = $card->adjective;
+            }
+
+            if(is_null($cardOutput["subcat"]))
+            {
+                $cardOutput["subcat"] = $card->subcat;
+            }
+
+            if($nextCard)
+            {
+                if($card->id === $nextCard->id)
+                {
+                    if($card->grp === 0 || ($card->grp > 0 && $card->num === 0))
+                    {
+                        array_push($cardOutput["groupMain"], array("grp" => $card->grp, "special" => $card->special));
+                    }
+                    else
+                    {
+                        array_push($cardOutput["groupList"], array("grp" => $card->grp, "special" => $card->special));
+                    }
+                }
+                else
+                {
+                    if($card->grp === 0 || ($card->grp > 0 && $card->num === 0))
+                    {
+                        array_push($cardOutput["groupMain"], array("grp" => $card->grp, "special" => $card->special));
+                    }
+                    else
+                    {
+                        array_push($cardOutput["groupList"], array("grp" => $card->grp, "special" => $card->special));
+                    }
+
+                    array_push($output, $cardOutput);
+                    $cardOutput = array(
+                        "id" => null,
+                        "name" => null,
+                        "adjective" => null,
+                        "subcat" => null,
+                        "groupMain" => array(),
+                        "groupList" => array()
+                    );
+                }
+            }
+            else
+            {
+                if($card->grp === 0 || ($card->grp > 0 && $card->num === 0))
+                {
+                    array_push($cardOutput["groupMain"], array("grp" => $card->grp, "special" => $card->special));
+                }
+                else
+                {
+                    array_push($cardOutput["groupList"], array("grp" => $card->grp, "special" => $card->special));
+                }
+
+                array_push($output, $cardOutput);
+                $cardOutput = array(
+                    "id" => null,
+                    "name" => null,
+                    "adjective" => null,
+                    "subcat" => null,
+                    "groupMain" => array(),
+                    "groupList" => array()
+                );
+            }
+        }
+
+        return $output;
+    }
 }

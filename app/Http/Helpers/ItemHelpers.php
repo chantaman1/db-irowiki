@@ -397,6 +397,12 @@ class ItemHelpers
         elseif ($sortType === "6") return "price";
     }
 
+    public static function getSQLCardSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "subcat";
+    }
+
     public static function getSortType(string|null $sort)
     {
         $defaultValue = "1";

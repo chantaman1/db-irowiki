@@ -44,7 +44,7 @@ Route::get('/db/weapon-search/', [ItemController::class, 'WeaponSearch']);
 Route::get('/db/gear-search/', [ItemController::class, 'GearSearch']);
 Route::get('/db/costume-search/', [ItemController::class, 'CostumeSearch']);
 Route::get('/db/consume-search/', [ItemController::class, 'ConsumeSearch']);
-
+Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
 
 /*
 |--------------------------------------------------------------------------

@@ -152,4 +152,26 @@ class ItemController extends Controller
 
         return view('item/consume-search', ['inputs' => $inputs, 'data' => $results]);
     }
+
+    public function CardSearch(Request $request)
+    {
+        $results = null;
+
+        # inputs from URL parameter
+        $inputs = array(
+            "name" => $request->get('name', null),
+            "effect" => $request->get('effect', null),
+            "adjective" => $request->get('adjective', null),
+            "type" => $request->get('type', null),
+            "sort" => $request->get('sort', null)
+        );
+
+        # avoid getting all the items if not needed at startup
+        if(array_filter($inputs))
+        {
+            $results = (new ItemService)->CardSearch($inputs);
+        }
+
+        return view('item/card-search', ['inputs' => $inputs, 'data' => $results]);
+    }
 }
