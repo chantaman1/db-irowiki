@@ -116,7 +116,7 @@ class ItemRepository
     public function getItemMenuCat(int|null $id = null)
     {
         if ($id !== null) {
-            $itemMenuCat = Category::select('name', 'category', 'subcat')
+            return Category::select('name', 'category', 'subcat')
                 ->where('type', '=', 'item')
                 ->where('category', '=', $id)
                 ->where('subcat', '=', 0)
@@ -124,16 +124,14 @@ class ItemRepository
                 ->orderBy('category', 'asc')
                 ->orderBy('subcat', 'asc')
                 ->get();
-            return $itemMenuCat;
         } else {
-            $itemMenuCat = Category::select('name', 'category', 'subcat')
+            return Category::select('name', 'category', 'subcat')
                 ->where('type', '=', 'item')
                 ->where('subcat', '=', 0)
                 ->where('version', '!=', 3)
                 ->orderBy('category', 'asc')
                 ->orderBy('subcat', 'asc')
                 ->get();
-            return $itemMenuCat;
         }
     }
 

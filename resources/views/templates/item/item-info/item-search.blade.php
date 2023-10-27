@@ -1,17 +1,17 @@
 <tr>
     <td class="padded nowrap" style="width:70%;">
         <form class="blockNormal" onsubmit="return changeItemPage();">
-            <select name="categoryMenu" id="categoryMenu" style="width:120px;">
+            <select name="categoryMenu" id="categoryMenu" style="width:120px;" onchange="onCategoryChange({{ $menuSubCat }})" >
+                <option value="0">(All)</option>
                 @if (!is_null($menuCatData))
-                    <option value="0">(All)</option>
                     @foreach ($menuCatData as $cat)
                         <option value="{{ $cat->category }}">{{ $cat->name }}</option>
                     @endforeach
                 @endif
             </select>
-            <select id="subcatMenu" style="width:120px;">
+            <select id="subcatMenu" style="width:120px;" >
+                <option value="0">(All)</option>
                 @if (!is_null($menuSubCat))
-                    <option value="0">(All)</option>
                     @foreach ($menuSubCat as $subcat)
                         <option value="{{ $subcat->category }}">{{ $subcat->name }}</option>
                     @endforeach
