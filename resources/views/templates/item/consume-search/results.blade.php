@@ -36,12 +36,24 @@
                             <td class="bgLtRow1 padded"><a href="/db/item-info/{{ $item->id }}/">{{ $item->name }}</a></td>
                             <td class="bgLtRow2 padded">{{ $item->weight / 10 }}</td>
                             <td class="bgLtRow1 padded">{{ $item->reqlv }}</td>
-                            <td class="bgLtRow1 padded">{{ $item->hp }}</td>
-                            <td class="bgLtRow1 padded">{{ $item->sp }}</td>
-                            <td class="bgLtRow1 padded">{{ $item->price }}</td>
+                            @if ($item->hpMin < $item->hpMax)
+                                <td class="bgLtRow2 padded">{{ $item->hpMin }} ~ {{ $item->hpMax }}</td>
+                            @elseif ($item->hpMin > 0)
+                                <td class="bgLtRow2 padded">{{ $item->hpMin }}</td>
+                            @else
+                                <td class="bgLtRow2 padded">0</td>
+                            @endif
+                            @if ($item->spMin < $item->spMax)
+                                <td class="bgLtRow1 padded">{{ $item->spMin }} ~ {{ $item->spMax }}</td>
+                            @elseif ($item->spMin > 0)
+                                <td class="bgLtRow1 padded">{{ $item->spMin }}</td>
+                            @else
+                                <td class="bgLtRow1 padded">0</td>
+                            @endif
+                            <td class="bgLtRow2 padded">{{ $item->price }}</td>
+                            <td class="bgLtRow1 padded centered"><img src="https://db.irowiki.org/image/{{ $item->spot ? "yes" : "no" }}.png"></td>
                             <td class="bgLtRow2 padded centered"><img src="https://db.irowiki.org/image/{{ $item->buyable ? "yes" : "no" }}.png"></td>
-                            <td class="bgLtRow1 padded centered"><img src="https://db.irowiki.org/image/{{ $item->buyshop ? "yes" : "no" }}.png"></td>
-                            <td class="bgLtRow2 padded">{{ ItemHelper::getBindingName($item->binding) }}</td>
+                            <td class="bgLtRow1 padded">{{ ItemHelper::getBindingName($item->binding) }}</td>
                         </tr>
                         @if (!is_null($consumeSpecial) && count($consumeSpecial) > 0)
                             <tr>

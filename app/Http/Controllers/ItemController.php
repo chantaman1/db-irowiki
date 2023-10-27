@@ -147,7 +147,7 @@ class ItemController extends Controller
         # avoid getting all the items if not needed at startup
         if(array_filter($inputs))
         {
-            #$results = (new ItemService)->CostumeSearch($inputs);
+            $results = (new ItemService)->ConsumeSearch($inputs);
         }
 
         return view('item/consume-search', ['inputs' => $inputs, 'data' => $results]);

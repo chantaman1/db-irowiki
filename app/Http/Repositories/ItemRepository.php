@@ -1173,4 +1173,178 @@ class ItemRepository
         )
         ->get();
     }
+
+    private function getConsumeSearchMainQuery(array $searchTerms)
+    {
+        $serverCon = "item_misc.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return ItemMain::leftJoin('item_heal', 'item_main.id', '=', 'item_heal.id')
+        ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+        ->leftJoin('shop_item', 'item_main.id', '=', 'shop_item.item')
+        ->when((!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true") || !is_null($searchTerms["effect"]), function($query){
+            return $query->leftJoin('item_special', 'item_main.id', '=', 'item_special.id')
+            ->where(function($sub){
+                return $sub->where('item_special.type', '=', 1)
+                ->orWhereNull('item_special.type');
+            });
+        })
+        ->when(!is_null($searchTerms["detailed"]) && $searchTerms["detailed"] === "true", function($query){
+            return $query->where(function($sub){
+                return $sub->where('item_special.version', '=', 0)
+                ->orWhere('item_special.version', '=', 2)
+                ->orWhereNull('item_special.version');
+            });
+        })
+        ->when(!is_null($searchTerms["type"]) && $searchTerms["type"] !== "0", function($query) use($searchTerms){
+            return $query->where('subcat', '=', intval($searchTerms["type"]));
+        })
+        ->when(!is_null($searchTerms["name"]), function ($query) use($searchTerms){
+            $names = explode(';', $searchTerms["name"]);
+            return $query->where(function($sub) use($names){
+                foreach($names as $name){
+                    $sub->orWhere('name', 'LIKE', '%' . $name . '%');
+                }
+            });
+        })
+        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
+            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        })
+        ->when(!is_null($searchTerms["binding"]), function($query) use($searchTerms){
+            return $query->where('binding', '=', $searchTerms["binding"]);
+        })
+        ->when(!is_null($searchTerms["npcbuyable"]) && $searchTerms["npcbuyable"] === "true", function($query) use($searchTerms){
+            return $query->whereNotNull('spot');
+        })
+        ->when(!is_null($searchTerms["buyshop"]) && $searchTerms["buyshop"] === "true", function($query) use($searchTerms){
+            return $query->where('buyable', '=', 1);
+        })
+        ->when(!is_null($searchTerms["hp"]), function($query) use($searchTerms){
+            list($opTp, $hp1, $hp2) = explode(',', $searchTerms["hp"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereRaw("((hpMin + hpMax) / 2) BETWEEN " . intval($hp1) . " AND " . intval($hp2));
+            }
+            elseif($opType >= 1)
+            {   
+                return $query->whereRaw("((hpMin + hpMax) / 2) " . ItemHelpers::getSQLOperationSymbol($opType) . " " . intval($hp1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["sp"]), function($query) use($searchTerms){
+            list($opTp, $sp1, $sp2) = explode(',', $searchTerms["sp"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereRaw("((spMin + spMax) / 2) BETWEEN " . intval($sp1) . " AND " . intval($sp2));
+            }
+            elseif($opType >= 1)
+            {   
+                return $query->whereRaw("((spMin + spMax) / 2) " . ItemHelpers::getSQLOperationSymbol($opType) . " " . intval($sp1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["price"]), function($query) use($searchTerms){
+            list($opTp, $p1, $p2) = explode(',', $searchTerms["price"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('item_misc.price', [intval($p1), intval($p2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('item_misc.price', ItemHelpers::getSQLOperationSymbol($opType), intval($p1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->when(!is_null($searchTerms["reqLv"]), function($query) use($searchTerms){
+            list($opTp, $lv1, $lv2) = explode(',', $searchTerms["reqLv"]);
+            $opType = intval($opTp);
+            if($opType === 6)
+            {
+                return $query->whereBetween('reqlv', [intval($lv1), intval($lv2)]);
+            }
+            elseif($opType >= 1)
+            {
+                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+            }
+            else
+            {
+                return null;
+            }
+        })
+        ->where('category', '=', 4)
+        ->where('item_misc.version', '!=', 3)
+        ->where('visible2', '=', 1)
+        ->whereRaw(DB::raw($serverCon))
+        ->when(true, function($query) use($searchTerms){
+            if(!is_null($searchTerms["sort"]))
+            {
+                try
+                {
+                    list($sortT, $sortD) = explode(',', $searchTerms["sort"]);
+
+                    if($sortT !== "1")
+                    {
+                        return $query->orderBy(ItemHelpers::getSQLConsumeSort($sortT), $sortD === "1" ? 'asc' : 'desc')
+                        ->orderBy('name');
+                    }
+                    else
+                    {
+                        return $query->orderBy(ItemHelpers::getSQLConsumeSort($sortT), $sortD === "1" ? 'asc' : 'desc');
+                    }
+                }
+                catch(\Exception)
+                {
+                    return $query->orderBy('name', 'asc');
+                }
+            }
+            else
+            {
+                return $query->orderBy('name', 'asc');
+            }
+        })
+        ->distinct();
+    }
+
+    public function getConsumeInfoByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getConsumeSearchMainQuery($searchTerms);
+
+        return $mainQuery->select(
+            'item_main.id',
+            'name',
+            'weight',
+            'reqlv',
+            'binding',
+            'hpMin',
+            'hpMax',
+            'spMin',
+            'spMax',
+            'price',
+            'buyable',
+            'spot'
+        )
+        ->get();
+    }
+
+    public function getConsumeSpecialByInputs(array $searchTerms)
+    {
+        $mainQuery = $this->getConsumeSearchMainQuery($searchTerms);
+
+        return $mainQuery->select(
+            'item_main.id',
+            'special',
+            'description'
+        )
+        ->get();
+    }
 }

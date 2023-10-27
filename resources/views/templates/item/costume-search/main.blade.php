@@ -91,9 +91,6 @@
                                 <td class="bgLtRow1 padded optArea">
                                     <select style="width:166px;" id="sort" name="sort">
                                         <option @selected(ItemHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "2") value="2">Slots</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "3") value="3">Def</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "4") value="4">MDef</option>
                                         <option @selected(ItemHelper::getSortType($inputs["sort"]) === "5") value="5">Weight</option>
                                         <option @selected(ItemHelper::getSortType($inputs["sort"]) === "6") value="6">Req'd Level</option>
                                         <option @selected(ItemHelper::getSortType($inputs["sort"]) === "7") value="7">Head Position</option>

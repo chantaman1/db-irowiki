@@ -387,6 +387,16 @@ class ItemHelpers
         elseif ($sortType === "7") return "position";
     }
 
+    public static function getSQLConsumeSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "weight";
+        elseif ($sortType === "3") return "reqlv";
+        elseif ($sortType === "4") return "hpMin";
+        elseif ($sortType === "5") return "spMin";
+        elseif ($sortType === "6") return "price";
+    }
+
     public static function getSortType(string|null $sort)
     {
         $defaultValue = "1";

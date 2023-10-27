@@ -385,4 +385,65 @@ class ItemService
 
         return $output;
     }
+
+    public function ConsumeSearch(array $inputs)
+    {
+        $itemRepository = new ItemRepository();
+
+        $output = array(
+            "consumeInfo" => null,
+            "consumeSpecial" => null
+        );
+
+        $output["consumeInfo"] = $itemRepository->getConsumeInfoByInputs($inputs);
+        
+        if(!is_null($inputs["detailed"]) && $inputs["detailed"] === "true")
+        {
+            $itemSpecialList = array();
+
+            $itemSpecial = $itemRepository->getConsumeSpecialByInputs($inputs)->all();
+
+            $itemTemporal = array(
+                "description" => null,
+                "special" => array()
+            );
+            while($item = current($itemSpecial))
+            {
+                $nextItem = next($itemSpecial);
+
+                if(is_null($itemTemporal["description"]))
+                {
+                    $itemTemporal["description"] = $item->description;
+                }
+                
+                if(!is_null($item->special))
+                {
+                    array_push($itemTemporal["special"], $item->special);
+                }
+                
+                if($nextItem)
+                {
+                    if($item->id !== $nextItem->id)
+                    {
+                        $itemSpecialList[$item->id] = $itemTemporal;
+                        $itemTemporal = array(
+                            "description" => null,
+                            "special" => array()
+                        );
+                    }
+                }
+                else
+                {
+                    $itemSpecialList[$item->id] = $itemTemporal;
+                    $itemTemporal = array(
+                        "description" => null,
+                        "special" => array()
+                    );
+                }
+            }
+            $output["consumeSpecial"] = $itemSpecialList;
+        }
+
+        return $output;
+    }
 }

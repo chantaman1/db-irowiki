@@ -23,8 +23,8 @@
                                 <td class="bgLtRow1 padded optArea">
                                     <select style="width:190px;" id="type" name="type">
                                         <option value="">(Any)</option>
-                                        @for ($ctr = 1; $ctr <= 8; $ctr++)
-                                            <option @selected(!is_null($inputs["type"]) && $ctr == $inputs["type"]) value="{{ $ctr }}">{{ ItemHelper::getItemTypeName(11, $ctr) }}</option>
+                                        @for ($ctr = 1; $ctr <= 6; $ctr++)
+                                            <option @selected(!is_null($inputs["type"]) && $ctr == $inputs["type"]) value="{{ $ctr }}">{{ ItemHelper::getItemTypeName(4, $ctr) }}</option>
                                         @endfor
                                     </select>
                                 </td>
@@ -48,12 +48,11 @@
                                 <td class="bgLtRow1 padded optArea">
                                     <select style="width:166px;" id="sort" name="sort">
                                         <option @selected(ItemHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "2") value="2">Slots</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "3") value="3">Def</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "4") value="4">MDef</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "5") value="5">Weight</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "6") value="6">Req'd Level</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "7") value="7">Head Position</option>
+                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "2") value="2">Weight</option>
+                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "3") value="3">Req'd Level</option>
+                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "4") value="4">HP</option>
+                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "5") value="5">SP</option>
+                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "6") value="6">Price</option>
                                     </select>
                                     <select style="width:70px;" id="sortDir" name="sortDir">
                                         <option @selected(ItemHelper::getSortDir($inputs["sort"]) === "1") value="1">Asc</option>
