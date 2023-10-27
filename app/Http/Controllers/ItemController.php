@@ -7,28 +7,29 @@ use App\Http\Services\ItemService;
 
 class ItemController extends Controller
 {
-    protected $menuCat = null;
-    protected $menuSubCat = null;
-
     public function InfoIndex(Request $request)
     {
-        $this->menuCat = (new ItemService)->MenuCategories();
-        $this->menuSubCat = (new ItemService)->MenuSubcategories();
+        $menuCat = (new ItemService)->MenuCategories();
+        $menuSubCat = (new ItemService)->MenuSubcategories();
+        $menuData = (new ItemService)->MenuData();
         return view('item/item-info', [
-            'menuCats' => $this->menuCat,
-            'subMenuCats' => $this->menuSubCat,
+            'menuCats' => $menuCat,
+            'subMenuCats' => $menuSubCat,
+            'menuData' => $menuData,
             'data' => null
         ]);
     }
 
     public function InfoSearch(Request $request, string|int $id)
     {
-        $this->menuCat = (new ItemService)->MenuCategories();
-        $this->menuSubCat = (new ItemService)->MenuSubcategories();
+        $menuCat = (new ItemService)->MenuCategories();
+        $menuSubCat = (new ItemService)->MenuSubcategories();
+        $menuData = (new ItemService)->MenuData();
         $itemData = (new ItemService)->itemInfo(preg_replace('/[^0-9]/', '', $id));
         return view('item/item-info', [
-            'menuCats' => $this->menuCat,
-            'subMenuCats' => $this->menuSubCat,
+            'menuCats' => $menuCat,
+            'subMenuCats' => $menuSubCat,
+            'menuData' => $menuData,
             'data' => $itemData
         ]);
     }

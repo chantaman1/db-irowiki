@@ -74,8 +74,8 @@
                     <table class="bgLtTable">
                         <tbody>
                             <tr>
-                                <td class="bgLtRow4 padded optCaption">HP</td>
-                                <td class="bgLtRow2 padded optArea">
+                                <td class="bgLtRow3 padded optCaption">HP</td>
+                                <td class="bgLtRow1 padded optArea">
                                     <select style="width:80px;" id="hpCon" name="hpCon" onchange="adjustAttrText('reqlv');">
                                         <option @selected(ItemHelper::getOperationType($inputs["hp"]) === "1") value="1">=</option>
                                         <option @selected(ItemHelper::getOperationType($inputs["hp"]) === "2") value="2">&gt;</option>
@@ -114,8 +114,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="bgLtRow4 padded optCaption">Req'd Level</td>
-                                <td class="bgLtRow2 padded optArea">
+                                <td class="bgLtRow3 padded optCaption">Req'd Level</td>
+                                <td class="bgLtRow1 padded optArea">
                                     <select style="width:80px;" id="reqlvCon" name="reqlvCon" onchange="adjustAttrText('reqlv');">
                                         <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "1") value="1">=</option>
                                         <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "2") value="2">&gt;</option>
@@ -154,8 +154,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="bgLtRow4 padded optCaption">NPC Buyable</td>
-                                <td class="bgLtRow2 padded optArea">
+                                <td class="bgLtRow3 padded optCaption">NPC Buyable</td>
+                                <td class="bgLtRow1 padded optArea">
                                     <input type="checkbox" id="npcbuyable" name="npcbuyable" value="npcbuyable" {{ is_null($inputs["npcbuyable"]) ? '' : 'checked' }} />
                                 </td>
                             </tr>

@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@push('scripts')
+    <script src="{{ asset('js/item/item-info.js') }}"></script>
+@endpush
+
 @section('content')
     @if (is_null($data) || !is_null($data["item"]))
         <div class="bgMdTitle mdTitle">Item Info</div>

@@ -2,9 +2,11 @@
 
 @section('styles')
     <link href="{{ asset('/css/common-item-search.css') }}" rel="stylesheet">
-@section('scripts')
-    <script src="{{ asset('js/consume-search.js')}}"></script>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/item/consume-search.js') }}"></script>
+@endpush
 
 @section('content')
     @include('templates.item.consume-search.header')

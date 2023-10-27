@@ -122,6 +122,7 @@ class ItemRepository
                 ->where('subcat', '=', 0)
                 ->where('version', '!=', 3)
                 ->orderBy('category', 'asc')
+                ->orderBy('subcat', 'asc')
                 ->get();
             return $itemMenuCat;
         } else {
@@ -130,6 +131,7 @@ class ItemRepository
                 ->where('subcat', '=', 0)
                 ->where('version', '!=', 3)
                 ->orderBy('category', 'asc')
+                ->orderBy('subcat', 'asc')
                 ->get();
             return $itemMenuCat;
         }
@@ -138,22 +140,57 @@ class ItemRepository
     public function getSubMenuCat(int|null $id = null)
     {
         if ($id !== null) {
-            $itemSubMenuCat = Category::select('name', 'category', 'subcat')
+            return Category::select('name', 'category', 'subcat')
                 ->where('type', '=', 'item')
                 ->where('category', '=', $id)
                 ->where('subcat', '!=', 0)
                 ->where('version', '!=', 3)
                 ->orderBy('category', 'asc')
+                ->orderBy('subcat', 'asc')
                 ->get();
-            return $itemSubMenuCat;
         } else {
-            $itemSubMenuCat = Category::select('name', 'category', 'subcat')
+            return Category::select('name', 'category', 'subcat')
                 ->where('type', '=', 'item')
                 ->where('subcat', '!=', 0)
                 ->where('version', '!=', 3)
                 ->orderBy('category', 'asc')
+                ->orderBy('subcat', 'asc')
                 ->get();
-            return $itemSubMenuCat;
+        }
+    }
+
+    public function getMenuData(int|null $id = null)
+    {
+        if ($id !== null)
+        {
+            return ItemMain::select(
+                'item_main.id',
+                'name',
+                'category',
+                'subcat'
+            )
+            ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+            ->where('item_misc.version', '!=', 3)
+            ->where('visible2', '=', 1)
+            ->where('id', '=', $id)
+            ->orderBy('id')
+            ->distinct()
+            ->get();
+        }
+        else
+        {
+            return ItemMain::select(
+                'item_main.id',
+                'name',
+                'category',
+                'subcat'
+            )
+            ->leftJoin('item_misc', 'item_main.id', '=', 'item_misc.id')
+            ->where('item_misc.version', '!=', 3)
+            ->where('visible2', '=', 1)
+            ->orderBy('id')
+            ->distinct()
+            ->get();
         }
     }
 
@@ -599,8 +636,13 @@ class ItemRepository
                 }
             });
         })
-        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
-            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        ->when(!is_null($searchTerms["effect"]), function ($query) use($searchTerms){
+            $effects = explode(';', $searchTerms["effect"]);
+            return $query->where(function($sub) use($effects){
+                foreach($effects as $effect){
+                    $sub->orWhere('item_special.special', 'LIKE', '%' . $effect . '%');
+                }
+            });
         })
         ->when(!is_null($searchTerms["upgradable"]), function($query) use($searchTerms){
             return $query->where('upgrade', '=', $searchTerms["upgradable"]);
@@ -810,8 +852,13 @@ class ItemRepository
                 }
             });
         })
-        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
-            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        ->when(!is_null($searchTerms["effect"]), function ($query) use($searchTerms){
+            $effects = explode(';', $searchTerms["effect"]);
+            return $query->where(function($sub) use($effects){
+                foreach($effects as $effect){
+                    $sub->orWhere('item_special.special', 'LIKE', '%' . $effect . '%');
+                }
+            });
         })
         ->when(!is_null($searchTerms["upgradable"]), function($query) use($searchTerms){
             return $query->where('upgrade', '=', $searchTerms["upgradable"]);
@@ -1035,8 +1082,13 @@ class ItemRepository
                 }
             });
         })
-        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
-            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        ->when(!is_null($searchTerms["effect"]), function ($query) use($searchTerms){
+            $effects = explode(';', $searchTerms["effect"]);
+            return $query->where(function($sub) use($effects){
+                foreach($effects as $effect){
+                    $sub->orWhere('item_special.special', 'LIKE', '%' . $effect . '%');
+                }
+            });
         })
         ->when(!is_null($searchTerms["binding"]), function($query) use($searchTerms){
             return $query->where('binding', '=', $searchTerms["binding"]);
@@ -1205,8 +1257,13 @@ class ItemRepository
                 }
             });
         })
-        ->when(!is_null($searchTerms["effect"]), function($query) use($searchTerms){
-            return $query->where('item_special.special', 'LIKE', '%' . $searchTerms["effect"] . '%');
+        ->when(!is_null($searchTerms["effect"]), function ($query) use($searchTerms){
+            $effects = explode(';', $searchTerms["effect"]);
+            return $query->where(function($sub) use($effects){
+                foreach($effects as $effect){
+                    $sub->orWhere('item_special.special', 'LIKE', '%' . $effect . '%');
+                }
+            });
         })
         ->when(!is_null($searchTerms["binding"]), function($query) use($searchTerms){
             return $query->where('binding', '=', $searchTerms["binding"]);

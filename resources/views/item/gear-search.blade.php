@@ -2,9 +2,11 @@
 
 @section('styles')
     <link href="{{ asset('/css/common-item-search.css') }}" rel="stylesheet">
-@section('scripts')
-    <script src="{{ asset('js/gear-search.js')}}"></script>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/item/gear-search.js') }}"></script>
+@endpush
 
 @section('content')
     @include('templates.item.gear-search.header')

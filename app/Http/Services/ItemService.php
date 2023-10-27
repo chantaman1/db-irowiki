@@ -8,12 +8,17 @@ class ItemService
 {
     public function MenuCategories(int|null $id = null)
     {
-        return (new ItemRepository)->getItemMenuCat($id);
+        return (new ItemRepository)->getItemMenuCat($id)->all();
     }
 
     public function MenuSubcategories(int|null $id = null)
     {
-        return (new ItemRepository)->getSubMenuCat($id);
+        return (new ItemRepository)->getSubMenuCat($id)->all();
+    }
+
+    public function MenuData(int|null $id = null)
+    {
+        return (new ItemRepository)->getMenuData($id)->all();
     }
 
     public function ItemInfo(int|null $id = null)

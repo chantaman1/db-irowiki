@@ -17,7 +17,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/misc.js')}}"></script>
-    @yield('scripts')
+    @stack('scripts')
 </head>
 
 <body class="antialiased">

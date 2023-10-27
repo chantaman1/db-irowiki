@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@push('scripts')
+    <script src="{{ asset('js/main/search.js') }}"></script>
+@endpush
+
 @section('content')
 <div class="bgMdTitle mdTitle">Search</div>
 <table class="bgDkTable">
@@ -17,7 +21,7 @@
     <tbody>
         <tr>
             <td style="width:45%; vertical-align:top;">
-                <form onsubmit="return searchEngine();">
+                <form onsubmit="return process();">
                     <div class="bgSmTitle smTitle">Options</div>
                     <table class="bgLtTable">
                         <tbody>
