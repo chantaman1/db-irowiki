@@ -7,8 +7,13 @@ use App\Http\Repositories\ItemRepository;
 
 class ItemHelpers
 {
-    public static function formatSpecial(string $special)
+    public static function formatSpecial(string|null $special)
     {
+        if (is_null($special))
+        {
+            return "";
+        }
+
         $special = preg_replace("/\[race=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[element=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[size=(.*?)]/s", "[\\1]", $special);
@@ -109,14 +114,15 @@ class ItemHelpers
         elseif ($element == 8) return "Shadow";
         elseif ($element == 9) return "Ghost";
         elseif ($element == 10) return "Undead";
-        else return "??";
+        else return "(Unknown)";
     }
 
     public static function getBindingName(int $binding)
     {
-        if ($binding == 1) return "Account";
+        if ($binding == 0) return "Unbound";
+        elseif ($binding == 1) return "Account";
         elseif ($binding == 2) return "Character";
-        else return "??";
+        else return "--";
     }
 
     public static function getWeaponSizeMod(int $class, $size)
@@ -147,6 +153,72 @@ class ItemHelpers
         $sizes[22] = array(100, 100, 100);    // 2H Staff
 
         return $sizes[$class][$size - 1];
+    }
+
+    public static function getJobName(int $job)
+    {
+        if ($job == 1) return "Novice";
+        elseif ($job == 2) return "Swordman";
+        elseif ($job == 3) return "Merchant";
+        elseif ($job == 4) return "Thief";
+        elseif ($job == 5) return "Acolyte";
+        elseif ($job == 6) return "Mage";
+        elseif ($job == 7) return "Archer";
+        elseif ($job == 8) return "Knight";
+        elseif ($job == 9) return "Crusader";
+        elseif ($job == 10) return "Blacksmith";
+        elseif ($job == 11) return "Alchemist";
+        elseif ($job == 12) return "Assassin";
+        elseif ($job == 13) return "Rogue";
+        elseif ($job == 14) return "Priest";
+        elseif ($job == 15) return "Monk";
+        elseif ($job == 16) return "Wizard";
+        elseif ($job == 17) return "Sage";
+        elseif ($job == 18) return "Hunter";
+        elseif ($job == 19) return "Bard";
+        elseif ($job == 20) return "Dancer";
+        elseif ($job == 21) return "Super Novice";
+        
+        elseif ($job == 101) return "High Novice";
+        elseif ($job == 102) return "High Swordman";
+        elseif ($job == 103) return "High Merchant";
+        elseif ($job == 104) return "High Thief";
+        elseif ($job == 105) return "High Acolyte";
+        elseif ($job == 106) return "High Mage";
+        elseif ($job == 107) return "High Archer";
+        elseif ($job == 108) return "Lord Knight";
+        elseif ($job == 109) return "Paladin";
+        elseif ($job == 110) return "Mastersmith";
+        elseif ($job == 111) return "Biochemist";
+        elseif ($job == 112) return "Assassin Cross";
+        elseif ($job == 113) return "Stalker";
+        elseif ($job == 114) return "High Priest";
+        elseif ($job == 115) return "Champion";
+        elseif ($job == 116) return "High Wizard";
+        elseif ($job == 117) return "Scholar";
+        elseif ($job == 118) return "Sniper";
+        elseif ($job == 119) return "Minstrel";
+        elseif ($job == 120) return "Gypsy";
+        
+        elseif ($job == 208) return "Rune Knight";
+        elseif ($job == 209) return "Royal Guard";
+        elseif ($job == 210) return "Mechanic";
+        elseif ($job == 211) return "Genetic";
+        elseif ($job == 212) return "Guillotine Cross";
+        elseif ($job == 213) return "Shadow Chaser";
+        elseif ($job == 214) return "Arch Bishop";
+        elseif ($job == 215) return "Sura";
+        elseif ($job == 216) return "Warlock";
+        elseif ($job == 217) return "Sorcerer";
+        elseif ($job == 218) return "Ranger";
+        elseif ($job == 219) return "Minstrel";
+        elseif ($job == 220) return "Wanderer";
+        
+        elseif ($job == 301) return "Taekwon";
+        elseif ($job == 302) return "Taekwon Master";
+        elseif ($job == 303) return "Soul Linker";
+        elseif ($job == 304) return "Ninja";
+        elseif ($job == 305) return "Gunslinger";
     }
 
     public static function getDiscountPrice(int $price)
@@ -280,6 +352,203 @@ class ItemHelpers
             elseif (($job & pow(2, $jobId + 1)) === pow(2, $jobId + 1) && $reqlv <= 200 && $jobGroup === 4) return true;
             elseif (($job & pow(2, $jobId + 1)) === pow(2, $jobId + 1) && $jobGroup === 5) return true;
             else return false;
+        }
+    }
+
+    public static function getSQLOperationSymbol(int $opType)
+    {
+        if ($opType === 1) return "=";
+        elseif ($opType === 2) return ">";
+        elseif ($opType === 3) return "<";
+        elseif ($opType === 4) return ">=";
+        elseif ($opType === 5) return "<=";
+    }
+
+    public static function getSQLWeaponSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "slots";
+        elseif ($sortType === "3") return "atk";
+        elseif ($sortType === "4") return "matk2";
+        elseif ($sortType === "5") return "weight";
+        elseif ($sortType === "6") return "level";
+        elseif ($sortType === "7") return "reqlv";
+        elseif ($sortType === "8") return "element";
+    }
+
+    public static function getSQLGearSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "slots";
+        elseif ($sortType === "3") return "def2";
+        elseif ($sortType === "4") return "mdef2";
+        elseif ($sortType === "5") return "weight";
+        elseif ($sortType === "6") return "reqlv";
+        elseif ($sortType === "7") return "position";
+    }
+
+    public static function getSQLConsumeSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "weight";
+        elseif ($sortType === "3") return "reqlv";
+        elseif ($sortType === "4") return "hpMin";
+        elseif ($sortType === "5") return "spMin";
+        elseif ($sortType === "6") return "price";
+    }
+
+    public static function getSQLCardSort(string $sortType)
+    {
+        if ($sortType === "1") return "name";
+        elseif ($sortType === "2") return "subcat";
+    }
+
+    public static function getSortType(string|null $sort)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($sort))
+        {
+            try
+            {
+                list($sortType, $sortDir) = explode(",", $sort);
+                if(is_numeric($sortType) && intval($sortType) >= 1 && intval($sortType) <= 8)
+                {
+                    return $sortType;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+    
+    public static function getSortDir(string|null $sort)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($sort))
+        {
+            try
+            {
+                list($sortType, $sortDir) = explode(",", $sort);
+                if(is_numeric($sortDir) && intval($sortDir) >= 1 && intval($sortDir) <= 2)
+                {
+                    return $sortDir;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getHeadgearPosition(string|null $headgearPosition, int $pos)
+    {
+        if(!is_null($headgearPosition) && is_numeric($headgearPosition))
+        {
+            return (intval($headgearPosition) & pow(2, $pos - 1)) === pow(2, $pos - 1);
+        }
+        return false;
+    }
+
+    public static function getHeadgearType(string|null $position)
+    {
+        $defaultValue = "--";
+
+        if(!is_null($position))
+        {
+            if ($position === "1") return "Upper";
+            elseif ($position === "2") return "Middle";
+            elseif ($position === "3") return "Upper / Middle";
+            elseif ($position === "4") return "Lower";
+            elseif ($position === "5") return "Upper / Lower";
+            elseif ($position === "6") return "Middle / Lower";
+            elseif ($position === "7") return "All";
+            else return $defaultValue;
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getOperationType(string|null $operation)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($operation))
+        {
+            try
+            {
+                list($opType, $opt1, $op2) = explode(",", $operation);
+                if(is_numeric($opType) && intval($opType) >= 1 && intval($opType) <= 6)
+                {
+                    return $opType;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getDataValue(string|null $data, int $pos)
+    {
+        $unknown = "";
+        if(!is_null($data))
+        {
+            try
+            {
+                list($opType, $val1, $val2) = explode(",", $data);
+                if($pos === 0 && !is_null($val1))
+                {
+                    return $val1;
+                }
+                elseif($pos === 1 && !is_null($val2))
+                {
+                    return $val2;
+                }
+                else
+                {
+                    return $unknown;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $unknown;
+            }
+        }
+        else
+        {
+            return $unknown;
         }
     }
 }

@@ -37,9 +37,14 @@ Route::get('/db/settings', [MainController::class, 'Settings']);
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/db/item-info', [ItemController::class, 'InfoIndex']);
+Route::get('/db/item-info/', [ItemController::class, 'InfoIndex']);
 Route::get('/db/item-info/{id}', [ItemController::class, 'InfoSearch']);
 
+Route::get('/db/weapon-search/', [ItemController::class, 'WeaponSearch']);
+Route::get('/db/gear-search/', [ItemController::class, 'GearSearch']);
+Route::get('/db/costume-search/', [ItemController::class, 'CostumeSearch']);
+Route::get('/db/consume-search/', [ItemController::class, 'ConsumeSearch']);
+Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
 
 /*
 |--------------------------------------------------------------------------
