@@ -31,4 +31,3 @@ class MonsterMain extends Model
     'date' => 'datetime'
   ];
 }
-

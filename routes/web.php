@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\MonsterController;
 use App\Http\Controllers\ToolController;
 
 /*
@@ -45,6 +46,15 @@ Route::get('/db/gear-search/', [ItemController::class, 'GearSearch']);
 Route::get('/db/costume-search/', [ItemController::class, 'CostumeSearch']);
 Route::get('/db/consume-search/', [ItemController::class, 'ConsumeSearch']);
 Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
+
+/*
+|--------------------------------------------------------------------------
+| Item Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
+Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,50 @@
+.monImage{
+	background-repeat:no-repeat;
+	background-position:center;
+	height:254px;
+}
+.eleInfo{
+	width:25%;
+}
+.statTitle{
+	width:22%;
+	white-space:nowrap;
+}
+.statText{
+	width:28%;
+	white-space:nowrap;
+}
+.baseStat{
+	width:16.6%;
+	white-space:nowrap;
+}
+.defStat{
+	float:left;
+}
+.defPercent{
+	float:right;
+	padding-right:3px;
+}
+.dropImg{
+	width:2%;
+}
+.dropItem{
+	width:33%;
+}
+.dropRate{
+	width:13%;
+	text-align:right;
+}
+.dropDiv{
+	width:4%;
+}
+td.mapInfo{
+	width:20%;
+}
+.mapImage{
+	width:20%;
+	padding:2px;
+}
+td.mapSpawns{
+	width:80%;
+}

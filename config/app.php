@@ -214,7 +214,9 @@ return [
         'BBCode' => PheRum\BBCode\Facades\BBCode::class,
         'SearchHelper' =>   App\Http\Helpers\SearchHelpers::class,
         'ItemHelper' =>   App\Http\Helpers\ItemHelpers::class,
+        'MonsterHelper' =>   App\Http\Helpers\MonsterHelpers::class,
         'ToolHelper' =>   App\Http\Helpers\ToolHelpers::class,
+        'MiscHelper' =>   App\Http\Helpers\MiscHelpers::class,
     ])->toArray(),
 
 ];
