@@ -255,4 +255,124 @@ class MiscHelpers
         
         return $rate;
     }
+
+    public static function getSortType(string|null $sort)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($sort))
+        {
+            try
+            {
+                list($sortType, $sortDir) = explode(",", $sort);
+                if(is_numeric($sortType) && intval($sortType) >= 1 && intval($sortType) <= 20)
+                {
+                    return $sortType;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+    
+    public static function getSortDir(string|null $sort)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($sort))
+        {
+            try
+            {
+                list($sortType, $sortDir) = explode(",", $sort);
+                if(is_numeric($sortDir) && intval($sortDir) >= 1 && intval($sortDir) <= 2)
+                {
+                    return $sortDir;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getOperationType(string|null $operation)
+    {
+        $defaultValue = "1";
+
+        if(!is_null($operation))
+        {
+            try
+            {
+                list($opType, $opt1, $op2) = explode(",", $operation);
+                if(is_numeric($opType) && intval($opType) >= 1 && intval($opType) <= 6)
+                {
+                    return $opType;
+                }
+                else
+                {
+                    return $defaultValue;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $defaultValue;
+            }
+        }
+        else
+        {
+            return $defaultValue;
+        }
+    }
+
+    public static function getDataValue(string|null $data, int $pos)
+    {
+        $unknown = "";
+        if(!is_null($data))
+        {
+            try
+            {
+                list($opType, $val1, $val2) = explode(",", $data);
+                error_log("OP: " . $opType ." VAL1: ". $val1 ." VAL2: ". $val2);
+                if($pos === 0 && !is_null($val1))
+                {
+                    return $val1;
+                }
+                elseif($pos === 1 && !is_null($val2))
+                {
+                    return $val2;
+                }
+                else
+                {
+                    return $unknown;
+                }
+            }
+            catch(\Exception $e)
+            {
+                return $unknown;
+            }
+        }
+        else
+        {
+            return $unknown;
+        }
+    }
 }

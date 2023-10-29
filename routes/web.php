@@ -56,6 +56,8 @@ Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
 Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
 Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
 
+Route::get('/db/monster-search/', [MonsterController::class, 'MonsterSearch']);
+
 /*
 |--------------------------------------------------------------------------
 | Tool Routes

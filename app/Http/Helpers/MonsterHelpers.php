@@ -284,4 +284,12 @@ class MonsterHelpers
 
         return $modes;
     }
+
+    public static function isCategoryInType(string|int $category, int $type)
+    {
+        if(is_numeric($category)){
+            return ((intval($category) & pow(2, $type - 1)) === pow(2, $type - 1));
+        }
+        return false;
+    }
 }
