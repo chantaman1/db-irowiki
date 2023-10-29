@@ -155,15 +155,13 @@
                                         <option value="9" @selected(MiscHelper::getSortType($inputs["sort"]) === "9")>MDef</option>
                                         <option value="10" @selected(MiscHelper::getSortType($inputs["sort"]) === "10")>Base Exp</option>
                                         <option value="11" @selected(MiscHelper::getSortType($inputs["sort"]) === "11")>Job Exp</option>
-                                        <option value="12" @selected(MiscHelper::getSortType($inputs["sort"]) === "12")>Base Exp to HP Ratio</option>
-                                        <option value="13" @selected(MiscHelper::getSortType($inputs["sort"]) === "13")>Job Exp to HP Ratio</option>
-                                        <option value="14" @selected(MiscHelper::getSortType($inputs["sort"]) === "14")>95% Flee</option>
-                                        <option value="15" @selected(MiscHelper::getSortType($inputs["sort"]) === "15")>100% Hit</option>
-                                        <option value="16" @selected(MiscHelper::getSortType($inputs["sort"]) === "16")>Agi</option>
-                                        <option value="17" @selected(MiscHelper::getSortType($inputs["sort"]) === "17")>Vit</option>
-                                        <option value="18" @selected(MiscHelper::getSortType($inputs["sort"]) === "18")>Int</option>
-                                        <option value="19" @selected(MiscHelper::getSortType($inputs["sort"]) === "19")>Dex</option>
-                                        <option value="20" @selected(MiscHelper::getSortType($inputs["sort"]) === "20")>Luk</option>
+                                        <option value="12" @selected(MiscHelper::getSortType($inputs["sort"]) === "12")>95% Flee</option>
+                                        <option value="13" @selected(MiscHelper::getSortType($inputs["sort"]) === "13")>100% Hit</option>
+                                        <option value="14" @selected(MiscHelper::getSortType($inputs["sort"]) === "14")>Agi</option>
+                                        <option value="15" @selected(MiscHelper::getSortType($inputs["sort"]) === "15")>Vit</option>
+                                        <option value="16" @selected(MiscHelper::getSortType($inputs["sort"]) === "16")>Int</option>
+                                        <option value="17" @selected(MiscHelper::getSortType($inputs["sort"]) === "17")>Dex</option>
+                                        <option value="18" @selected(MiscHelper::getSortType($inputs["sort"]) === "18")>Luk</option>
                                     </select>
                                     <select style="width:70px;" id="sortDir">
                                         <option value="1" @selected(MiscHelper::getSortDir($inputs["sort"]) === "1")>Asc</option>

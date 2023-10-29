@@ -77,7 +77,7 @@ class MonsterController extends Controller
         # avoid getting all the items if not needed at startup
         if(array_filter($inputs))
         {
-            $results = null;
+            $results = (new MonsterService)->MonsterSearch($inputs);
         }
 
         return view('monster/monster-search', [

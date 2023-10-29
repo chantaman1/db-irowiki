@@ -78,4 +78,9 @@ class MonsterService
 
         return $output;
     }
+
+    public function MonsterSearch(array $searchTerms)
+    {
+        return (new MonsterRepository)->getMonstersByInputs($searchTerms);
+    }
 }

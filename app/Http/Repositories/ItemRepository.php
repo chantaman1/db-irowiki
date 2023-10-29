@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Helpers\MiscHelpers;
 use App\Http\Helpers\ItemHelpers;
 
 use App\Model\Category;
@@ -663,7 +664,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('atk', ItemHelpers::getSQLOperationSymbol($opType), intval($atk));
+                return $query->where('atk', MiscHelpers::getSQLOperationSymbol($opType), intval($atk));
             }
             else
             {
@@ -679,7 +680,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('matk2', ItemHelpers::getSQLOperationSymbol($opType), intval($matk));
+                return $query->where('matk2', MiscHelpers::getSQLOperationSymbol($opType), intval($matk));
             }
             else
             {
@@ -695,7 +696,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('slots', ItemHelpers::getSQLOperationSymbol($opType), intval($slot));
+                return $query->where('slots', MiscHelpers::getSQLOperationSymbol($opType), intval($slot));
             }
             else
             {
@@ -711,7 +712,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('level', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+                return $query->where('level', MiscHelpers::getSQLOperationSymbol($opType), intval($lv1));
             }
             else
             {
@@ -727,7 +728,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+                return $query->where('reqlv', MiscHelpers::getSQLOperationSymbol($opType), intval($lv1));
             }
             else
             {
@@ -898,7 +899,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('def2', ItemHelpers::getSQLOperationSymbol($opType), intval($def));
+                return $query->where('def2', MiscHelpers::getSQLOperationSymbol($opType), intval($def));
             }
             else
             {
@@ -914,7 +915,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('mdef2', ItemHelpers::getSQLOperationSymbol($opType), intval($mdef));
+                return $query->where('mdef2', MiscHelpers::getSQLOperationSymbol($opType), intval($mdef));
             }
             else
             {
@@ -930,7 +931,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('slots', ItemHelpers::getSQLOperationSymbol($opType), intval($slot));
+                return $query->where('slots', MiscHelpers::getSQLOperationSymbol($opType), intval($slot));
             }
             else
             {
@@ -946,7 +947,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+                return $query->where('reqlv', MiscHelpers::getSQLOperationSymbol($opType), intval($lv1));
             }
             else
             {
@@ -1122,7 +1123,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+                return $query->where('reqlv', MiscHelpers::getSQLOperationSymbol($opType), intval($lv1));
             }
             else
             {
@@ -1281,7 +1282,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {   
-                return $query->whereRaw("((hpMin + hpMax) / 2) " . ItemHelpers::getSQLOperationSymbol($opType) . " " . intval($hp1));
+                return $query->whereRaw("((hpMin + hpMax) / 2) " . MiscHelpers::getSQLOperationSymbol($opType) . " " . intval($hp1));
             }
             else
             {
@@ -1297,7 +1298,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {   
-                return $query->whereRaw("((spMin + spMax) / 2) " . ItemHelpers::getSQLOperationSymbol($opType) . " " . intval($sp1));
+                return $query->whereRaw("((spMin + spMax) / 2) " . MiscHelpers::getSQLOperationSymbol($opType) . " " . intval($sp1));
             }
             else
             {
@@ -1313,7 +1314,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('item_misc.price', ItemHelpers::getSQLOperationSymbol($opType), intval($p1));
+                return $query->where('item_misc.price', MiscHelpers::getSQLOperationSymbol($opType), intval($p1));
             }
             else
             {
@@ -1329,7 +1330,7 @@ class ItemRepository
             }
             elseif($opType >= 1)
             {
-                return $query->where('reqlv', ItemHelpers::getSQLOperationSymbol($opType), intval($lv1));
+                return $query->where('reqlv', MiscHelpers::getSQLOperationSymbol($opType), intval($lv1));
             }
             else
             {

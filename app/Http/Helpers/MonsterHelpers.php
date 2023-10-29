@@ -292,4 +292,27 @@ class MonsterHelpers
         }
         return false;
     }
+
+    public static function getSQLMonsterSearchSort(int $sortType)
+    {
+        if ($sortType === 1) return "monster_stat.level";
+        elseif ($sortType === 2) return "monster_main.name";
+        elseif ($sortType === 3) return "size";
+        elseif ($sortType === 4) return "race";
+        elseif ($sortType === 5) return "eleType";
+        elseif ($sortType === 6) return "hp";
+        elseif ($sortType === 7) return "atkMax";
+        elseif ($sortType === 8) return "def";
+        elseif ($sortType === 9) return "mdef";
+        elseif ($sortType === 10) return "expBase";
+        elseif ($sortType === 11) return "expJob";
+        elseif ($sortType === 12) return "(170 + `monster_stat`.`level` + `statDex`)";
+        elseif ($sortType === 13) return "(200 + `monster_stat`.`level` + `statAgi`)";
+        elseif ($sortType === 14) return "statAgi";
+        elseif ($sortType === 15) return "statVit";
+        elseif ($sortType === 16) return "statInt";
+        elseif ($sortType === 17) return "statDex";
+        elseif ($sortType === 18) return "statLuk";
+        else return "monster_stat.level";
+    }
 }

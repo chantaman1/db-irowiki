@@ -375,4 +375,13 @@ class MiscHelpers
             return $unknown;
         }
     }
+
+    public static function getSQLOperationSymbol(int $opType)
+    {
+        if ($opType === 1) return "=";
+        elseif ($opType === 2) return ">";
+        elseif ($opType === 3) return "<";
+        elseif ($opType === 4) return ">=";
+        elseif ($opType === 5) return "<=";
+    }
 }
