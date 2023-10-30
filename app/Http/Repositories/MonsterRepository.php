@@ -377,11 +377,11 @@ class MonsterRepository
             {
                 if($searchTerms["looter"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x4=0x4');
+                    return $query->whereRaw('(monster_stat.ai&0x4=0x4)');
                 }
                 elseif($searchTerms["looter"] === "0")
                 {
-                    return $query->whereRaw('ai&0x4=0x4');
+                    return $query->whereRaw('(monster_stat.ai&0x4!=0x4)');
                 }
                 else
                 {
@@ -398,11 +398,11 @@ class MonsterRepository
             {
                 if($searchTerms["assist"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x8=0x8');
+                    return $query->whereRaw('(monster_stat.ai&0x8=0x8)');
                 }
                 elseif($searchTerms["assist"] === "0")
                 {
-                    return $query->whereRaw('ai&0x8=0x8');
+                    return $query->whereRaw('(monster_stat.ai&0x8!=0x8)');
                 }
                 else
                 {
@@ -419,11 +419,11 @@ class MonsterRepository
             {
                 if($searchTerms["aggro"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x1=0x1 OR ai&0x2=0x2');
+                    return $query->whereRaw('(monster_stat.ai&0x1=0x1 OR monster_stat.ai&0x2=0x2)');
                 }
                 elseif($searchTerms["aggro"] === "0")
                 {
-                    return $query->whereRaw('ai&0x1=0x1 AND ai&0x2=0x2');
+                    return $query->whereRaw('(monster_stat.ai&0x1!=0x1 AND monster_stat.ai&0x2!=0x2)');
                 }
                 else
                 {
@@ -440,11 +440,11 @@ class MonsterRepository
             {
                 if($searchTerms["hyper"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x100=0x100');
+                    return $query->whereRaw('(monster_stat.ai&0x100=0x100)');
                 }
                 elseif($searchTerms["hyper"] === "0")
                 {
-                    return $query->whereRaw('ai&0x100=0x100');
+                    return $query->whereRaw('(monster_stat.ai&0x100!=0x100)');
                 }
                 else
                 {
@@ -461,11 +461,11 @@ class MonsterRepository
             {
                 if($searchTerms["ctarget"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x20=0x20 OR ai&0x40=0x40 OR ai&0x80=0x80');
+                    return $query->whereRaw('(monster_stat.ai&0x20=0x20 OR monster_stat.ai&0x40=0x40 OR monster_stat.ai&0x80=0x80)');
                 }
                 elseif($searchTerms["ctarget"] === "0")
                 {
-                    return $query->whereRaw('ai&0x20=0x20 AND ai&0x40=0x40 AND ai&0x80=0x80');
+                    return $query->whereRaw('(monster_stat.ai&0x20!=0x20 AND monster_stat.ai&0x40!=0x40 AND monster_stat.ai&0x80!=0x80)');
                 }
                 else
                 {
@@ -482,11 +482,11 @@ class MonsterRepository
             {
                 if($searchTerms["csensor"] === "1")
                 {
-                    return $query->orWhereRaw('ai&0x10=0x10');
+                    return $query->whereRaw('(monster_stat.ai&0x10=0x10)');
                 }
                 elseif($searchTerms["csensor"] === "0")
                 {
-                    return $query->whereRaw('ai&0x10=0x10');
+                    return $query->whereRaw('(monster_stat.ai&0x10!=0x10)');
                 }
                 else
                 {
@@ -503,11 +503,11 @@ class MonsterRepository
             {
                 if($searchTerms["mobile"] === "1")
                 {
-                    return $query->orWhereRaw('mode&0x1=0x1');
+                    return $query->whereRaw('(monster_stat.mode&0x1=0x1)');
                 }
                 elseif($searchTerms["mobile"] === "0")
                 {
-                    return $query->whereRaw('mode&0x1=0x1');
+                    return $query->whereRaw('(monster_stat.mode&0x1!=0x1)');
                 }
                 else
                 {
@@ -524,11 +524,11 @@ class MonsterRepository
             {
                 if($searchTerms["plant"] === "1")
                 {
-                    return $query->orWhereRaw('mode&0x4=0x4');
+                    return $query->whereRaw('(monster_stat.mode&0x4=0x4)');
                 }
                 elseif($searchTerms["plant"] === "0")
                 {
-                    return $query->whereRaw('mode&0x4=0x4');
+                    return $query->whereRaw('(monster_stat.mode&0x4!=0x4)');
                 }
                 else
                 {
@@ -545,11 +545,11 @@ class MonsterRepository
             {
                 if($searchTerms["boss"] === "1")
                 {
-                    return $query->orWhereRaw('mode&0x8=0x8');
+                    return $query->whereRaw('(monster_stat.mode&0x8=0x8)');
                 }
                 elseif($searchTerms["boss"] === "0")
                 {
-                    return $query->whereRaw('mode&0x8=0x8');
+                    return $query->whereRaw('(monster_stat.mode&0x8!=0x8)');
                 }
                 else
                 {
