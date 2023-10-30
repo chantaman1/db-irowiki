@@ -315,4 +315,87 @@ class MonsterHelpers
         elseif ($sortType === 18) return "statLuk";
         else return "monster_stat.level";
     }
+
+    public static function getExpMultiplier(int $exp, int $lvlDiff)
+    {
+        if($lvlDiff >= 16)
+        {
+            return $exp * 0.4;
+        }
+        elseif($lvlDiff === 15 || $lvlDiff === 5)
+        {
+            return $exp * 1.15;
+        }
+        elseif($lvlDiff === 14 || $lvlDiff === 6)
+        {
+            return $exp * 1.2;
+        }
+        elseif($lvlDiff === 13 || $lvlDiff === 7)
+        {
+            return $exp * 1.25;
+        }
+        elseif($lvlDiff === 12 || $lvlDiff === 8)
+        {
+            return $exp * 1.3;
+        }
+        elseif($lvlDiff === 13|| $lvlDiff === 9)
+        {
+            return $exp * 1.35;
+        }
+        elseif($lvlDiff === 10)
+        {
+            return $exp * 1.4;
+        }
+        elseif($lvlDiff === 4)
+        {
+            return $exp * 1.1;
+        }
+        elseif($lvlDiff === 3)
+        {
+            return $exp * 1.05;
+        }
+        elseif($lvlDiff <= 2 && $lvlDiff >= -5)
+        {
+            return $exp;
+        }
+        elseif($lvlDiff <= -6 && $lvlDiff >= -10)
+        {
+            return $exp * 0.95;
+        }
+        elseif($lvlDiff <= -11 && $lvlDiff >= -15)
+        {
+            return $exp * 0.9;
+        }
+        elseif($lvlDiff <= -16 && $lvlDiff >= -20)
+        {
+            return $exp * 0.85;
+        }
+        elseif($lvlDiff <= -21 && $lvlDiff >= -25)
+        {
+            return $exp * 0.6;
+        }
+        elseif($lvlDiff <= -26 && $lvlDiff >= -30)
+        {
+            return $exp * 0.35;
+        }
+        else
+        {
+            return $exp * 0.1;
+        }
+    }
+
+    public static function getExpTable(int $monsterLvl, int $expBase, int $expJob)
+    {
+        $levels = [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 ,1, 0, -1, -6, -11, -16, -21, -26, -31];
+        $bonuses = [40, 115, 120, 125, 130, 135, 140, 135, 130, 125, 120, 115, 110, 105, 100, 100, 100, 100, 95, 90, 85, 60, 35, 10];
+
+        $filteredLevels = array_filter($levels, fn ($level) => $monsterLvl - $level > 0);
+        $output = array();
+        foreach($filteredLevels as $index => $level)
+        {
+            array_push($output, ["level" => $monsterLvl - $level, "percent" => $bonuses[$index], "expBase" => self::getExpMultiplier($expBase, $level), "expJob" => self::getExpMultiplier($expJob, $level)]);
+        }
+
+        return $output;
+    }
 }

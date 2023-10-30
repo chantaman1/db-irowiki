@@ -68,6 +68,7 @@
                     <ul>
                         <li><a href="/db/monster-info/">Monster Info</a></li>
                         <li><a href="/db/monster-search/">Monster Search</a></li>
+                        <li><a href="/db/monster-skill/">Monster Skill</a></li>
                     </ul>
                 </div>
                 <div id="siteMenuArea4" class="siteMenuArea">

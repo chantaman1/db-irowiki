@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\MonsterService;
+use App\Http\Helpers\MonsterHelpers;
 
 class MonsterController extends Controller
 {
@@ -15,6 +16,7 @@ class MonsterController extends Controller
         return view('monster/monster-info', [
             'menuCategories' => $menuCategories,
             'submenuMonsters' => $menuMonsters,
+            'exp' => null,
             'data' => null
         ]);
     }
@@ -24,10 +26,16 @@ class MonsterController extends Controller
         $menuCategories = (new MonsterService)->MenuCategories();
         $menuMonsters = (new MonsterService)->MenuMonsters();
         $monsterInfo = (new MonsterService)->MonsterInfo(preg_replace('/[^0-9]/', '', $id));
+        $exp = null;
+        if(count($monsterInfo) > 0)
+        {
+            $exp = MonsterHelpers::getExpTable($monsterInfo["monster"]->level, $monsterInfo["monster"]->expBase, $monsterInfo["monster"]->expJob);
+        }
 
         return view('monster/monster-info', [
             'menuCategories' => $menuCategories,
             'submenuMonsters' => $menuMonsters,
+            'exp' => $exp,
             'data' => $monsterInfo
         ]);
     }
@@ -35,6 +43,7 @@ class MonsterController extends Controller
     public function MonsterSearch(Request $request)
     {
         $results = null;
+        $exp = null;
 
         # inputs from URL parameter
         $inputs = array(
@@ -83,6 +92,24 @@ class MonsterController extends Controller
         return view('monster/monster-search', [
             'inputs' => $inputs,
             'data' => $results
+        ]);
+    }
+
+    public function MonsterSkill(Request $request, string|null $id = null)
+    {
+        $menuCategories = (new MonsterService)->MenuCategories();
+        $menuMonsters = (new MonsterService)->MenuMonsters();
+        $monsterSkills = null;
+
+        if(!is_null($id))
+        {
+            $monsterSkills = null;
+        }
+
+        return view('monster/monster-skill', [
+            'menuCategories' => $menuCategories,
+            'submenuMonsters' => $menuMonsters,
+            'data' => $monsterSkills
         ]);
     }
 }

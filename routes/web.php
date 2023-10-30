@@ -57,6 +57,8 @@ Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
 Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
 
 Route::get('/db/monster-search/', [MonsterController::class, 'MonsterSearch']);
+Route::get('/db/monster-skill/', [MonsterController::class, 'MonsterSkill']);
+Route::get('/db/monster-skill/{id}', [MonsterController::class, 'MonsterSkill']);
 
 /*
 |--------------------------------------------------------------------------
