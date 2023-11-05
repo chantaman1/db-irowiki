@@ -54,3 +54,4 @@ xdebug.client_host=127.0.0.1
 }
 ```
 6. Put some breakpoints and run the debugger then start the web server with `php artisan serve`.
+7. Pro-tip: Use `@dd or @dd($variable)` to debug blade snippets.

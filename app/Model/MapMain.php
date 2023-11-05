@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class MapMain extends Model
 {
   protected $table = 'map_main';
-    protected $id;
-    protected $name;
-    protected $subname;
-    protected $category;
-    protected $bgm;
-    protected $world;
-    protected $oldmap;
-    protected $visible;
-    protected $visible2;
+  protected $id;
+  protected $name;
+  protected $subname;
+  protected $category;
+  protected $bgm;
+  protected $world;
+  protected $oldmap;
+  protected $visible;
+  protected $visible2;
 
 
   protected $fillable=[

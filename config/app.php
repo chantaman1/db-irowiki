@@ -215,6 +215,7 @@ return [
         'SearchHelper' =>   App\Http\Helpers\SearchHelpers::class,
         'ItemHelper' =>   App\Http\Helpers\ItemHelpers::class,
         'ToolHelper' =>   App\Http\Helpers\ToolHelpers::class,
+        'MapHelper' =>   App\Http\Helpers\MapHelpers::class,
     ])->toArray(),
 
 ];

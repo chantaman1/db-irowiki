@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ToolController;
 
@@ -45,6 +46,16 @@ Route::get('/db/gear-search/', [ItemController::class, 'GearSearch']);
 Route::get('/db/costume-search/', [ItemController::class, 'CostumeSearch']);
 Route::get('/db/consume-search/', [ItemController::class, 'ConsumeSearch']);
 Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Map Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/map-info/', [MapController::class, 'MapIndex']);
+Route::get('/db/map-info/{id}', [MapController::class, 'MapSearch']);
 
 /*
 |--------------------------------------------------------------------------

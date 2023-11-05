@@ -195,6 +195,7 @@ class ItemRepository
     public function getItemMainById(int $id)
     {
         $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        
         return ItemMain::select(
             'name',
             'item_main.id',

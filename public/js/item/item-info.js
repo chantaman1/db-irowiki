@@ -98,6 +98,7 @@ function setIndex(menuName, index){
 }
 
 function onCategoryChange(data){
+	console.log(data);
 	var selCategory = document.getElementById("categoryMenu").value;
 	var subCategoryMenu = document.getElementById("subcatMenu");
 	var filteredData = data;
