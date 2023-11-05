@@ -38,10 +38,11 @@
                         </td>
                     </tr>
                 </tbody>
-            </table><--SPAWNS-->
+            </table>
+            @include('templates.map.info.spawn.info', [ "groups" => $data["groupList"] ])
         @endif
     @else
-        @include('templates.map.map-info.map-error')
+        @include('templates.map.info.error')
     @endif
     @include('layout.footer')
 @endsection

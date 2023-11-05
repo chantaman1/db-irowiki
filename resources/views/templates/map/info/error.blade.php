@@ -7,7 +7,7 @@
                     <tbody>
                         <tr>
                             <td class="padded" style="font-size:11pt;">
-                                The item wasn't found in the database. Please contact us on Discord! <a href="https://irowiki.org/discord">https://irowiki.org/discord</a>
+                                The Map wasn't found in the database. Please contact us on Discord! <a href="https://irowiki.org/discord">https://irowiki.org/discord</a>
                             </td>
                         </tr>
                     </tbody>

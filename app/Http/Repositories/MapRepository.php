@@ -11,6 +11,8 @@ use App\Model\Category;
 use App\Model\MapMain;
 use App\Model\ShopMain;
 use App\Model\BGM;
+use App\Model\MapSpawn;
+use App\Model\MapGroup;
 
 class MapRepository
 {
@@ -85,7 +87,7 @@ class MapRepository
             )
             ->leftJoin('map_flag', 'map_flag.id', '=', 'map_main.id')
             ->where('map_main.id', '=', $mapID)
-            ->whereRaw(DB::raw($serverCon))
+            ->whereRaw($serverCon)
             ->orderBy('name', 'asc')
             ->first();
     }
@@ -108,16 +110,15 @@ class MapRepository
     public function getSpawnListGroupList(string $mapID)
     {
         return MapGroup::select('grp', 'name', 'note')
-            ->where('id', '=', $mapID)
-            ->first();
+            ->whereRaw('map_group.id=' . "'" . $mapID . "'")
+            ->get();
     }
 
     public function getSpawnList(string $mapID, string $grpCon)
     {
-        $serverCon = "server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
-
-        return DB::table('map_spawn')
-            ->select(
+        $serverCon = "`server`&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        
+        return MapSpawn::select(
                 'monster_main.id',
                 DB::raw(
                     'IF(
@@ -159,15 +160,15 @@ class MapRepository
                 '=',
                 'monster_stat.id'
             )
-            ->where('map_spawn.id', '=', $mapID)
-            ->where($grpCon)
+            ->whereRaw('map_spawn.id=' . "'" . $mapID . "'")
+            ->whereRaw($grpCon)
             ->where(function ($query) {
                 $query->where('map_spawn.version', '=', 0)
-                    ->orWhere('map_spawn.version', '=', 2);
+                ->orWhere('map_spawn.version', '=', 2);
             })
-            ->where('map_spawn.' . $serverCon)
+            ->whereRaw('`map_spawn`.' . $serverCon)
             ->where('monster_stat.version', '=', 2)
-            ->where('monster_stat.' . $serverCon)
+            ->whereRaw('`monster_stat`.' . $serverCon)
             ->groupBy('monster')
             ->orderBy('level', 'asc')
             ->orderBy('name2', 'asc')
@@ -177,24 +178,23 @@ class MapRepository
 
     public function getSpawnCount(string $mapID, string $grpID, int $monsterID)
     {
-        $serverCon = "server&".pow(2, $serverType - 1)."=".pow(2, $serverType - 1);
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
 
-        return DB::table('map_spawn')
-            ->select(DB::raw('COUNT(monster)'))
+        return MapSpawn::select('id')
             ->where('id', '=', $mapID)
             ->where('monster', '=', $monsterID)
+            ->where('grp', '=', $grpID)
             ->where(function ($query) {
                 $query->where('map_spawn.version', '=', 0)
                     ->orWhere('map_spawn.version', '=', 2);
             })
-            -whereRaw(DB::raw($serverCon))
-            ->get();
+            ->whereRaw($serverCon)
+            ->count();
     }       
 
     public function getExtraSpawnList(string $mapID, string $grpID, int $monsterID)
     {
-        return DB::table('map_spawn')
-            ->select('amount', 'time', 'flag')
+        return MapSpawn::select('amount', 'time', 'flag')
             ->where('id', $mapID)
             ->where('monster', $monsterID)
             ->where('grp', $grpID)
@@ -202,7 +202,7 @@ class MapRepository
                 $query->where('version', '=', 0)
                     ->orWhere('version', '=', 2);
             })
-            ->whereRaw(DB:raw($serverCon))
+            ->whereRaw($serverCon)
             ->where(function($query) use ($time){
                 if($time == null)
                     $query->whereNotNull('time');
