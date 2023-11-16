@@ -57,6 +57,8 @@ Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
 Route::get('/db/map-info/', [MapController::class, 'MapIndex']);
 Route::get('/db/map-info/{id}', [MapController::class, 'MapSearch']);
 
+Route::get('/db/newworld-map', [MapController::class, 'NewWorld']);
+
 /*
 |--------------------------------------------------------------------------
 | Tool Routes

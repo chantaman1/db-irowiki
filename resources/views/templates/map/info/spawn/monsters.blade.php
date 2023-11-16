@@ -2,9 +2,7 @@
     @foreach($monsters as $monster)
         @include('templates.map.info.spawn.monster', [ 
                 "rowSpan" => $monster['rowSpan'],
-                "ai" => $monster['ai'],
-                "id" => $monster['id'],
-                "name" => $monster['name'], 
+                "monster" => $monster['mob'],
                 "amount" => $monster['amount'],
                 "respawn" => $monster['respawn'],
                 "expBase" => $monster['expBase'],

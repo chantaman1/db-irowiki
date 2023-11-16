@@ -83,11 +83,16 @@ class MapHelpers
     {
         // $job (true -> job exp, false -> base exp) (for job manuals)
 
-        global $expRate, $boostManual, $VIP, $boostJob;
+        // global $expRate, $boostManual, $VIP, $boostJob;
         // $expRate = server rates (event)
         // $boostManual = 0 none, 150 - regular, 200 - HE, 300 - 3x
         // $VIP = 0 off, 50 on
         // $boostJob = 0 off, 1 on
+
+        $expRate = 100;
+        $VIP = 0;
+        $boostManual = 0;
+        $boostJob = 0;
 
         $mod = (100 + $VIP) * max(100, $boostManual) / 100;
 
@@ -146,46 +151,45 @@ class MapHelpers
 
     public static function formatRespawn($respawn)
     {
-        if ($respawn == NULL) return "--";
-        elseif ($respawn == -1) return "(Unknown)";
-        elseif ($respawn == 1) return "(Special)";
-        elseif ($respawn == 2) return "(Quest)";
-        elseif ($respawn == 0) return "Instantly";
-        else return "After ".formatTime($respawn);
+        if ($respawn === NULL) return "--";
+        elseif ($respawn === -1) return "(Unknown)";
+        elseif ($respawn === 1) return "(Special)";
+        elseif ($respawn === 2) return "(Quest)";
+        elseif ($respawn === 0) return "Instantly";
+        else return "After ". self::formatTime($respawn);
     }
     
     public static function shortName($name, $max = 24)
     {
-        if(strlen($name) > $max){
-            if (strpos($name, "[") !== false || strpos($name, "(") !== false){
-                $pos = strrpos(substr($name, 0, $max - 6), " ");
-                if ($pos === false) $pos = $max - 6;
-                
-                $pos2 = strpos($name, "[");
-                if ($pos2 === false) $pos2 = strpos($name, "(");
-                
-                $name2 = substr($name, 0, $pos)." ... ".substr($name, -(strlen($name) - $pos2));
-            }
-            else{
-                $pos = strrpos(substr($name, 0, $max), " ");
-                if ($pos === false) $pos = $max;
-                
-                $name2 = substr($name, 0, $pos)." ...";
-            }
-            
-            return $name2;
-        }
-        else
+        if(strlen($name) <= $max)
             return $name;
-    }
-    public static function monsterURL($id, $name)
-    {
-        if(strlen($name) > 24){
-            $name2 = shortName($name);
-            return array($name, $name2);
-        }
 
-        return array("", $name);
+        if (strpos($name, "[") !== false || strpos($name, "(") !== false){
+            $pos = strrpos(substr($name, 0, $max - 6), " ");
+            if ($pos === false) $pos = $max - 6;
+            
+            $pos2 = strpos($name, "[");
+            if ($pos2 === false) $pos2 = strpos($name, "(");
+            
+            $name2 = substr($name, 0, $pos)." ... ".substr($name, -(strlen($name) - $pos2));
+        }
+        else{
+            $pos = strrpos(substr($name, 0, $max), " ");
+            if ($pos === false) $pos = $max;
+            
+            $name2 = substr($name, 0, $pos)." ...";
+        }
+        
+        return $name2;
+    }
+
+    public static function shortenMonsterName($name)
+    {
+        if(strlen($name) <= 24)
+            return array("title" => "", "name" => $name);
+
+        $name2 = self::shortName($name);
+        return array("title" => $name, "name" => $name2);
     }
 
     public static function elementName($element)
