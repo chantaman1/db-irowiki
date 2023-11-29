@@ -1,5 +1,7 @@
-var mapInfo = $('#mapInfo')[0];
+var mapInfo = document.getElementById('mapInfo');
 var infoShown = false;
+
+document.onmousemove = function() { onMouseMove() }; 
 
 function mapIndex(map){
 	if (!map) return -1;
@@ -15,7 +17,7 @@ function mapIndex(map){
 function hideInfo() {
 	if (!mapInfo) return console.log('mapInfo not found');
 	
-	$(mapInfo).attr('style', 'visibility: hidden')
+	mapInfo.style.visibility = 'hidden';
 	infoShown = false;
 }
 
@@ -76,18 +78,18 @@ function showInfo(map_id){
 		}
     }
 
-    $(mapInfo).attr('style', 'width: 250px');
-    $(mapInfo).html(`
+    mapInfo.style.width = 250 + "px";
+    mapInfo.innerHTML = `
         ${code}
         <table class='bgLtTable'>
             <tbody>
                 ${tr}
             </tbody>
         </table>
-    `);
+    `;
 
     infoShown = true;
-    onMouseMove();
+	onMouseMove();
 }
 
 function onMouseMove(event){
@@ -134,15 +136,9 @@ function onMouseMove(event){
 	mapInfo.style.visibility = "visible";
 }
 
-$('map area').map(function(){
-    let map_id = $(this).attr('href').trim().split('/')[3];
-    $(this).on('mouseover', function(){
-        showInfo(map_id);
-    });
-    $(this).on('mouseout', function(){
-        hideInfo();
-    });
-    $(this).on('click', function(){
-        hideInfo();
-    });
-});
+for(let area of document.getElementsByTagName('area')){
+    let map_id = area.href.trim().split('/')[5];
+    area.onmouseover = function() { showInfo(map_id) };
+    area.onmouseout = function() { hideInfo() };
+    area.onclick = function() { hideInfo() };
+}
