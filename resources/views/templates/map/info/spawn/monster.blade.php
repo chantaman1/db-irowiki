@@ -1,13 +1,14 @@
 <tr>
     @php
         $color = MapHelper::toggleColor();
+        $mob = MapHelper::shortenMonsterName($monster->name2);
     @endphp
     <td class="bgLtRow{{ $color + 3 }} centered {{ $rowSpan }}">
-        @if (MapHelper::isAggressiveMonster($ai))
+        @if (MapHelper::isAggressiveMonster($monster->ai))
             <img src="https://db.irowiki.org/image/reddot.png" title="Aggresive">
-        @elseif (MapHelper::isAssistiveMonster($ai))
+        @elseif (MapHelper::isAssistiveMonster($monster->ai))
             <img src="https://db.irowiki.org/image/bluedot.png" title="Assist">
-        @elseif (MapHelper::isCastSensorMonster($ai))
+        @elseif (MapHelper::isCastSensorMonster($monster->ai))
             <img src="https://db.irowiki.org/image/purpledot.png" title="Cast sensor">
         @endif
     </td>
@@ -15,7 +16,11 @@
         {{ $level }}
     </td>
     <td class="bgLtRow{{ $color }} padded {{ $rowSpan }}">
-        {{ $name }}
+        @if (empty($mob['title']))
+            <a href="/db/monster-info/{{ $monster->id }}/">{{ $mob['name'] }}</a>
+        @else
+            <a href="/db/monster-info/{{ $monster->id }}/" title="{{ $mob['title'] }}"> {{ $mob['name'] }}</a>
+        @endif
     </td>
     <td class="bgLtRow{{ $color + 1 }} padded {{ $rowSpan }}">
         {{ $amount }}

@@ -21,7 +21,7 @@ class MapService
         return (new MapRepository)->getMenuData($id);
     }
 
-    public function mapInfo(int|string|null $id = null)
+    public function Info(int|string|null $id = null)
     {
         $mapRepository = new MapRepository();
         
@@ -42,7 +42,9 @@ class MapService
         
         if($map === null) return $output;
         
-        // Game Region logic not implemented yet!
+        // *************************************************
+        //      Game Region logic not implemented yet!
+        // *************************************************
         
         $bgm = $mapRepository->getMapBGM($map->bgm);
         if ($bgm !== null)
@@ -113,9 +115,7 @@ class MapService
                     $monsterInfo = array();
     
                     $monsterInfo['rowSpan'] = $spawnCount > 0 ? ("rowspan=" . $spawnCount) : "";
-                    $monsterInfo['ai'] = $monster->ai;
-                    $monsterInfo['id'] = $monster->id;
-                    $monsterInfo['name'] = $monster->name2;
+                    $monsterInfo['mob'] = $monster;
                     
                     $amount = DOUBLE_HYPHEN;
                     $respawn = DOUBLE_HYPHEN;
@@ -129,7 +129,9 @@ class MapService
     
                     $monsterInfo['amount'] = $amount;
                     $monsterInfo['respawn'] = $respawn;
-    
+                    
+                    $monsterInfo['expBase'] = 0;
+                    $monsterInfo['expJob'] = 0;
                     if ($monster->expBase > 0){
                         $monsterInfo['expBase'] = floor($monster->expBase*MapHelpers::expMod(FALSE));
                     }
@@ -183,7 +185,7 @@ class MapService
                     $extraMonsterInfo = array();
                     if ($spawnCount > 1)
                     {
-                        $extraSpawnList = $mapRepository->getExtraSpawnList($mapID, $data['grpID'], $monster->id);
+                        $extraSpawnList = $mapRepository->getExtraSpawnList($mapID, $data['grpID'], $monster->id, $monster->time);
                         
                         foreach($extraSpawnList as $extraMonster)
                         {
@@ -204,6 +206,7 @@ class MapService
                             );
                         }
                     }
+                    
                     $monsterInfo['extraMonsterInfo'] = $extraMonsterInfo;
                     
                     array_push($spawns, $monsterInfo);
@@ -216,11 +219,58 @@ class MapService
                         "spawns" => $spawns
                     )
                 );
-
             }
             $output['groupList'] = $groupList;
         }
 
         return $output;
+    }
+
+    public function NewWorld()
+    {
+        $mapRepository = new MapRepository();
+        
+        $worlds = $mapRepository->getWorldMapData();
+                
+        $mapData = [];
+
+        foreach($worlds as $world)
+        {
+            $worldSpawnData = $mapRepository->getWorldSpawnData($world->id);
+
+            $spawnDataCount = count($worldSpawnData);
+
+            $spawnList = array();
+            if($spawnDataCount)
+            {
+                if($spawnDataCount <= 30)
+                {
+                    foreach($worldSpawnData as $spawn)
+                    {
+                        if ($spawn->flag) $spawn->amount = -1;
+                        array_push($spawnList, array(
+                            "name" => $spawn->name2,
+                            "amount" => $spawn->amount    
+                        ));
+                    }
+                }
+                else
+                {
+                    array_push($spawnList, array(
+                        "name" => "",
+                        "amount" => 0  
+                    ));
+                }
+            }
+
+            $mapData[$world->id] = array(
+                "id" => $world->id,
+                "name" => $world->name,
+                "subname" => $world->subname,
+                "spawn" => $spawnList
+            );
+        }
+
+        return $mapData;
     }
 }

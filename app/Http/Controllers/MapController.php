@@ -22,11 +22,19 @@ class MapController extends Controller
     {
         $mapCategories = (new MapService)->MenuCategories();
         $maps = (new MapService)->MenuData();
-        $mapData = (new MapService)->mapInfo($id);
+        $mapData = (new MapService)->Info($id);
         return view('map/info', [
             'categoryMenu' => $mapCategories,
             'menuData' => $maps,
             'data' => $mapData
+        ]);
+    }
+
+    public function NewWorld()
+    {
+        $mapData = (new MapService)->NewWorld();
+        return view('map/new-world', [
+            "mapData" => $mapData
         ]);
     }
 }

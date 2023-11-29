@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @push('scripts')
-    <script src="{{ asset('js/map/map-info.js') }}"></script>
+    <script src="{{ asset('js/map/info.js') }}"></script>
 @endpush
 
 @section('content')

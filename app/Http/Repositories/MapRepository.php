@@ -192,7 +192,7 @@ class MapRepository
             ->count();
     }       
 
-    public function getExtraSpawnList(string $mapID, string $grpID, int $monsterID)
+    public function getExtraSpawnList(string $mapID, string $grpID, int $monsterID, int $time)
     {
         return MapSpawn::select('amount', 'time', 'flag')
             ->where('id', $mapID)
@@ -209,6 +209,52 @@ class MapRepository
                 else
                     $query->where('time', '!=', $time);
             })
+            ->get();
+    }
+
+    public function getWorldMapData()
+    {
+        // world & 1 = 1, you're checking if the first flag is on. This will be true when world is 1 or 3.
+        
+        return MapMain::select('id', 'name', 'subname')
+            ->whereRaw('world&1=1 AND visible2=1')
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    public function getWorldSpawnData(string $mapID)
+    {
+        $serverCon = "(version=0 OR version=2) AND server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+
+        return MapSpawn::select(
+                DB::raw('
+                    IF(
+                        map_spawn.name IS NOT NULL,
+                        map_spawn.name,
+                        monster_main.name
+                    ) AS name2
+                '),
+                DB::raw('SUM(map_spawn.amount) AS amount'),
+                'flag',
+                DB::raw('
+                    IF(
+                        monster_main.category=3,
+                        1,
+                        monster_main.category
+                    ) AS category2
+                ')
+            )
+            ->leftJoin(
+                'monster_main',
+                'monster_main.id',
+                '=',
+                'map_spawn.monster'
+            )
+            ->whereRaw('map_spawn.id=' . "'" . $mapID . "'")
+            ->whereRaw($serverCon)
+            ->groupBy('map_spawn.monster')
+            ->orderBy('category2', 'asc')
+            ->orderBy('name2', 'asc')
             ->get();
     }
 }

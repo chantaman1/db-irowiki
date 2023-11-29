@@ -6,7 +6,7 @@ function changeMapPage(){
 	return false;
 }
 
-function onMapCategoryChange(){
+function onMapCategoryChange(){ 
     var mapCategory = document.getElementById("categoryMenu").value;
     var mainMenu = document.getElementById("mainMenu");
     // console.log(maps);
