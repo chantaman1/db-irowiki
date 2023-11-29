@@ -16,7 +16,6 @@
     @yield('styles')
 
     <!-- Scripts -->
-    <script src="{{ asset('js/misc.js')}}"></script>
     @stack('scripts')
 </head>
 
@@ -108,6 +107,7 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/misc.js')}}"></script>
+    @stack('bottom-scripts')
 </body>
-
 </html>
