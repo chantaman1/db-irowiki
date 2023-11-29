@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class MonsterMeta extends Model
 {
-  protected $table = 'monster_meta';
+  protected $table = 'monster_Meta';
     protected $id;
     protected $monster;
     protected $amount;
     protected $num;
+
 
   protected $fillable=[
     'id', 'monster', 'amount', 'num'
@@ -23,3 +24,4 @@ class MonsterMeta extends Model
     'num' => 'integer'
   ];
 }
+

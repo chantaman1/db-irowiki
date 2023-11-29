@@ -24,9 +24,9 @@ class MonsterSkill extends Model
     protected $cond;
     protected $param;
 
+
   protected $fillable=[
-    'id', 'version', 'server', 'state', 'num', 'skill', 'level', 'target',
-    'chance', 'cast', 'delay', 'interupt', 'emote', 'mode', 'cond', 'param'
+    'id', 'version', 'server', 'state', 'num', 'skill', 'level', 'target', 'chance', 'cast', 'delay', 'interupt', 'emote', 'mode', 'cond', 'param'
   ];
 
   protected $casts = [
@@ -48,3 +48,4 @@ class MonsterSkill extends Model
     'param' => 'string'
   ];
 }
+

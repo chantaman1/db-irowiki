@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MonsterDrop extends Model
 {
-  protected $table = 'monster_drop';
+  protected $table = 'monster_Drop';
     protected $id;
     protected $type;
     protected $slot;
@@ -15,6 +15,7 @@ class MonsterDrop extends Model
     protected $item;
     protected $rate;
     protected $flag;
+
 
   protected $fillable=[
     'id', 'type', 'slot', 'version', 'server', 'item', 'rate', 'flag'
@@ -31,3 +32,4 @@ class MonsterDrop extends Model
     'flag' => 'integer'
   ];
 }
+
