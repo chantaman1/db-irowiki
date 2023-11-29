@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use Illuminate\Database\Eloquent\Collection;
 use App\Http\Repositories\MonsterRepository;
 
 class MonsterService
@@ -82,5 +81,30 @@ class MonsterService
     public function MonsterSearch(array $searchTerms)
     {
         return (new MonsterRepository)->getMonstersByInputs($searchTerms);
+    }
+
+    public function MonsterSkill(int $id)
+    {
+        $output = array(
+            "monsterNotes" => null,
+            "monsterStates" => array()
+        );
+        $monsterNotes = (new MonsterRepository)->getMonsterNotesById($id);
+
+        $output["monsterNotes"] = $monsterNotes;
+
+        for($state = 1; $state <= 10; $state++)
+        {
+            $infoSkill = (new MonsterRepository)->getMonsterInfoSkillByIdAndState($id, $state);
+            if(count($infoSkill) > 0)
+            {
+                $details = array(
+                    "state" => $state,
+                    "skills" => $infoSkill
+                );
+                array_push($output["monsterStates"], $details);
+            }
+        }
+        return $output;
     }
 }

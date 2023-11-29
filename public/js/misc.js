@@ -1,6 +1,6 @@
 function setTabSelect(name, selTab){
 	var entry, className;
-	
+
 	for (entry = 1; document.getElementById(name + "Tab" + entry); entry++){
 		document.getElementById(name + "Tab" + entry).className = "";
 		document.getElementById(name + "Area" + entry).style.display = "none";

@@ -1,4 +1,4 @@
-<div class="bgMdTitle mdTitle">Monster Info</div>
+<div class="bgMdTitle mdTitle">Monster Skill Details</div>
 <table class="bgDkRow2">
     <tbody>
         <tr>

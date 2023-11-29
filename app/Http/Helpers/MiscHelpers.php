@@ -5,6 +5,54 @@ namespace App\Http\Helpers;
 class MiscHelpers
 {
 
+    public static function formatTime($time)
+    {
+        if ($time === -1) return "(Unknown)";
+        if ($time === 0) return "--";
+        if ($time < 60)
+            return $time.($time == 1 ? " second" : " seconds");
+        elseif ($time < 3600 && ($time % 60) == 0)
+            return ($time / 60).($time == 60 ? " minute" : " minutes");
+        elseif ($time < 86400 && ($time % 3600) == 0)
+            return ($time / 3600).($time == 3600 ? " hour" : " hours");
+        
+        $days = 0;
+        $hours = 0;
+        $minutes = 0;
+        
+        if ($time >= 86400){
+            $days = floor($time / 86400);
+            $time -= $days * 86400;
+        }
+        if ($time >= 3600){
+            $hours = floor($time / 3600);
+            $time -= $hours * 3600;
+        }
+        if ($time >= 60){
+            $minutes = floor($time / 60);
+            $time -= $minutes * 60;
+        }
+        $seconds = $time;
+        
+        $timeText = "";
+        
+        if ($days > 0) $timeText = $days.($days == 1 ? " day" : " days");
+        if ($hours > 0){
+            if ($timeText) $timeText .= " ";
+            $timeText .= $hours.($hours == 1 ? " hour" : " hours");
+        }
+        if ($minutes > 0){
+            if ($timeText) $timeText .= " ";
+            $timeText .= "$minutes min";
+        }
+        if ($seconds > 0){
+            if ($timeText) $timeText .= " ";
+            $timeText .= "$seconds sec";
+        }
+        
+        return $timeText;
+    }
+
     public static function sizeName($size){
         if ($size == 1) return "Small";
         elseif ($size == 2) return "Medium";

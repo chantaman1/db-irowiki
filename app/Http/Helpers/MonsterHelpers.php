@@ -2,6 +2,7 @@
 
 namespace App\Http\Helpers;
 use App\Http\Helpers\MiscHelpers;
+use App\Http\Repositories\MonsterRepository;
 
 class MonsterHelpers
 {
@@ -397,5 +398,169 @@ class MonsterHelpers
         }
 
         return $output;
+    }
+
+    public static function getStateName(int $state)
+    {
+        switch($state)
+        {
+            case 1:
+                return "Idle";
+            case 2:
+                return "Moving";
+            case 3:
+                return "Looting";
+            case 4:
+                return "Chasing";
+            case 5:
+                return "Chasing, before being attacked";
+            case 6:
+                return "Chasing, after being attacked";
+            case 7:
+                return "Attacking";
+            case 8:
+                return "Attacking, before being attacked";
+            case 9:
+                return "Attacking, after being attacked";
+            case 10:
+                return "Dying";
+            default:
+                return "";
+        }
+    }
+
+    public static function getTargetName(int $target)
+    {
+        switch($target)
+        {
+            case 1:
+                return "Player";
+            case 2:
+                return "Self";
+            case 3:
+                return "Monster";
+            case 4:
+                return "Ground";
+            default:
+                return "";
+        }
+    }
+
+    public static function formatChance(int $chance)
+    {
+        if($chance === -1)
+        {
+            return "??";
+        }
+        else
+        {
+            return $chance / 100 . "%";
+        }
+    }
+
+    public static function getCastType(int $cast, int $interupt)
+    {
+        if($cast !== 0)
+        {
+            if($interupt === 1)
+            {
+                return "<img src=\"https://db.irowiki.org/image/greendot.png\" title=\"Cast can be interupted\">";
+            }
+            else if($interupt === 0)
+            {
+                return "<img src=\"https://db.irowiki.org/image/reddot.png\" title=\"Cast cannot be interupted\">";
+            }
+            else
+            {
+                return "&nbsp;";
+            }
+        }
+        else
+        {
+            return "&nbsp;";
+        }
+    }
+
+    public static function getMode(int $mode)
+    {
+        switch($mode)
+        {
+            case 1:
+                return "Changes back to its normal mode";
+            case 2:
+                return "Changes to passive mode";
+            case 3:
+                return "Changes to aggro mode";
+            case 4:
+                return "Changes to aggro mode";
+            case 5:
+                return "Changes to another mode";
+            default:
+                return "--";
+        }
+    }
+
+    public static function getCondition(int $condition, string $param)
+    {
+        $param1 = NULL;
+        $param2 = NULL;
+        
+        $param_split = explode(",", $param);
+        
+        if (count($param_split) == 1)
+            $param1 = $param_split[0];
+        elseif (count($param_split) == 2)
+            list($param1, $param2) = $param_split;
+        
+        if ($condition == 1){
+            if ($param1 != -1)
+                $text = "Has $param1% ".(!$param2 ? "or less" : "to $param2%")." HP remaining";
+            else
+                $text = "Has an unknown amount of HP remaining";
+        }
+        elseif ($condition == 2){
+            if ($param1 != -1)
+                $text = "Another monster has $param1% ".(!$param2 ? "or less" : "to $param2%")." HP remaining";
+            else
+                $text = "Another monster has an unknown amount of HP remaining";
+        }
+        elseif ($condition == 3)
+            $text = "Another monster is affected by a status ailment";
+        elseif ($condition == 4)
+            $text = "Hit with ranged physical attacks";
+        elseif ($condition == 5)
+            $text = "A spell is being casted on it";
+        elseif ($condition == 6){
+            if ($param1 == 28)
+                $text = "Has [".(new MonsterRepository)->getSkillNameById($param1)->name."] casted on it";
+            else
+                $text = "Hit with [".(new MonsterRepository)->getSkillNameById($param1)->name."]";
+        }
+        elseif ($condition == 7)
+            $text = "While hiding";
+        elseif ($condition == 8)
+            $text = "While casting a skill";
+        elseif ($condition == 9)
+            $text = "After [".(new MonsterRepository)->getSkillNameById($param1)->name."] is casted";
+        elseif ($condition == 10)
+            $text = "At least $param1 players are nearby";
+        elseif ($condition == 11)
+            $text = "Attacked without being able to fight back";
+        elseif ($condition == 12){
+            if ($param1 > 0)
+                $text = "Less than $param1 ".($param1 == 1 ? "slave is" : "slaves are")." out";
+            else
+                $text = "Too few slaves are out";
+        }
+        elseif ($condition == 13)
+            $text = "Master has $param1% or less HP remaining";
+        elseif ($condition == 14)
+            $text = "Master is attacked";
+        elseif ($condition == 15)
+            $text = "Activated as an alchemist summon";
+        else
+            $text = "--";
+        
+        return $text;
     }
 }

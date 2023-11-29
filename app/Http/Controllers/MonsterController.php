@@ -103,7 +103,7 @@ class MonsterController extends Controller
 
         if(!is_null($id))
         {
-            $monsterSkills = null;
+            $monsterSkills = (new MonsterService)->MonsterSkill($id);
         }
 
         return view('monster/monster-skill', [

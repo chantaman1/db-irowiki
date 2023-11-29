@@ -16,6 +16,7 @@ use App\Model\MonsterMeta;
 use App\Model\MonsterMob;
 use App\Model\MonsterSkill;
 use App\Model\MonsterStat;
+use App\Model\SkillMain;
 
 class MonsterRepository
 {
@@ -954,5 +955,61 @@ class MonsterRepository
         })
         ->distinct()
         ->get();
+    }
+
+    public function getMonsterNotesById(int $id)
+    {
+        $serverCon = "monster_skill.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return MonsterMain::select(
+            'name',
+            'note'
+        )
+        ->leftJoin('monster_skill', 'monster_main.id', '=', 'monster_skill.id')
+        ->where('monster_main.id', '=', $id)
+        ->where('monster_skill.state', '>', 0)
+        ->where(function($query){
+            return $query->where('monster_skill.version', '=', 0)
+            ->orWhere('monster_skill.version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->first();
+    }
+
+    public function getMonsterInfoSkillByIdAndState(int $id, int $state)
+    {
+        $serverCon = "monster_skill.server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
+        return MonsterSkill::select(
+            'skill',
+            'name',
+            'level',
+            'target',
+            'chance',
+            'cast',
+            'delay',
+            'interupt',
+            'emote',
+            'mode',
+            'cond',
+            'param'
+        )
+        ->leftJoin('skill_main', 'skill_main.id', '=', 'monster_skill.skill')
+        ->where('monster_skill.id', '=', $id)
+        ->where('monster_skill.state', '=', $state)
+        ->where(function($query){
+            return $query->where('monster_skill.version', '=', 0)
+            ->orWhere('monster_skill.version', '=', 2);
+        })
+        ->whereRaw(DB::raw($serverCon))
+        ->orderBy('monster_skill.num')
+        ->get();
+    }
+
+    public function getSkillNameById(int $id)
+    {
+        return SkillMain::select(
+            'name'
+        )
+        ->where('id', '=', $id)
+        ->first();
     }
 }
