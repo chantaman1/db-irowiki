@@ -1,0 +1,1 @@
+<div id="monImage" class="bgDkRow5 monImage" style="background-image: url(&quot;https://db.irowiki.org/image/monster/{{ $monster->id }}.png&quot;); height: 240px;">&nbsp;</div>

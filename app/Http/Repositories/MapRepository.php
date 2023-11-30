@@ -194,6 +194,7 @@ class MapRepository
 
     public function getExtraSpawnList(string $mapID, string $grpID, int $monsterID, int $time)
     {
+        $serverCon = "server&".pow(2, $this->serverType - 1)."=".pow(2, $this->serverType - 1);
         return MapSpawn::select('amount', 'time', 'flag')
             ->where('id', $mapID)
             ->where('monster', $monsterID)

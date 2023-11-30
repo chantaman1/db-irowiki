@@ -2,8 +2,7 @@
 
 namespace App\Http\Repositories;
 
-use Illuminate\Support\Facades\DB as DB;
-use Illuminate\Database\Eloquent\Collection as Collection;
+use Illuminate\Support\Facades\DB;
 
 use App\Model\Category;
 use App\Model\ItemMain;

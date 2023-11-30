@@ -90,14 +90,14 @@
                                 <td class="bgLtRow3 padded optCaption">Sort By</td>
                                 <td class="bgLtRow1 padded optArea">
                                     <select style="width:166px;" id="sort" name="sort">
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "5") value="5">Weight</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "6") value="6">Req'd Level</option>
-                                        <option @selected(ItemHelper::getSortType($inputs["sort"]) === "7") value="7">Head Position</option>
+                                        <option @selected(MiscHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
+                                        <option @selected(MiscHelper::getSortType($inputs["sort"]) === "5") value="5">Weight</option>
+                                        <option @selected(MiscHelper::getSortType($inputs["sort"]) === "6") value="6">Req'd Level</option>
+                                        <option @selected(MiscHelper::getSortType($inputs["sort"]) === "7") value="7">Head Position</option>
                                     </select>
                                     <select style="width:70px;" id="sortDir" name="sortDir">
-                                        <option @selected(ItemHelper::getSortDir($inputs["sort"]) === "1") value="1">Asc</option>
-                                        <option @selected(ItemHelper::getSortDir($inputs["sort"]) === "2") value="2">Desc</option>
+                                        <option @selected(MiscHelper::getSortDir($inputs["sort"]) === "1") value="1">Asc</option>
+                                        <option @selected(MiscHelper::getSortDir($inputs["sort"]) === "2") value="2">Desc</option>
                                     </select>
                                 </td>
                             </tr>
@@ -118,16 +118,16 @@
                                 <td class="bgLtRow4 padded optCaption">Req'd Level</td>
                                 <td class="bgLtRow2 padded optArea">
                                     <select style="width:80px;" id="reqlvCon" name="reqlvCon" onchange="adjustAttrText('reqlv');">
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "1") value="1">=</option>
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "2") value="2">&gt;</option>
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "3") value="3">&lt;</option>
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "4") value="4">&gt;=</option>
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "5") value="5">&lt;=</option>
-                                        <option @selected(ItemHelper::getOperationType($inputs["reqLv"]) === "6") value="6">Between</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "1") value="1">=</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "2") value="2">&gt;</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "3") value="3">&lt;</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "4") value="4">&gt;=</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "5") value="5">&lt;=</option>
+                                        <option @selected(MiscHelper::getOperationType($inputs["reqLv"]) === "6") value="6">Between</option>
                                     </select>
-                                    <input type="text" style="width:100px;" id="reqlv" name="reqlv" value="{{ ItemHelper::getDataValue($inputs["reqLv"], 0)  }}">
+                                    <input type="text" style="width:100px;" id="reqlv" name="reqlv" value="{{ MiscHelper::getDataValue($inputs["reqLv"], 0)  }}">
                                     <span class="extraText" id="reqlvExtra" style="visibility: hidden;">
-                                        and <input type="text" style="width:100px;" id="reqlv2" name="reqlv2" value="{{ ItemHelper::getDataValue($inputs["reqLv"], 1)  }}">
+                                        and <input type="text" style="width:100px;" id="reqlv2" name="reqlv2" value="{{ MiscHelper::getDataValue($inputs["reqLv"], 1)  }}">
                                     </span>
                                     <script type="text/javascript">
                                         adjustAttrText('reqlv');

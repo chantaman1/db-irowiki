@@ -40,12 +40,12 @@
                         <td class="bgLtRow3 padded optCaption">Sort By</td>
                         <td class="bgLtRow1 padded optArea">
                             <select style="width:166px;" id="sort" name="sort">
-                                <option @selected(ItemHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
-                                <option @selected(ItemHelper::getSortType($inputs["sort"]) === "2") value="2">Gear</option>
+                                <option @selected(MiscHelper::getSortType($inputs["sort"]) === "1") value="1">Name</option>
+                                <option @selected(MiscHelper::getSortType($inputs["sort"]) === "2") value="2">Gear</option>
                             </select>
                             <select style="width:70px;" id="sortDir" name="sortDir">
-                                <option @selected(ItemHelper::getSortDir($inputs["sort"]) === "1") value="1">Asc</option>
-                                <option @selected(ItemHelper::getSortDir($inputs["sort"]) === "2") value="2">Desc</option>
+                                <option @selected(MiscHelper::getSortDir($inputs["sort"]) === "1") value="1">Asc</option>
+                                <option @selected(MiscHelper::getSortDir($inputs["sort"]) === "2") value="2">Desc</option>
                             </select>
                         </td>
                     </tr>

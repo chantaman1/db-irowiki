@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\MonsterController;
 use App\Http\Controllers\ToolController;
 
 /*
@@ -58,6 +59,19 @@ Route::get('/db/map-info/', [MapController::class, 'MapIndex']);
 Route::get('/db/map-info/{id}', [MapController::class, 'MapSearch']);
 
 Route::get('/db/newworld-map', [MapController::class, 'NewWorld']);
+
+/*
+|--------------------------------------------------------------------------
+| Item Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
+Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
+
+Route::get('/db/monster-search/', [MonsterController::class, 'MonsterSearch']);
+Route::get('/db/monster-skill/', [MonsterController::class, 'MonsterSkill']);
+Route::get('/db/monster-skill/{id}', [MonsterController::class, 'MonsterSkill']);
 
 /*
 |--------------------------------------------------------------------------
