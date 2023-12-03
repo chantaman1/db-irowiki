@@ -1,0 +1,81 @@
+.mapInfo{
+	width:250px;
+	padding:2px;
+	position:absolute;
+	visibility:hidden;
+	overflow:visible;
+	z-index:1;
+}
+
+.infoSubname{
+	font-size:9pt;
+	text-align:center;
+	padding:3px;
+}
+.infoName{
+	width:84%;
+}
+.infoAmount{
+	width:16%;
+}
+
+.chartName{
+	width:24%;
+}
+.chartImage{
+	width:42px;
+}
+.chartDivider{
+	width:2%;
+}
+
+div#table{
+	display: inline-table;
+	background-color: #A0A0A0;
+	width: 100%;
+}
+
+div#row{
+	display: table-row;
+	background-color: #E6E6E6;
+	height: 44px;
+}
+
+div#row #title{
+	display: table-cell;
+	font-size: 9pt;
+	padding: 2px;
+	padding-left: 4px;
+	border: #A0A0A0;
+	border-style: solid;
+}
+
+div#row #title.top{
+	border-bottom: transparent;
+}
+
+div#row #title.middle{
+	border-top: transparent;
+	border-bottom: transparent;
+}
+
+div#row #title.bottom{
+	border-top: transparent;
+}
+
+div#row #title p{
+	width: 180px;
+}
+
+div#map{
+	display: table-cell;
+	width: 44px;
+	border: #A0A0A0;
+	border-style: solid;
+}
+
+div#map img{
+	padding: 1px;
+}
+
+

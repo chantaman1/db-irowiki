@@ -22,7 +22,7 @@ class MapController extends Controller
     {
         $mapCategories = (new MapService)->MenuCategories();
         $maps = (new MapService)->MenuData();
-        $mapData = (new MapService)->Info($id);
+        $mapData = (new MapService)->MapInfo($id);
         return view('map/info', [
             'categoryMenu' => $mapCategories,
             'menuData' => $maps,
@@ -30,10 +30,44 @@ class MapController extends Controller
         ]);
     }
 
+    public function WorldMap()
+    {
+        $mapData = (new MapService)->World1Info();
+        return view('map/world', [
+            "mapData" => $mapData
+        ]);
+    }
+    
     public function NewWorld()
     {
-        $mapData = (new MapService)->NewWorld();
+        $mapData = (new MapService)->World1Info();
         return view('map/new-world', [
+            "mapData" => $mapData
+        ]);
+    }
+
+    public function Dungeons()
+    {
+        $mapData = (new MapService)->World2Info();
+        return view('map/dungeon', [
+            "mapData" => $mapData,
+            "dungeons" => include(resource_path('data\map\dungeon.php'))
+        ]);
+    }
+
+    public function Instances()
+    {
+        $mapData = (new MapService)->World2Info();
+        return view('map/instance', [
+            "mapData" => $mapData,
+            "instances" => include(resource_path('data\map\instance.php'))
+        ]);
+    }
+
+    public function Towns()
+    {
+        $mapData = (new MapService)->World2Info();
+        return view('map/town', [
             "mapData" => $mapData
         ]);
     }

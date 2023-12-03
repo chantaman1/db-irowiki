@@ -8,7 +8,9 @@ class MiscHelpers
     public static function formatTime($time)
     {
         if ($time === -1) return "(Unknown)";
+        
         if ($time === 0) return "--";
+        
         if ($time < 60)
             return $time.($time == 1 ? " second" : " seconds");
         elseif ($time < 3600 && ($time % 60) == 0)
@@ -53,14 +55,16 @@ class MiscHelpers
         return $timeText;
     }
 
-    public static function sizeName($size){
+    public static function sizeName($size)
+    {
         if ($size == 1) return "Small";
         elseif ($size == 2) return "Medium";
         elseif ($size == 3) return "Large";
         else return "??";
     }
 
-    public static function raceName($race){
+    public static function raceName($race)
+    {
         if ($race == 1) return "Angel";
         elseif ($race == 2) return "Brute";
         elseif ($race == 3) return "Demi-Human";
@@ -74,7 +78,8 @@ class MiscHelpers
         else return "??";
     }
 
-    public static function elementName($element){
+    public static function elementName($element)
+    {
         if ($element == 0) return "(None)";
         elseif ($element == 1) return "Neutral";
         elseif ($element == 2) return "Fire";
@@ -89,7 +94,8 @@ class MiscHelpers
         else return "??";
     }
 
-    public static function jobName($job){
+    public static function jobName($job)
+    {
         if ($job == 1) return "Novice";
         elseif ($job == 2) return "Swordman";
         elseif ($job == 3) return "Merchant";
@@ -154,14 +160,16 @@ class MiscHelpers
         elseif ($job == 305) return "Gunslinger";
     }
 
-    public static function bindingName($type){
+    public static function bindingName($type)
+    {
         if ($type === 0) return "Unbound";
         elseif ($type === 1) return "Account";
         elseif ($type === 2) return "Character";
         else return "??";
     }
 
-    public static function emoteName($emote){
+    public static function emoteName($emote)
+    {
         if (!is_numeric($emote)) return "";
         
         switch($emote){
@@ -220,7 +228,8 @@ class MiscHelpers
         }
     }
 
-    public static function weaponSizeMod($class, $size){
+    public static function weaponSizeMod($class, $size)
+    {
         $sizes = array();
         $sizes[0] = array(100, 100, 100);	// Fist
         $sizes[1] = array(75, 100, 75);		// 1H Sword
@@ -249,12 +258,15 @@ class MiscHelpers
         return $sizes[$class][$size - 1];
     }
 
-    public static function expMod($job){
+    public static function expMod($job)
+    {
         // $job (true -> job exp, false -> base exp) (for job manuals)
+    
         $expRate = 100;
         $boostManual = 0;
         $VIP = 0;
         $boostJob = 0;
+    
         // $expRate = server rates (event)
         // $boostManual = 0 none, 150 - regular, 200 - HE, 300 - 3x
         // $VIP = 0 off, 50 on
@@ -267,13 +279,15 @@ class MiscHelpers
         return (($expRate / 100) * ($mod / 100));
     }
 
-    public static function dropRate($rate, $incBoost){
+    public static function dropRate($rate, $incBoost)
+    {
         // $rate = natural item rate
         // $incBoost (true -> regular drop, false -> mvp reward item)
     
         $dropRate = 100;
         $boostGum = 0;
         $VIP = 0;
+
         // $dropRate = server rates (event)
         // $boostGum = 0 none, 200 regular, 300 HE
         // $VIP = 0 off, 50 on

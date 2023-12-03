@@ -1,7 +1,53 @@
 var mapInfo = document.getElementById('mapInfo');
 var infoShown = false;
 
-document.onmousemove = function() { onMouseMove() }; 
+document.onmousemove = function() { onMouseMove() };
+
+function onMouseMove(event){
+	var posX = 0, posY = 0, diffX = 0, diffY = 0;
+	let temp = {};
+	
+	if (!infoShown) return;
+
+	if (!event){
+		if (!window.event) return;
+		event = window.event;
+	}
+	posX = event.clientX;
+	posY = event.clientY;
+	
+	if (window.innerWidth){
+		posX += window.pageXOffset + 20;
+		diffX = posX + mapInfo.offsetWidth - (window.innerWidth + window.pageXOffset) + 20;
+	}
+	else if (document.body){
+		posX += document.body.scrollLeft + 20;
+		diffX = posX + mapInfo.offsetWidth - (document.body.scrollLeft + document.body.clientWidth) + 1
+	}
+	
+	if (window.innerHeight){
+		posY += window.pageYOffset - 5;
+		diffY = posY + mapInfo.offsetHeight - (window.innerHeight + window.pageYOffset) + 1;
+	}
+	else if (document.body){
+		posY += document.body.scrollTop;
+		diffY = posY + mapInfo.offsetHeight - (document.body.scrollTop + document.body.clientHeight) + 1;
+	}
+	
+	if (diffX > 0)
+		mapInfo.style.left = posX - mapInfo.offsetWidth - 35 + "px";
+	else
+		mapInfo.style.left = posX + "px";
+	
+	if(diffY > 0)
+		mapInfo.style.top = posY - diffY + "px";
+	else
+		mapInfo.style.top = posY + "px";
+
+	mapInfo.style.visibility = "visible";
+
+	console.log(temp);
+}
 
 function mapIndex(map){
 	if (!map) return -1;
@@ -12,13 +58,6 @@ function mapIndex(map){
 	}
 	
 	return -1;
-}
-
-function hideInfo() {
-	if (!mapInfo) return console.log('mapInfo not found');
-	
-	mapInfo.style.visibility = 'hidden';
-	infoShown = false;
 }
 
 function showInfo(map_id){
@@ -92,53 +131,9 @@ function showInfo(map_id){
 	onMouseMove();
 }
 
-function onMouseMove(event){
-	var posX = 0, posY = 0, diffX = 0, diffY = 0;
+function hideInfo() {
+	if (!mapInfo) return console.log('mapInfo not found');
 	
-	if (!infoShown) return;
-	
-	if (!event){
-		if (!window.event) return;
-		event = window.event;
-	}
-	
-	posX = event.clientX;
-	posY = event.clientY;
-	
-	if (window.innerWidth){
-		posX += window.pageXOffset + 20;
-		diffX = posX + mapInfo.offsetWidth - (window.innerWidth + window.pageXOffset) + 20;
-	}
-	else if (document.body){
-		posX += document.body.scrollLeft + 20;
-		diffX = posX + mapInfo.offsetWidth - (document.body.scrollLeft + document.body.clientWidth) + 1
-	}
-	
-	if (window.innerHeight){
-		posY += window.pageYOffset - 5;
-		diffY = posY + mapInfo.offsetHeight - (window.innerHeight + window.pageYOffset) + 1;
-	}
-	else if (document.body){
-		posY += document.body.scrollTop;
-		diffY = posY + mapInfo.offsetHeight - (document.body.scrollTop + document.body.clientHeight) + 1;
-	}
-	
-	if (diffX > 0)
-		mapInfo.style.left = posX - mapInfo.offsetWidth - 35 + "px";
-	else
-		mapInfo.style.left = posX + "px";
-	
-	if(diffY > 0)
-		mapInfo.style.top = posY - diffY + "px";
-	else
-		mapInfo.style.top = posY + "px";
-	
-	mapInfo.style.visibility = "visible";
-}
-
-for(let area of document.getElementsByTagName('area')){
-    let map_id = area.href.trim().split('/')[5];
-    area.onmouseover = function() { showInfo(map_id) };
-    area.onmouseout = function() { hideInfo() };
-    area.onclick = function() { hideInfo() };
+	mapInfo.style.visibility = 'hidden';
+	infoShown = false;
 }

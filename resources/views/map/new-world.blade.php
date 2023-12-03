@@ -1,29 +1,29 @@
 @extends('layout.app')
 
 @section('styles')
-    <link type="text/css" href="{{ asset('/css/map/newworld.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('/css/map/new-world.css') }}" rel="stylesheet">
 @endsection
 
 @push('scripts')
     <script type="text/javascript">
         var mapData = {!! json_encode($mapData) !!};
     </script>
-    <script type="text/javascript" src="{{ asset('/js/map/new-world.js') }}"></script>
 @endpush
 
 @push('bottom-scripts')
-    <script type="text/javascript" src="{{ asset('/js/map/new-world.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/map/common.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/map/world1.js') }}"></script>
 @endpush
 
 @section('content')
     <div id="mapInfo" class="mapInfo"></div>
     <div class="bgMdTitle mdTitle">New World Map</div>
     <table class="bgDkRow3">
-    <tr>
-        <td style="text-align:center;">
-            <img src="https://db.irowiki.org/image/map/newworld.jpg" usemap="#map">
-        </td>
-    </tr>
+        <tr>
+            <td style="text-align:center;">
+                <img src="https://db.irowiki.org/image/map/newworld.jpg" usemap="#map">
+            </td>
+        </tr>
     </table>
 
     <!---Coords are top left and bottom right x1, y1, x2, y2--->
