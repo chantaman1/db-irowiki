@@ -59,6 +59,10 @@ Route::get('/db/map-info/', [MapController::class, 'MapIndex']);
 Route::get('/db/map-info/{id}', [MapController::class, 'MapSearch']);
 
 Route::get('/db/newworld-map', [MapController::class, 'NewWorld']);
+Route::get('/db/world-map', [MapController::class, 'WorldMap']);
+Route::get('/db/dungeon-map', [MapController::class, 'Dungeons']);
+Route::get('/db/instance-map', [MapController::class, 'Instances']);
+Route::get('/db/town-map', [MapController::class, 'Towns']);
 
 /*
 |--------------------------------------------------------------------------

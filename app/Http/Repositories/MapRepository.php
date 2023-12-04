@@ -213,12 +213,22 @@ class MapRepository
             ->get();
     }
 
-    public function getWorldMapData()
+    public function getWorld1Data()
     {
         // world & 1 = 1, you're checking if the first flag is on. This will be true when world is 1 or 3.
         
         return MapMain::select('id', 'name', 'subname')
             ->whereRaw('world&1=1 AND visible2=1')
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    public function getWorld2Data()
+    {
+        // world & 2 = 2, you're checking if the second flag is on. This will be true when world is 2 or 3.
+
+        return MapMain::select('id', 'name', 'subname')
+            ->whereRaw('world&2=2 AND visible2=1')
             ->orderBy('id', 'asc')
             ->get();
     }

@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Repositories\MapRepository;
 use App\Http\Helpers\MapHelpers;
+use App\Http\Helpers\MiscHelpers;
 
 const DOUBLE_QUESTION_MARK = "??";
 const DOUBLE_HYPHEN = "--";
@@ -21,7 +22,7 @@ class MapService
         return (new MapRepository)->getMenuData($id);
     }
 
-    public function Info(int|string|null $id = null)
+    public function MapInfo(int|string|null $id = null)
     {
         $mapRepository = new MapRepository();
         
@@ -133,11 +134,11 @@ class MapService
                     $monsterInfo['expBase'] = 0;
                     $monsterInfo['expJob'] = 0;
                     if ($monster->expBase > 0){
-                        $monsterInfo['expBase'] = floor($monster->expBase*MapHelpers::expMod(FALSE));
+                        $monsterInfo['expBase'] = floor( $monster->expBase * MiscHelpers::expMod(FALSE) );
                     }
                     
                     if ($monster->expJob > 0){
-                        $monsterInfo['expJob'] = floor($monster->expJob*MapHelpers::expMod(TRUE));
+                        $monsterInfo['expJob'] = floor( $monster->expJob * MiscHelpers::expMod(TRUE) );
                     }
     
                     $flee = DOUBLE_HYPHEN;
@@ -163,15 +164,15 @@ class MapService
     
                     $monsterInfo['eleType'] = DOUBLE_QUESTION_MARK;
                     if($monster->eleType != -1)
-                        $monsterInfo['eleType'] = MapHelpers::elementName($monster->eleType)." $monster->eleLvl";
+                        $monsterInfo['eleType'] = MiscHelpers::elementName($monster->eleType)." $monster->eleLvl";
                     
                     $monsterInfo['race'] = DOUBLE_QUESTION_MARK;
                     if($monster->race != -1)
-                        $monsterInfo['race'] = MapHelpers::raceName($monster->race);
+                        $monsterInfo['race'] = MiscHelpers::raceName($monster->race);
                     
                     $monsterInfo['size'] = DOUBLE_QUESTION_MARK;
                     if($monster->size != -1)
-                        $monsterInfo['size'] = MapHelpers::sizeName($monster->size);
+                        $monsterInfo['size'] = MiscHelpers::sizeName($monster->size);
     
                     $monsterInfo['def'] = DOUBLE_QUESTION_MARK;
                     if($monster->def != -1)
@@ -185,7 +186,7 @@ class MapService
                     $extraMonsterInfo = array();
                     if ($spawnCount > 1)
                     {
-                        $extraSpawnList = $mapRepository->getExtraSpawnList($mapID, $data['grpID'], $monster->id, $monster->time);
+                        $extraSpawnList = $mapRepository->getExtraSpawnList($map->id, $data['grpID'], $monster->id, $monster->time);
                         
                         foreach($extraSpawnList as $extraMonster)
                         {
@@ -195,7 +196,7 @@ class MapService
                             {
                                 if($extraMonster->amount2 || $extraMonster->flag) 
                                     $amount2 = DOUBLE_QUESTION_MARK;
-                                $respawn = formatRespawn($extraMonster->time2);
+                                $respawn = MapHelpers::formatRespawn($extraMonster->time2);
                             }
                             array_push(
                                 $extraMonsterInfo,
@@ -226,13 +227,27 @@ class MapService
         return $output;
     }
 
-    public function NewWorld()
+    public function World1Info()
     {
         $mapRepository = new MapRepository();
         
-        $worlds = $mapRepository->getWorldMapData();
-                
-        $mapData = [];
+        $worlds = $mapRepository->getWorld1Data();
+        
+        return self::WorldData($mapRepository, $worlds);
+    }
+
+    public function World2Info()
+    {
+        $mapRepository = new MapRepository();
+        
+        $worlds = $mapRepository->getWorld2Data();
+        
+        return self::WorldData($mapRepository, $worlds);
+    }
+
+    public function WorldData(MapRepository $mapRepository, $worlds)
+    {
+        $worldData = [];
 
         foreach($worlds as $world)
         {
@@ -263,7 +278,7 @@ class MapService
                 }
             }
 
-            $mapData[$world->id] = array(
+            $worldData[$world->id] = array(
                 "id" => $world->id,
                 "name" => $world->name,
                 "subname" => $world->subname,
@@ -271,6 +286,6 @@ class MapService
             );
         }
 
-        return $mapData;
+        return $worldData;
     }
 }

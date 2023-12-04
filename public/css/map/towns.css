@@ -1,0 +1,30 @@
+.mapInfo{
+	width:250px;
+	padding:2px;
+	position:absolute;
+	visibility:hidden;
+	overflow:visible;
+	z-index:1;
+}
+
+.infoSubname{
+	font-size:9pt;
+	text-align:center;
+	padding:3px;
+}
+.infoName{
+	width:84%;
+}
+.infoAmount{
+	width:16%;
+}
+
+.chartName{
+	width:24%;
+}
+.chartImage{
+	width:42px;
+}
+.chartDivider{
+	width:2%;
+}
