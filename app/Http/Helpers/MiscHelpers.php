@@ -2,9 +2,11 @@
 
 namespace App\Http\Helpers;
 
+use App\Http\Repositories\MiscRepository;
+use App\Model\ShopMain;
+
 class MiscHelpers
 {
-
     public static function formatTime($time)
     {
         if ($time === -1) return "(Unknown)";
@@ -445,5 +447,33 @@ class MiscHelpers
         elseif ($opType === 3) return "<";
         elseif ($opType === 4) return ">=";
         elseif ($opType === 5) return "<=";
+    }
+
+    public static function getShopName(ShopMain $shopType)
+    {
+        if($shopType->map_name)
+            return $shopType->map_name . " - " . $shopType->name;
+
+        return $shopType->name;
+    }
+
+    public static function isWOE_2(int $realm)
+    {
+        return $realm == 5 || $realm == 6;
+    }
+
+    public static function isWOE_TE(int $realm)
+    {
+        return $realm == 7 || $realm == 8;
+    }
+
+    public static function BoxName(int $realmID, int $castle)
+    {
+        return (new MiscRepository)->getRealmName($realmID)->name.($castle > 0 ? " $castle" : "");
+    }
+
+    public static function BoxDrops(string $realmID, int $castle)
+    {
+        return (new MiscRepository)->getBoxDrops($realmID, $castle);
     }
 }

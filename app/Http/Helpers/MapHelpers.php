@@ -10,7 +10,7 @@ use App\Http\Helpers\MiscHelpers;
 
 class MapHelpers
 {
-    private static $color = 2;
+    protected static $color = 2;
 
     public static function toggleColor()
     {
