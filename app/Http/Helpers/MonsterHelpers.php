@@ -6,8 +6,10 @@ use App\Http\Repositories\MonsterRepository;
 
 class MonsterHelpers
 {
-    public static function formatTime($time){
-        if ($time == -1) return "(Unknown)";
+    public static function formatTime($time)
+    {
+        if ($time == -1) 
+            return "(Unknown)";
         
         if ($time < 60)
             return $time.($time == 1 ? " second" : " seconds");
@@ -85,58 +87,65 @@ class MonsterHelpers
         else return $amount;
     }
 
-    public static function formatElementalDamage($percent){
+    public static function formatElementalDamage($percent)
+    {
         if ($percent > 100)
             return "<span style=\"color:#009900\">$percent%</span>";
         elseif ($percent < 100)
             return "<span style=\"color:#AA0000\">$percent%</span>";
-        else
-            return "$percent%";
+        
+        return "$percent%";
     }
 
-    public static function formatExperience($baseExp, $actExp){
-        if ($baseExp < 0) return "??";
+    public static function formatExperience($baseExp, $actExp)
+    {
+        if ($baseExp < 0) 
+            return "??";
         
         if ($baseExp != $actExp)
             return number_format($actExp)." (".number_format($baseExp).")";
-        else
-            return number_format($baseExp);
+        
+        return number_format($baseExp);
     }
 
-    public static function magicAtk($int){
+    public static function magicAtk($int)
+    {
         $minAtk = $int + pow(floor($int / 7), 2);
         $maxAtk = $int + pow(floor($int / 5), 2);
         
         if ($minAtk != $maxAtk)
             return number_format($minAtk)." ~ ".number_format($maxAtk);
-        else
-            return number_format($minAtk);
+        
+        return number_format($minAtk);
     }
 
-    public static function vitDef($vit){
+    public static function vitDef($vit)
+    {
         if ($vit > 0){
             $bonus = pow(floor($vit / 20), 2) - 1;
             if ($bonus > 0)
                 return " + $vit ~ ".($vit + $bonus);
-            else
-                return " + $vit";
+            
+            return " + $vit";
         }
-        else
-            return "";
+        
+        return "";
     }
 
-    public static function intMDef($int, $vit){
+    public static function intMDef($int, $vit)
+    {
         if (($int > 0) || ($vit > 1))
             return " + ".($int + intval($vit / 2));
-        else
-            return "";
+        
+        return "";
     }
 
-    public static function addSign($number){
+    public static function addSign($number)
+    {
         if ($number > 0)
             return "+$number";
-        else
-            return $number;
+        
+        return $number;
     }
 
     public static function defBonus(int $def, int $level, int $vit)
@@ -144,62 +153,40 @@ class MonsterHelpers
         if($def !== -1)
         {
             if($level !== -1 && $vit !== -1)
-            {
                 return "$def + ".floor(($level + $vit) / 2);
-            }
-            else
-            {
-                return "$def";
-            }
+
+            return "$def";
         }
-        else
-        {
-            return "??";
-        }
+        
+        return "??";
     }
 
     public static function defPercent(int $def)
     {
         if($def !== -1)
-        {
             return sprintf("%01.2f%%", 100 - ((4000 + $def) / (4000 + ($def * 10)) * 100));
-        }
-        else
-        {
-            return "??";
-        }
+    
+        return "??";
     }
 
     public static function mdefPercent(int $mdef)
     {
         if($mdef !== -1)
-        {
             return sprintf("%01.2f%%", 100 - ((1000 + $mdef) / (1000 + ($mdef * 10)) * 100));
-        }
-        else
-        {
-            return "??";
-        }
+
+        return "??";
     }
 
     public static function expPerHP(int $exp, int $hp, bool $job = false)
     {
         if($exp === -1)
-        {
             return "--";
-        }
-        else
-        {
-            $exp = floor($exp) * MiscHelpers::expMod($job);
-            if($hp === 0)
-            {
-                return "0";
-            }
-            else
-            {
-                return "" . round(abs($exp) / $hp, 3);
-            }
-        }
+
+        $exp = floor($exp) * MiscHelpers::expMod($job);
+        if($hp === 0)
+            return "0";
+        
+        return "" . round(abs($exp) / $hp, 3);
     }
 
     public static function getModeAIList(int $level, int $mode, int $ai)
@@ -288,9 +275,9 @@ class MonsterHelpers
 
     public static function isCategoryInType(string|int $category, int $type)
     {
-        if(is_numeric($category)){
+        if(is_numeric($category))
             return ((intval($category) & pow(2, $type - 1)) === pow(2, $type - 1));
-        }
+        
         return false;
     }
 
@@ -449,13 +436,9 @@ class MonsterHelpers
     public static function formatChance(int $chance)
     {
         if($chance === -1)
-        {
             return "??";
-        }
-        else
-        {
-            return $chance / 100 . "%";
-        }
+        
+        return $chance / 100 . "%";
     }
 
     public static function getCastType(int $cast, int $interupt)
@@ -463,22 +446,14 @@ class MonsterHelpers
         if($cast !== 0)
         {
             if($interupt === 1)
-            {
                 return "<img src=\"https://db.irowiki.org/image/greendot.png\" title=\"Cast can be interupted\">";
-            }
             else if($interupt === 0)
-            {
                 return "<img src=\"https://db.irowiki.org/image/reddot.png\" title=\"Cast cannot be interupted\">";
-            }
-            else
-            {
-                return "&nbsp;";
-            }
-        }
-        else
-        {
+            
             return "&nbsp;";
         }
+
+        return "&nbsp;";
     }
 
     public static function getMode(int $mode)

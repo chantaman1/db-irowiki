@@ -10,10 +10,8 @@ class ItemHelpers
     public static function formatSpecial(string|null $special)
     {
         if (is_null($special))
-        {
             return "";
-        }
-
+        
         $special = preg_replace("/\[race=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[element=(.*?)]/s", "[\\1]", $special);
         $special = preg_replace("/\[size=(.*?)]/s", "[\\1]", $special);
@@ -400,6 +398,7 @@ class ItemHelpers
         {
             return (intval($headgearPosition) & pow(2, $pos - 1)) === pow(2, $pos - 1);
         }
+        
         return false;
     }
 
@@ -418,9 +417,7 @@ class ItemHelpers
             elseif ($position === "7") return "All";
             else return $defaultValue;
         }
-        else
-        {
-            return $defaultValue;
-        }
+
+        return $defaultValue;
     }
 }
