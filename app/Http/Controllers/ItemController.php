@@ -12,7 +12,7 @@ class ItemController extends Controller
         $menuCat = (new ItemService)->MenuCategories();
         $menuSubCat = (new ItemService)->MenuSubcategories();
         $menuData = (new ItemService)->MenuData();
-        return view('item/item-info', [
+        return view('item/info', [
             'menuCats' => $menuCat,
             'subMenuCats' => $menuSubCat,
             'menuData' => $menuData,
@@ -26,7 +26,7 @@ class ItemController extends Controller
         $menuSubCat = (new ItemService)->MenuSubcategories();
         $menuData = (new ItemService)->MenuData();
         $itemData = (new ItemService)->itemInfo(preg_replace('/[^0-9]/', '', $id));
-        return view('item/item-info', [
+        return view('item/info', [
             'menuCats' => $menuCat,
             'subMenuCats' => $menuSubCat,
             'menuData' => $menuData,

@@ -1,18 +1,19 @@
 var mapInfo = document.getElementById('mapInfo');
 var infoShown = false;
+let mapData = JSON.parse(document.getElementById('mapData').value);
 
 document.onmousemove = function() { onMouseMove() };
 
 function onMouseMove(event){
 	var posX = 0, posY = 0, diffX = 0, diffY = 0;
-	let temp = {};
-	
+
 	if (!infoShown) return;
 
 	if (!event){
 		if (!window.event) return;
 		event = window.event;
 	}
+
 	posX = event.clientX;
 	posY = event.clientY;
 	
@@ -45,8 +46,6 @@ function onMouseMove(event){
 		mapInfo.style.top = posY + "px";
 
 	mapInfo.style.visibility = "visible";
-
-	console.log(temp);
 }
 
 function mapIndex(map){
