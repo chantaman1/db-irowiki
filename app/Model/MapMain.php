@@ -17,7 +17,6 @@ class MapMain extends Model
   protected $visible;
   protected $visible2;
 
-
   protected $fillable=[
     'id', 'name', 'subname', 'category', 'bgm', 'world', 'oldmap', 'visible', 'visible2'
   ];

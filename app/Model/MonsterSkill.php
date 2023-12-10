@@ -7,23 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class MonsterSkill extends Model
 {
   protected $table = 'monster_skill';
-    protected $id;
-    protected $version;
-    protected $server;
-    protected $state;
-    protected $num;
-    protected $skill;
-    protected $level;
-    protected $target;
-    protected $chance;
-    protected $cast;
-    protected $delay;
-    protected $interupt;
-    protected $emote;
-    protected $mode;
-    protected $cond;
-    protected $param;
-
+  protected $id;
+  protected $version;
+  protected $server;
+  protected $state;
+  protected $num;
+  protected $skill;
+  protected $level;
+  protected $target;
+  protected $chance;
+  protected $cast;
+  protected $delay;
+  protected $interupt;
+  protected $emote;
+  protected $mode;
+  protected $cond;
+  protected $param;
 
   protected $fillable=[
     'id', 'version', 'server', 'state', 'num', 'skill', 'level', 'target', 'chance', 'cast', 'delay', 'interupt', 'emote', 'mode', 'cond', 'param'

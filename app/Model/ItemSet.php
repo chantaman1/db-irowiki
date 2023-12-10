@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ItemSet extends Model
 {
   protected $table = 'item_set';
-    protected $index;
-    protected $id;
-    protected $item;
-    protected $type;
-
+  protected $index;
+  protected $id;
+  protected $item;
+  protected $type;
 
   protected $fillable=[
     'index', 'id', 'item', 'type'
