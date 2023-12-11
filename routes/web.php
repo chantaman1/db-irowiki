@@ -92,6 +92,7 @@ Route::get('/db/shop-info/{id}', [MiscController::class, 'ShopSearch']);
 Route::get('/db/treasure-drops/', [MiscController::class, 'TreasureDrops']);
 Route::get('/db/treasure-drops/{id}', [MiscController::class, 'TreasureDropSearch']);
 
+Route::get('/db/arrow-craft/', [MiscController::class, 'ArrowCraft']);
 
 /*
 |--------------------------------------------------------------------------

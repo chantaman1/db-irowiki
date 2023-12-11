@@ -3,8 +3,11 @@
     <table class="bgLtTable">
         <tbody>
             @foreach ($itemShopData as $shop)
+                @php
+                    $color = MiscHelper::toggleColor();
+                @endphp
                 <tr>
-                    <td class="bgLtRow2 padded">
+                    <td class="bgLtRow{{ $color }} padded">
                         <a href="/db/shop-info/{{ $shop->id }}/">{{ $shop->mapName }} {{ $shop->shopName }}</a>
                     </td>
                 </tr>

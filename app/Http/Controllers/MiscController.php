@@ -54,4 +54,36 @@ class MiscController extends Controller
             'data' => $data
         ]);
     }
+
+    private function Response($data)
+    {
+        return response($data, 200)
+            ->header("Content-type", "text/javascript; charset=UTF-8")
+            ->header("Expires", gmdate("M j G:i", time() + 300).":00 GMT");
+    }
+
+    public function ArrowCraft(Request $request)
+    {
+        if ($request->has('materials'))
+        {
+            $materials = (new MiscService)->MaterialsFromArrow((int) $request->materials);
+            return $this->Response($materials, 200);
+        }
+        else if($request->has('craft'))
+        {
+            $arrows = (new MiscService)->ArrowsFromItem((int) $request->craft);
+            return $this->Response($arrows, 200);
+        }
+        else if($request->has('drops'))
+        {
+            $monsters = (new MiscService)->MonstersFromItem((int) $request->drops);
+            return $this->Response($monsters, 200);
+        }
+        else{
+            $arrowCategories = (new MiscService)->ArrowMenu();
+            return view('misc/arrow-craft', [
+                'arrowCategories' => $arrowCategories,
+            ]);
+        }
+    }
 }

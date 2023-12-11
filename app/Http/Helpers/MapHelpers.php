@@ -10,18 +10,6 @@ use App\Http\Helpers\MiscHelpers;
 
 class MapHelpers
 {
-    protected static $color = 2;
-
-    public static function toggleColor()
-    {
-        if(self::$color == 1)
-            self::$color = 2; 
-        else
-            self::$color = 1;
-
-        return self::$color;
-    }
-
     public static function isAggressiveMonster(int $ai)
     {
         return ($ai & 0x1 == 0x1) || ($ai & 0x2 == 0x2);

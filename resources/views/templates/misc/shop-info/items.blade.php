@@ -13,7 +13,7 @@
         </tr>
         @foreach ($shopItems as $shopItem)
             @php
-                $color = MapHelper::toggleColor();
+                $color = MiscHelper::toggleColor();
             @endphp
             <tr>
                 <td class="bgLtRow{{ $color + 2 }} padded">

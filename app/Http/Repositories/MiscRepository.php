@@ -5,11 +5,14 @@ namespace App\Http\Repositories;
 use Illuminate\Support\Facades\DB;
 
 use App\Model\MapMain;
+use App\Model\ItemMain;
+use App\Model\ItemArrow;
 use App\Model\ShopMain;
 use App\Model\ShopItem;
 use App\Model\ItemMisc;
 use App\Model\TreasureMain;
 use App\Model\TreasureDrop;
+use App\Model\MonsterDrop;
 
 class MiscRepository
 {
@@ -162,5 +165,59 @@ class MiscRepository
         return TreasureMain::select('realm', 'name', 'url')
             ->where('realm', '=', $realmID)
             ->first();
+    }
+
+    public function getItem(int $arrowID)
+    {
+        return ItemMain::select('id', 'name')
+            ->where('id', '=', $arrowID)
+            ->first();
+    }
+
+    public function getArrowMaterials(int $arrowID)
+    {
+        return ItemArrow::select('item', 'name', 'amount')
+            ->leftJoin('item_main', 'item_arrow.item', '=', 'item_main.id')
+            ->where('arrow', '=', $arrowID)
+            ->orderBy('amount', 'desc')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
+    public function getArrowsFromItem(int $itemID)
+    {
+        return ItemArrow::select('arrow', 'name', 'amount')
+            ->leftJoin('item_main', 'item_arrow.arrow', '=', 'item_main.id')
+            ->where('item', '=', $itemID)
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
+    public function getMonsterByDrop(int $arrowID)
+    {
+        return MonsterDrop::select(
+                'monster_drop.id',
+                'monster_main.name',
+                'monster_drop.rate',
+                'monster_drop.flag'
+            )
+            ->leftJoin('monster_main', 'monster_drop.id', '=', 'monster_main.id')
+            ->where('item', '=', $arrowID)
+            ->where('type', '=', 1)
+            ->where(function ($query) {
+                $query->where('category', '=', 1)
+                    ->orWhere('category', '=', 2)
+                    ->orWhere('category', '=', 4);
+            })
+            ->where(function ($query) {
+                $query->where('version', '=', 0)
+                    ->orWhere('version', '=', 2);
+            })
+            ->whereRaw($this->serverCon)
+            ->where('visible2', '=', 1)
+            ->groupBy('monster_drop.id')
+            ->orderBy('monster_drop.rate', 'desc')
+            ->orderBy('monster_main.name', 'asc')
+            ->get();
     }
 }

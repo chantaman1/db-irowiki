@@ -7,6 +7,18 @@ use App\Model\ShopMain;
 
 class MiscHelpers
 {
+    protected static $color = 2;
+
+    public static function toggleColor()
+    {
+        if(self::$color == 1)
+            self::$color = 2; 
+        else
+            self::$color = 1;
+
+        return self::$color;
+    }
+    
     public static function formatTime($time)
     {
         if ($time === -1) return "(Unknown)";
