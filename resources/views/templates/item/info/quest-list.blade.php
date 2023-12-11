@@ -21,8 +21,8 @@
                                 <tr>
                                     @for ($i = 0; $i < 3; $i++)
                                         @if (isset($questChunk[$i]))
-                                        <td class="bgLtRow1 padded"><a href="https://irowiki.org/wiki/{{ $questChunk[$i]["wiki"] }}">{{ $questChunk[$i]["name"] }}</a></td>
-                                        <td class="bgLtRow2 padded">{{ $questChunk[$i]["amount"] === 0 ? "(Varies)" : ($questChunk[$i]["amount"] === -1 ? "??" : "x ".number_format($questChunk[$i]["amount"])) }}</td>
+                                            <td class="bgLtRow1 padded"><a href="https://irowiki.org/wiki/{{ $questChunk[$i]["wiki"] }}">{{ $questChunk[$i]["name"] }}</a></td>
+                                            <td class="bgLtRow2 padded">{{ $questChunk[$i]["amount"] === 0 ? "(Varies)" : ($questChunk[$i]["amount"] === -1 ? "??" : "x ".number_format($questChunk[$i]["amount"])) }}</td>
                                         @else
                                             <td class="bgLtRow1 padded"></td>
                                             <td class="bgLtRow2 padded"></td>

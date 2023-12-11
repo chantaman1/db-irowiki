@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class TreasureDrop extends Model
 {
   protected $table = 'treasure_drop';
-    protected $realm;
-    protected $castle;
-    protected $server;
-    protected $item;
-    protected $rate;
+  protected $realm;
+  protected $castle;
+  protected $server;
+  protected $item;
+  protected $rate;
 
 
   protected $fillable=[

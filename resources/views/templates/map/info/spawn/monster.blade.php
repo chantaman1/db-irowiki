@@ -1,6 +1,6 @@
 <tr>
     @php
-        $color = MapHelper::toggleColor();
+        $color = MiscHelper::toggleColor();
         $mob = MapHelper::shortenMonsterName($monster->name2);
     @endphp
     <td class="bgLtRow{{ $color + 3 }} centered {{ $rowSpan }}">

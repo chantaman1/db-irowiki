@@ -18,7 +18,6 @@ class MapSpawn extends Model
   protected $flag;
   protected $name;
 
-
   protected $fillable=[
     'index', 'id', 'version', 'monster', 'amount', 'time', 'grp', 'server', 'flag', 'name'
   ];

@@ -13,7 +13,6 @@ class Category extends Model
 	protected $version;
 	protected $name;
 
-
 	protected $fillable=[
 		'type', 'category', 'subcat', 'version', 'name'
 	];

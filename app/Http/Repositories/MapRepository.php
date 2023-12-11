@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Helpers\MapHelpers;
@@ -213,7 +212,7 @@ class MapRepository
             ->get();
     }
 
-    public function getWorld1Data()
+    public function getWorld1()
     {
         // world & 1 = 1, you're checking if the first flag is on. This will be true when world is 1 or 3.
         
@@ -223,7 +222,7 @@ class MapRepository
             ->get();
     }
 
-    public function getWorld2Data()
+    public function getWorld2()
     {
         // world & 2 = 2, you're checking if the second flag is on. This will be true when world is 2 or 3.
 

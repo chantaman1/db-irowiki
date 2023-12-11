@@ -11,7 +11,6 @@ class MapFlag extends Model
   protected $server;
   protected $flag;
 
-
   protected $fillable=[
     'id', 'server', 'flag'
   ];

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\MapController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MonsterController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\MiscController;
 use App\Http\Controllers\ToolController;
 
 /*
@@ -51,6 +52,20 @@ Route::get('/db/card-search/', [ItemController::class, 'CardSearch']);
 
 /*
 |--------------------------------------------------------------------------
+| Monster Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
+Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
+
+Route::get('/db/monster-search/', [MonsterController::class, 'MonsterSearch']);
+Route::get('/db/monster-skill/', [MonsterController::class, 'MonsterSkill']);
+Route::get('/db/monster-skill/{id}', [MonsterController::class, 'MonsterSkill']);
+
+
+/*
+|--------------------------------------------------------------------------
 | Map Routes
 |--------------------------------------------------------------------------
 |
@@ -64,18 +79,20 @@ Route::get('/db/dungeon-map', [MapController::class, 'Dungeons']);
 Route::get('/db/instance-map', [MapController::class, 'Instances']);
 Route::get('/db/town-map', [MapController::class, 'Towns']);
 
+
 /*
 |--------------------------------------------------------------------------
-| Item Routes
+| Misc Routes
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/db/monster-info/', [MonsterController::class, 'InfoIndex']);
-Route::get('/db/monster-info/{id}', [MonsterController::class, 'InfoSearch']);
+Route::get('/db/shop-info/', [MiscController::class, 'ShopInfo']);
+Route::get('/db/shop-info/{id}', [MiscController::class, 'ShopSearch']);
 
-Route::get('/db/monster-search/', [MonsterController::class, 'MonsterSearch']);
-Route::get('/db/monster-skill/', [MonsterController::class, 'MonsterSkill']);
-Route::get('/db/monster-skill/{id}', [MonsterController::class, 'MonsterSkill']);
+Route::get('/db/treasure-drops/', [MiscController::class, 'TreasureDrops']);
+Route::get('/db/treasure-drops/{id}', [MiscController::class, 'TreasureDropSearch']);
+
+Route::get('/db/arrow-craft/', [MiscController::class, 'ArrowCraft']);
 
 /*
 |--------------------------------------------------------------------------

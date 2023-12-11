@@ -1,0 +1,24 @@
+.menuTitle{
+	cursor:pointer;
+}
+.arrowImg{
+	width:2%;
+}
+.arrowName{
+	width:98%;
+}
+.matImg{
+	width:2%;
+}
+.matItem{
+	width:75%;
+}
+.matAmount{
+	width:23%;
+}
+.dropMonster{
+	width:70%;
+}
+.dropRate{
+	width:30%;
+}

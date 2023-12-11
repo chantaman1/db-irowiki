@@ -13,7 +13,7 @@ class MonsterController extends Controller
         $menuCategories = (new MonsterService)->MenuCategories();
         $menuMonsters = (new MonsterService)->MenuMonsters();
 
-        return view('monster/monster-info', [
+        return view('monster/info', [
             'menuCategories' => $menuCategories,
             'submenuMonsters' => $menuMonsters,
             'exp' => null,
@@ -32,7 +32,7 @@ class MonsterController extends Controller
             $exp = MonsterHelpers::getExpTable($monsterInfo["monster"]->level, $monsterInfo["monster"]->expBase, $monsterInfo["monster"]->expJob);
         }
 
-        return view('monster/monster-info', [
+        return view('monster/info', [
             'menuCategories' => $menuCategories,
             'submenuMonsters' => $menuMonsters,
             'exp' => $exp,
@@ -89,7 +89,7 @@ class MonsterController extends Controller
             $results = (new MonsterService)->MonsterSearch($inputs);
         }
 
-        return view('monster/monster-search', [
+        return view('monster/search', [
             'inputs' => $inputs,
             'data' => $results
         ]);
@@ -106,7 +106,7 @@ class MonsterController extends Controller
             $monsterSkills = (new MonsterService)->MonsterSkill($id);
         }
 
-        return view('monster/monster-skill', [
+        return view('monster/skill', [
             'menuCategories' => $menuCategories,
             'submenuMonsters' => $menuMonsters,
             'data' => $monsterSkills

@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class QuestMain extends Model
 {
   protected $table = 'quest_main';
-    protected $id;
-    protected $name;
-    protected $category;
-    protected $subcat;
-    protected $server;
-    protected $wiki;
-
+  protected $id;
+  protected $name;
+  protected $category;
+  protected $subcat;
+  protected $server;
+  protected $wiki;
 
   protected $fillable=[
     'id', 'name', 'category', 'subcat', 'server', 'wiki'

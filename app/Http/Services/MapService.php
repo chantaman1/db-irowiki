@@ -231,7 +231,7 @@ class MapService
     {
         $mapRepository = new MapRepository();
         
-        $worlds = $mapRepository->getWorld1Data();
+        $worlds = $mapRepository->getWorld1();
         
         return self::WorldData($mapRepository, $worlds);
     }
@@ -240,7 +240,7 @@ class MapService
     {
         $mapRepository = new MapRepository();
         
-        $worlds = $mapRepository->getWorld2Data();
+        $worlds = $mapRepository->getWorld2();
         
         return self::WorldData($mapRepository, $worlds);
     }
