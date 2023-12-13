@@ -17,11 +17,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/misc.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     @stack('scripts')
 </head>
 
-<body class="antialiased">
+<body id="pageBody" class="antialiased">
     <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-start sm:pt-4">
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bgLgTitle lgTitle">iW Database</div>

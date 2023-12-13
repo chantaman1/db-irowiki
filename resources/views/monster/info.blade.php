@@ -10,9 +10,9 @@
 
 @push('bottom-scripts')
     <script>
-        $(document).ready(
-            setTabSelect('siteMenu', 3)
-        )
+        document.getElementById("pageBody").onload = function() {
+            setTabSelect('siteMenu', 3);
+        };
     </script>
 @endpush
 

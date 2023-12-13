@@ -7,9 +7,9 @@
 @push('bottom-scripts')
     <script type="text/javascript" src="{{ asset('/js/misc/treasure-drops.js') }}"></script>
     <script>
-        $(document).ready(
-            setTabSelect('siteMenu', 5)
-        )
+        document.getElementById("pageBody").onload = function() {
+            setTabSelect('siteMenu', 5);
+        };
     </script>
 @endpush
 

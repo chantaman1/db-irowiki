@@ -8,9 +8,9 @@
     <script type="text/javascript" src="{{ asset('/js/map/common.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/map/world1.js') }}"></script>
     <script>
-        $(document).ready(
-            setTabSelect('siteMenu', 4)
-        )
+        document.getElementById("pageBody").onload = function() {
+            setTabSelect('siteMenu', 4);
+        };
     </script>
 @endpush
 
