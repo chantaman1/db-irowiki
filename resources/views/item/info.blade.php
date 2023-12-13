@@ -4,6 +4,14 @@
     <script src="{{ asset('js/item/info.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 2)
+        )
+    </script>
+@endpush
+
 @section('content')
     @if (is_null($data) || !is_null($data["item"]))
         <div class="bgMdTitle mdTitle">Item Info</div>

@@ -8,6 +8,14 @@
     <script src="{{ asset('js/item/card-search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 2)
+        )
+    </script>
+@endpush
+
 @section('content')
     @include('templates.item.card-search.header')
     @include('templates.item.card-search.main', [ "inputs" => $inputs ])

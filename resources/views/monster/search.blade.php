@@ -8,6 +8,14 @@
     <script src="{{ asset('js/monster/search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 3)
+        )
+    </script>
+@endpush
+
 @section('content')
     @include('templates.monster.search.header')
     @include('templates.monster.search.main', [ "inputs" => $inputs ])

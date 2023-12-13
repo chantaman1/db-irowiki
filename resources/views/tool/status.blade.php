@@ -1,5 +1,13 @@
 @extends('layout.app')
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 6)
+        )
+    </script>
+@endpush
+
 @section('content')
 <div class="bgMdTitle mdTitle">Server Status</div>
 <table class="bgLtTable">

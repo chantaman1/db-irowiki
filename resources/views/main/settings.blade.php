@@ -1,5 +1,13 @@
 @extends('layout.app')
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 1)
+        )
+    </script>
+@endpush
+
 @section('content')
 <form method="post">
     <div class="bgMdTitle mdTitle">Settings</div>

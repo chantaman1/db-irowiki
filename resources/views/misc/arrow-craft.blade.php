@@ -6,6 +6,11 @@
 
 @push('bottom-scripts')
     <script type="text/javascript" src="{{ asset('/js/misc/arrow-craft.js') }}"></script>
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 5)
+        )
+    </script>
 @endpush
 
 @section('content')

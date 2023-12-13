@@ -8,6 +8,14 @@
     <script src="{{ asset('js/item/weapon-search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 2)
+        )
+    </script>
+@endpush
+
 @section('content')
     @include('templates.item.weapon-search.header')
     @include('templates.item.weapon-search.main', [ "inputs" => $inputs ])

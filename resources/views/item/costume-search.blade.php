@@ -8,6 +8,14 @@
     <script src="{{ asset('js/item/costume-search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 2)
+        )
+    </script>
+@endpush
+
 @section('content')
     @include('templates.item.costume-search.header')
     @include('templates.item.costume-search.main', [ "inputs" => $inputs ])

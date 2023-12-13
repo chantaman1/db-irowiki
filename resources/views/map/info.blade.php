@@ -4,6 +4,14 @@
     <script src="{{ asset('js/map/info.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 4)
+        )
+    </script>
+@endpush
+
 @section('content')
     @if(is_null($data) || !is_null($data['map']) )
         <div class="bgMdTitle mdTitle">Map Info</div>

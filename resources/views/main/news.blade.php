@@ -1,5 +1,13 @@
 @extends('layout.app')
 
+@push('bottom-scripts')
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 1)
+        )
+    </script>
+@endpush
+
 @section('content')
 <div class="bgMdTitle mdTitle">Site News</div>
 @if (count($data) > 0)

@@ -16,6 +16,8 @@
     @yield('styles')
 
     <!-- Scripts -->
+    <script src="{{ asset('js/misc.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     @stack('scripts')
 </head>
 
@@ -26,7 +28,7 @@
             <div class="tabBar">
                 <ul>
                     <li>
-                        <div id="siteMenuTab1" class="active" onclick="setTabSelect('siteMenu', 1);">Main</div>
+                        <div id="siteMenuTab1" onclick="setTabSelect('siteMenu', 1);">Main</div>
                     </li>
                     <li>
                         <div id="siteMenuTab2" onclick="setTabSelect('siteMenu', 2);">Item</div>
@@ -107,7 +109,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/misc.js')}}"></script>
     @stack('bottom-scripts')
 </body>
 </html>

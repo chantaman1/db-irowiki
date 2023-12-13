@@ -2,6 +2,11 @@
 
 @push('bottom-scripts')
     <script src="{{ asset('/js/misc/shop-info.js') }}" type="text/javascript"></script>
+    <script>
+        $(document).ready(
+            setTabSelect('siteMenu', 5)
+        )
+    </script>
 @endpush
 
 @section('content')
