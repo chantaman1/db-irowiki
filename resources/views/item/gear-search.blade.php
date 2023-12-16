@@ -8,6 +8,14 @@
     <script src="{{ asset('js/item/gear-search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        document.getElementById("pageBody").onload = function() {
+            setTabSelect('siteMenu', 2);
+        };
+    </script>
+@endpush
+
 @section('content')
     @include('templates.item.gear-search.header')
     @include('templates.item.gear-search.main', [ "inputs" => $inputs ])

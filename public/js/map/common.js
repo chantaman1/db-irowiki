@@ -38,7 +38,7 @@ function onMouseMove(event){
 	if (diffX > 0)
 		mapInfo.style.left = posX - mapInfo.offsetWidth - 35 + "px";
 	else
-		mapInfo.style.left = posX + "px";
+		mapInfo.style.left = posX - mapInfo.offsetWidth + "px";
 	
 	if(diffY > 0)
 		mapInfo.style.top = posY - diffY + "px";

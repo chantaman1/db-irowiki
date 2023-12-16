@@ -4,6 +4,14 @@
     <script src="{{ asset('js/main/search.js') }}"></script>
 @endpush
 
+@push('bottom-scripts')
+    <script>
+        document.getElementById("pageBody").onload = function() {
+            setTabSelect('siteMenu', 1);
+        };
+    </script>
+@endpush
+
 @section('content')
 <div class="bgMdTitle mdTitle">Search</div>
 <table class="bgDkTable">

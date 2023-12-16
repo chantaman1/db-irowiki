@@ -16,17 +16,18 @@
     @yield('styles')
 
     <!-- Scripts -->
+    <script src="{{ asset('js/misc.js')}}"></script>
     @stack('scripts')
 </head>
 
-<body class="antialiased">
+<body id="pageBody" class="antialiased">
     <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-start sm:pt-4">
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bgLgTitle lgTitle">iW Database</div>
             <div class="tabBar">
                 <ul>
                     <li>
-                        <div id="siteMenuTab1" class="active" onclick="setTabSelect('siteMenu', 1);">Main</div>
+                        <div id="siteMenuTab1" onclick="setTabSelect('siteMenu', 1);">Main</div>
                     </li>
                     <li>
                         <div id="siteMenuTab2" onclick="setTabSelect('siteMenu', 2);">Item</div>
@@ -107,7 +108,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/misc.js')}}"></script>
     @stack('bottom-scripts')
 </body>
 </html>
